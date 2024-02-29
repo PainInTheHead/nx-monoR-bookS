@@ -1,0 +1,8 @@
+{
+  "name": "BookStoreLibrary",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/BookStoreComponents/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {}
+}
