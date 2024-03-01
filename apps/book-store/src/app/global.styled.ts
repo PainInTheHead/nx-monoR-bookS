@@ -13,7 +13,8 @@ export const GlobalStyled = createGlobalStyle`
 
 body {
   /* max-width: 1440px; */
-  /* margin: 0 auto; */
+  margin: 0 auto;
+  margin-top:10px;
   padding: 0;
   font-family: Arial, sans-serif;
   line-height: 1.5;

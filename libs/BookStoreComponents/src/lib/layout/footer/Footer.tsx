@@ -1,7 +1,11 @@
 import { FooterMain } from './footer.styled';
 import { useEffect } from 'react';
 
-const Footer = () => {
+interface propsFooter {
+  hangleExit: () => void;
+}
+
+const Footer = ({ hangleExit }: propsFooter) => {
   return (
     <FooterMain>
       <div className="conteiner">
@@ -34,9 +38,7 @@ const Footer = () => {
                 <a href="/">Cart</a>
               </li>
               <li>
-                <a href="#" onClick={() => {}}>
-                  Exit
-                </a>
+                <button className='btn-exit' onClick={hangleExit}>Exit</button>
               </li>
             </ul>
           </nav>

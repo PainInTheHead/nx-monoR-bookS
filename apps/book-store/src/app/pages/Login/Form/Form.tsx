@@ -1,24 +1,27 @@
-import { StyledLogInForm } from "./form.styled";
-import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { ButtonPass } from "@book-store/BookStoreLibrary";
-import type { MouseEventHandler } from "react";
-import axios from "axios";
-import {FormInput} from "@book-store/BookStoreLibrary";
-import { FormTypes, IFormInput } from "./../../Types/types"
-
+import { StyledLogInForm } from './form.styled';
+import React, { useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { ButtonPass } from '@book-store/BookStoreLibrary';
+import type { MouseEventHandler } from 'react';
+import axios from 'axios';
+import { FormInput } from '@book-store/BookStoreLibrary';
+import { FormTypes, IFormInput } from './../../Types/types';
+import { useAppDispatch } from '../../../hooks/hookStore';
+import { actionLoginUser } from '../../../store/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const schema = z.object({
-  Email: z.string().email({ message: "Incorrect email address" }),
+  Email: z.string().email({ message: 'Incorrect email address' }),
   Password: z
     .string()
-    .min(8, { message: "Minimum password length 8 characters" }),
+    .min(8, { message: 'Minimum password length 8 characters' }),
 });
 
 const LoginForm = () => {
-
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -28,22 +31,25 @@ const LoginForm = () => {
   } = useForm<IFormInput>({
     resolver: zodResolver(schema),
   });
-  const emailValue = watch("Email");
-  const passValue = watch("Password");
+  const emailValue = watch('Email');
+  const passValue = watch('Password');
 
   const handleClearHolderLog = (
     event: React.MouseEvent<HTMLButtonElement>,
     name: FormTypes
   ) => {
-    if (name === "Email") {
+    if (name === 'Email') {
       //  event.preventDefault();
-      return reset({ Email: "", Password: passValue });
+      return reset({ Email: '', Password: passValue });
     }
-    return reset({ Password: "", Email: emailValue });
+    return reset({ Password: '', Email: emailValue });
   };
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
+    const { Email, Password } = data;
+    dispatch(actionLoginUser(Email, Password));
+    navigate('/');
     // const email = data.Email;
     // const password = data.Password;
 
@@ -59,8 +65,6 @@ const LoginForm = () => {
     // } else {
     //   return router.push("/profile");
     // }
-
-
   };
 
   const [showPassword, setShowPassword] = useState(true);
@@ -73,16 +77,13 @@ const LoginForm = () => {
   return (
     <StyledLogInForm>
       <h1 className={`h1-login-form`}>Log In</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={`login-form`}
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className={`login-form`}>
         <div className="email">
           <FormInput
             register={register}
             handleClearHolderLog={handleClearHolderLog}
             Value={emailValue}
-            name={"Email"}
+            name={'Email'}
             error={errors.Email}
             errors={errors}
           />
@@ -97,7 +98,7 @@ const LoginForm = () => {
             register={register}
             handleClearHolderLog={handleClearHolderLog}
             Value={passValue}
-            name={"Password"}
+            name={'Password'}
             error={errors.Password}
             errors={errors}
             handleTogglePassword={handleTogglePassword}

@@ -26,6 +26,11 @@ export const FooterMain = styled.footer`
       }
     }
     .nav-footer {
+      .btn-exit {
+        cursor: pointer;
+        background: none;
+        color: #f0f4ef;
+      }
     }
     .map-footer {
       display: flex;

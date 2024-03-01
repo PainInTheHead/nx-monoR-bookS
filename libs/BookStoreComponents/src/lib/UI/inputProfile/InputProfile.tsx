@@ -23,8 +23,8 @@ interface ProrpsFormInput {
   handleTogglePassword?: React.MouseEventHandler<HTMLButtonElement>;
   showPassword?: boolean;
   itsProfile?: boolean;
-  inputValue?: string;
-  set?: React.Dispatch<React.SetStateAction<string | null | undefined>>;
+  inputValue?: string | null;
+  set?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export function FormInput({
@@ -59,7 +59,7 @@ export function FormInput({
           placeholder={name}
           // id="email"
           type={showPassword ? 'password' : 'text'}
-          value={inputValue}
+          value={inputValue ? inputValue : ''}
           readOnly
           {...register(name)}
         />
@@ -67,7 +67,7 @@ export function FormInput({
         <input
           className="inputForm"
           placeholder={name}
-          value={inputValue}
+          value={inputValue ? inputValue : ''}
           // id="email"
           type={showPassword ? 'password' : 'text'}
           {...register(name, {

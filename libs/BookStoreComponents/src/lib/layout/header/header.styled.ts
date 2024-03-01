@@ -50,6 +50,7 @@ export const HeaderMain = styled.header`
     .btn-login-con {
       display: flex;
       justify-content: center;
+      align-items:center;
       width: 231px;
       height: 44px;
       background-color: #344966;
