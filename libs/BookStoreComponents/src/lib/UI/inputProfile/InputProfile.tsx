@@ -24,7 +24,7 @@ interface ProrpsFormInput {
   showPassword?: boolean;
   itsProfile?: boolean;
   inputValue?: string | null;
-  set?: React.Dispatch<React.SetStateAction<string | null>>;
+  set?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export function FormInput({

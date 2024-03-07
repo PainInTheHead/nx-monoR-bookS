@@ -7,7 +7,9 @@ import { useAppSelector } from '../../hooks/hookStore';
 import { exitUser } from '../../store/slices/userSlice';
 import { useAppDispatch } from '../../hooks/hookStore';
 import { userState, userEmailState } from '../../utils/selectors';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import BannetAuth from './UIHome/Banners/BannetAuth';
+import BannerDefault from './UIHome/Banners/BannerDefault';
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -22,23 +24,14 @@ export function HomePage() {
   return (
     <Layout user={userEmail} hangleExit={handleExitBtn}>
       <StyledHome>
-        <div className="banner-header">
-          <img alt="banner" width="1280" height="400" src="/banner.png" />
-        </div>
+        <BannerDefault />
         <div className="catalog-filter">
           <h1 className={`h1-home-page`}>Catalog</h1>
           <DropDowns />
         </div>
         <CardHolder />
         <BookSlider />
-        {!userEmail && (
-          <img
-            src="/banner/bannerLow.svg"
-            width={1280}
-            height={462}
-            alt="banner-low"
-          />
-        )}
+        {!userEmail && <BannetAuth />}
       </StyledHome>
     </Layout>
   );

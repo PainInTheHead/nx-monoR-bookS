@@ -5,8 +5,22 @@ import {
   takeLeading,
   takeEvery,
 } from 'redux-saga/effects';
-import { actionLoginUser, getuserAction } from './../slices/userSlice'; // Ваши действия
-import { authorization, getUser } from '../../api/userApi';
+import {
+  actionLoginUser,
+  getuserAction,
+  newAvatar,
+  actionNewAvatar,
+  actionChangeInfo,
+  updateUserInfo,
+  actionChangePass,
+} from './../slices/userSlice'; // Ваши действия
+import {
+  authorization,
+  getUser,
+  newAvatarAsync,
+  newUserDataAsync,
+  newUserPassAsync,
+} from '../../api/userApi';
 import { addUser } from './../slices/userSlice';
 
 function* handleUserActionLogin(action: {
@@ -14,7 +28,7 @@ function* handleUserActionLogin(action: {
 }) {
   yield localStorage.clear();
   try {
-    const { Email, Password } = yield action.payload;
+    const { Email, Password } = action.payload;
     const data: {
       id: number;
       token: string;
@@ -22,12 +36,12 @@ function* handleUserActionLogin(action: {
       userName: string;
       email: string;
     } = yield call(authorization, { email: Email, password: Password });
-    console.log(data);
-    const { token, id, avatar, userName, email } = yield data;
+
+    const { token, id, avatar, userName, email } = data;
     yield put(addUser({ id, email, avatar, userName }));
-    yield localStorage.setItem('token', token);
+    localStorage.setItem('token', token);
   } catch (error) {
-    yield console.log(error);
+    console.log(error);
   }
 }
 
@@ -49,7 +63,53 @@ function* handleGetUserEffect() {
   }
 }
 
+function* handleNewAvatar(action: { payload: { formData: FormData } }) {
+  try {
+    const formData: FormData = yield action.payload.formData;
+    const response: string = yield call(newAvatarAsync, { formData: formData });
+    const filename: string = yield response;
+    yield put(newAvatar(filename));
+  } catch (error) {
+    yield console.log(error);
+  }
+}
+
+function* handleChangeUserInfo(action: {
+  payload: { Email: string; UserName: string };
+}) {
+  try {
+    const { Email, UserName } = yield action.payload;
+    const response: { email: string; userName: string } = yield call(
+      newUserDataAsync,
+      {
+        Email: Email,
+        UserName: UserName,
+      }
+    );
+    console.log(response);
+    yield put(
+      updateUserInfo({ Email: response.email, UserName: response.userName })
+    );
+  } catch (error) {
+    yield console.log(error);
+  }
+}
+
+function* handleChangePass(action: { payload: { Password: string } }) {
+  try {
+    const response: string = yield call(newUserPassAsync, {
+      Password: action.payload.Password,
+    });
+    console.log(response);
+  } catch (error) {
+    yield console.log(error);
+  }
+}
+
 export function* userSaga() {
   yield takeEvery(actionLoginUser, handleUserActionLogin);
   yield takeLeading(getuserAction, handleGetUserEffect);
+  yield takeLeading(actionNewAvatar, handleNewAvatar);
+  yield takeLeading(actionChangeInfo, handleChangeUserInfo);
+  yield takeLeading(actionChangePass, handleChangePass);
 }

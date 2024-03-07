@@ -8,7 +8,11 @@ import { FormInput } from '@book-store/BookStoreLibrary';
 import type { MouseEvent } from 'react';
 import axios from 'axios';
 import { FormTypes, IFormInput } from './../../Types/types';
-import { useAppSelector } from '../../../hooks/hookStore';
+import { useAppSelector, useAppDispatch } from '../../../hooks/hookStore';
+import {
+  actionChangeInfo,
+  actionChangePass,
+} from '../../../store/slices/userSlice';
 
 const schema = z
   .object({
@@ -27,6 +31,7 @@ const schema = z
   });
 
 const FormChangeProfile = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
   const [showPassword, setShowPassword] = useState(true);
   const [oldPassword, setOldPassword] = useState('12345678');
@@ -60,6 +65,8 @@ const FormChangeProfile = () => {
   useEffect(() => {
     setOldEmail(user.email);
     setOldNameUser(user.username);
+    setValue('Email', user.email);
+    setValue('UserName', user.username);
   }, [user]);
 
   const handleClearHolderLog = (
@@ -71,6 +78,7 @@ const FormChangeProfile = () => {
       //  event.preventDefault();
       return reset({
         Email: '',
+        UserName: userValue,
       });
     } else if (name === 'ConfirmPassword') {
       return reset({
@@ -79,40 +87,35 @@ const FormChangeProfile = () => {
     } else if (name === 'UserName') {
       return reset({
         UserName: '',
+        Email: emailValue,
       });
     }
-    return reset({
-      Password: '',
-      Email: emailValue,
-      ConfirmPassword: confirmValue,
-    });
+    // return reset({
+    //   Password: '',
+    //   Email: emailValue,
+    //   ConfirmPassword: confirmValue,
+    // });
   };
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     if (showChangeInputs === 'info') {
       setOldEmail(data.Email);
       data.UserName && setOldNameUser(data.UserName);
       setValue('Password', '');
       setValue('ConfirmPassword', '');
-      setShowChangeInputs('');
+      if (!data.UserName || !data.Email) {
+        return;
+      }
+      dispatch(actionChangeInfo(data.Email, data.UserName));
+      console.log({ Email: data.Email, UserName: data.UserName });
     } else if (showChangeInputs === 'pass') {
-      setOldPassword(data.Password);
+      setValue('Password', data.Password);
+      dispatch(actionChangePass(data.Password));
+      console.log(data.Password);
     }
-
-    // const response = await axios.post(
-    //   `http://localhost:3002/user/registration`,
-    //   {
-    //     email: data.Email,
-    //     password: data.Password,
-    //   }
-    // );
-    // if (!response) {
-    //   return alert("Try again :(");
-    // }
-    // return;
-    // return console.log(response.data);
+    setShowChangeInputs('');
   };
+
   const clickMouseSubmit = () => {
     if (showChangeInputs === 'info') {
       setValue('Password', oldPassword);
@@ -136,7 +139,11 @@ const FormChangeProfile = () => {
     if (!showChangeInputs) {
       return setShowChangeInputs('info');
     }
-    return setShowChangeInputs('');
+    return (
+      setValue('Email', user.email),
+      setValue('UserName', user.username),
+      setShowChangeInputs('')
+    );
   };
 
   return (
@@ -158,7 +165,7 @@ const FormChangeProfile = () => {
             Value={userValue}
             name={'UserName'}
             itsProfile={showChangeInputs === 'info' ? false : true}
-            inputValue={oldNameUser}
+            inputValue={userValue}
             set={setOldNameUser}
           />
 
@@ -170,7 +177,7 @@ const FormChangeProfile = () => {
             error={errors.Email}
             errors={errors}
             itsProfile={showChangeInputs === 'info' ? false : true}
-            inputValue={oldEmail}
+            inputValue={emailValue}
             set={setOldEmail}
           />
 
@@ -189,7 +196,7 @@ const FormChangeProfile = () => {
             handleClearHolderLog={handleClearHolderLog}
             Value={passValue}
             name={'oldPassword'}
-            handleTogglePassword={handleTogglePassword}
+            // handleTogglePassword={handleTogglePassword}
             showPassword={showPassword}
             itsProfile={true}
             inputValue={oldPassword}
@@ -228,9 +235,11 @@ const FormChangeProfile = () => {
             </>
           )}
         </div>
-        <button className="btn-confirm" onClick={clickMouseSubmit}>
-          Confirm
-        </button>
+        {showChangeInputs && (
+          <button className="btn-confirm" onClick={clickMouseSubmit}>
+            Confirm
+          </button>
+        )}
       </form>
     </StyledFormChange>
   );

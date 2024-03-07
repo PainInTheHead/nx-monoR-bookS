@@ -9,9 +9,9 @@ import { title } from 'process';
 import { string } from 'zod';
 
 export interface User {
-  email: string | null;
+  email: string;
   password: string | null;
-  username: string | 'Guest' | null;
+  username: string | 'Guest';
   id: number | null;
   avatar?: string;
   active?: boolean;
@@ -24,7 +24,7 @@ interface UserState {
 
 const initialState: UserState = {
   user: {
-    email: null,
+    email: '',
     password: null,
     id: null,
     active: false,
@@ -39,6 +39,36 @@ export const actionLoginUser = createAction(
     payload: {
       Email,
       Password,
+    },
+  })
+);
+
+export const actionChangeInfo = createAction(
+  'user/changeInfo',
+  (Email: string, UserName: string) => ({
+    payload: {
+      Email,
+      UserName,
+    },
+  })
+);
+
+export const actionChangePass = createAction(
+  'user/changePass',
+  (Password) => ({
+    payload: {
+      Password
+    },
+  })
+);
+
+
+
+export const actionNewAvatar = createAction(
+  'user/upload',
+  (formData: FormData) => ({
+    payload: {
+      formData,
     },
   })
 );
@@ -62,9 +92,18 @@ const todoSlice = createSlice({
     exitUser(state) {
       state.user = initialState.user;
     },
+    newAvatar(state, action) {
+      state.user.avatar = action.payload;
+    },
+
+    updateUserInfo (state, action) {
+      const {Email, UserName} = action.payload
+      state.user.email = Email;
+      state.user.username = UserName;
+    },
   },
 });
 
-export const { addUser, exitUser } = todoSlice.actions;
+export const { addUser, exitUser, newAvatar, updateUserInfo } = todoSlice.actions;
 
 export default todoSlice.reducer;
