@@ -1,7 +1,9 @@
-import { StyledSliderPrice } from "./rangeSlider.styled";
-import Box from "@mui/material/Box";
-import { useState } from "react";
-import { CoolSlider } from "./MUI.styled";
+import { StyledSliderPrice } from './rangeSlider.styled';
+import Box from '@mui/material/Box';
+import { useEffect, useState } from 'react';
+import { CoolSlider } from './MUI.styled';
+import { useAppDispatch, useAppSelector } from '../../../../../../hooks/hookStore';
+import {setPrices} from '../../../../../../store/slices/bookSlice'
 
 function valuetext(value: number) {
   return `${value}°C`;
@@ -10,7 +12,33 @@ function valuetext(value: number) {
 const minDistance = 10;
 
 const RangeSliderPrice = () => {
-  const [value1, setValue1] = useState<number[]>([30000, 170000]);
+  const dispatch = useAppDispatch()
+  const prices = useAppSelector(state => state.books.prices)
+  const [value1, setValue1] = useState<number[]>([100, 170000]);
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+
+
+useEffect(() => {
+  if (timerId) {
+    clearTimeout(timerId);
+  }
+
+  const newTimerId = setTimeout(() => {
+    console.log('value:', value1);
+    dispatch(setPrices(value1));
+  }, 1000);
+
+  setTimerId(newTimerId);
+
+  return () => {
+    if (newTimerId) {
+      clearTimeout(newTimerId);
+    }
+  };
+}, [value1]);
+
+
+
 
   const handleChange1 = (
     event: Event,
@@ -21,19 +49,21 @@ const RangeSliderPrice = () => {
       return;
     }
 
-    if (activeThumb === 0) {
-      setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
-    } else {
-      setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
-    }
+    setValue1((prevValue) => {
+      if (activeThumb === 0) {
+        return [Math.min(newValue[0], prevValue[1] - 100), prevValue[1]];
+      } else {
+        return [prevValue[0], Math.max(newValue[1], prevValue[0] + 100)];
+      }
+    });
   };
 
   return (
     <StyledSliderPrice>
-      <Box sx={{ width: 370, padding: "0 6px" }}>
+      <Box sx={{ width: 370, padding: '0 6px' }}>
         <CoolSlider
-          getAriaLabel={() => "Minimum distance"}
-          min={30000}
+          getAriaLabel={() => 'Minimum distance'}
+          min={100}
           max={999900}
           value={value1}
           onChange={handleChange1}

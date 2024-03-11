@@ -5,28 +5,38 @@ import CoverCard from './coverCard/CoverCard';
 import AboutCard from './aboutCard/aboutCard';
 
 interface PropsCard {
-  id: number;
-  cover: string;
-  name: string;
+  bookId: number;
+  title: string;
+  description: string;
   author: string;
-  rate: number;
-  price: string;
+  price: number;
+  liked: boolean;
+  average: number;
+  hangleSetLikedBook: (bookId: number) => void;
 }
 
-export function Card({ id, cover, name, author, rate, price }: PropsCard) {
-  const [liked, setLiked] = useState(false);
-  const handleClickLikeBtn = () => {
-    setLiked(!liked);
-  };
+export function Card({
+  bookId,
+  title,
+  author,
+  average,
+  price,
+  liked,
+  hangleSetLikedBook,
+}: PropsCard) {
+  const cover = '/card/covers/1';
+
+  
 
   return (
     <StyledCard>
       <CoverCard
-        handleClickLikeBtn={handleClickLikeBtn}
+        handleClickLikeBtn={() => hangleSetLikedBook(bookId)}
         liked={liked}
         cover={cover}
+        bookId={bookId}
       />
-      <AboutCard name={name} author={author} price={price} value={rate} />
+      <AboutCard name={title} author={author} price={price} value={average} />
     </StyledCard>
   );
 }

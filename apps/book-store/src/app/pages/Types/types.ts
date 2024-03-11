@@ -12,9 +12,11 @@ export type OptionsDrop = {
   
 
   export type OptionsSort = {
-    option_1: boolean;
-    option_2: boolean;
-    option_3: boolean;
+    Price: boolean;
+    Name: boolean;
+    Author_name: boolean;
+    Rating: boolean;
+    Date_of_issue: boolean;
   };
 
 
@@ -34,3 +36,6 @@ export type OptionsDrop = {
   | "ConfirmPassword"
   | "UserName"
   | "oldPassword";
+
+
+  export type SortBy = 'Price' | 'Name' | 'Author_name' | 'Rating' | 'Date_of_issue';

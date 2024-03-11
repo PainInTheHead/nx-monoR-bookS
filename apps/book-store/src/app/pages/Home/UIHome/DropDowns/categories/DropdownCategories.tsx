@@ -3,11 +3,17 @@ import { StyledDropdownCategories } from './dropCat.styled';
 import ButtonDrop from '../btn-drop/ButtonDrop';
 import { OptionsDrop, OptionsSort, Options } from '../../../../Types/types';
 import { handleProprsForDrop } from '../../../../Types/interfaces';
+import { useAppDispatch, useAppSelector } from './../../../../../hooks/hookStore';
+import { addGenres } from './../../../../../store/slices/bookSlice';
 
 const DropdownCategories: React.FC<handleProprsForDrop> = ({
   handleChangeDropDownActive,
   activeDrop,
 }) => {
+  const dispatch = useAppDispatch()
+  
+
+
   const [options, setOptions] = useState<Options>({
     option1: false,
     option2: false,
@@ -18,8 +24,9 @@ const DropdownCategories: React.FC<handleProprsForDrop> = ({
     handleChangeDropDownActive('Genre');
   };
 
-  const handleOptionChange = (option: keyof Options) => {
+  const handleOptionChange = (option: keyof Options, genre : number) => {
     setOptions({ ...options, [option]: !options[option] });
+    dispatch(addGenres({ genreId: genre }));
   };
 
   return (
@@ -46,7 +53,7 @@ const DropdownCategories: React.FC<handleProprsForDrop> = ({
           <input
             type="checkbox"
             checked={options.option1}
-            onChange={() => handleOptionChange('option1')}
+            onChange={() => handleOptionChange('option1', 1)}
           />
           <div className={options.option1 ? 'checked' : 'uncheked'}></div>
           <span>Категория 1</span>
@@ -55,7 +62,7 @@ const DropdownCategories: React.FC<handleProprsForDrop> = ({
           <input
             type="checkbox"
             checked={options.option2}
-            onChange={() => handleOptionChange('option2')}
+            onChange={() => handleOptionChange('option2', 2)}
           />
           <div className={options.option2 ? 'checked' : 'uncheked'}></div>
           <span>Категория 2</span>
@@ -64,7 +71,7 @@ const DropdownCategories: React.FC<handleProprsForDrop> = ({
           <input
             type="checkbox"
             checked={options.option3}
-            onChange={() => handleOptionChange('option3')}
+            onChange={() => handleOptionChange('option3', 1)}
           />
           <div className={options.option3 ? 'checked' : 'uncheked'}></div>
           <span>Категория 3</span>

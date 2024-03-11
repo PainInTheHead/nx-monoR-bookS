@@ -5,7 +5,7 @@ import RatingBook from '../ratingStars/RatingBook';
 interface PropsAbout {
   name: string;
   author: string;
-  price: string;
+  price: number;
   value: number;
 }
 

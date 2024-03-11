@@ -10,6 +10,7 @@ import { getuserAction } from './store/slices/userSlice';
 import { useAppDispatch } from './hooks/hookStore';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import BooksDetails from './pages/Home/bookDetails/BooksDetails';
 
 export function App() {
   const [isLoading, setLoading] = useState(true);
@@ -44,6 +45,7 @@ export function App() {
         ></Route>
         <Route path="/registration" element={<RegistragionPage />}></Route>
         <Route path="/login" element={<LogInPage />}></Route>
+        <Route path="/book/:id" element={<BooksDetails />}></Route>
       </Routes>
     </>
   );

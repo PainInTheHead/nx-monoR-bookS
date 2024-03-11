@@ -3,15 +3,21 @@ import ButtonDrop from '../btn-drop/ButtonDrop';
 import { useState, useEffect } from 'react';
 import { OptionsDrop, OptionsSort } from '../../../../Types/types';
 import { handleProprsForDrop } from '../../../../Types/interfaces';
+import { useAppDispatch } from '../../../../../hooks/hookStore';
+import { setSortBy } from '../../../../../store/slices/bookSlice';
+
 
 const SortPrice: React.FC<handleProprsForDrop> = ({
   handleChangeDropDownActive,
   activeDrop,
 }) => {
+  const dispatch = useAppDispatch()
   const [options, setOptions] = useState<OptionsSort>({
-    option_1: true,
-    option_2: false,
-    option_3: false,
+    Price: true,
+    Name: false,
+    Author_name: false,
+    Rating: false,
+    Date_of_issue: false,
   });
 
   const [trueOption, setTrueOption] = useState('');
@@ -24,7 +30,9 @@ const SortPrice: React.FC<handleProprsForDrop> = ({
     if (!trueOption) return;
     const activeOption = trueOption.split('_').join(' ');
     setTrueOption(activeOption);
-  }, [options]);
+    console.log(trueOption);
+    dispatch(setSortBy(trueOption));
+  }, [options, dispatch]);
 
   const handleToggle = () => {
     handleChangeDropDownActive('Sort');
@@ -63,31 +71,47 @@ const SortPrice: React.FC<handleProprsForDrop> = ({
         <label>
           <input
             type="checkbox"
-            checked={options.option_1}
-            onChange={() => handleOptionChange('option_1')}
+            checked={options.Price}
+            onChange={() => handleOptionChange('Price')}
           />
-          <span className={options.option_1 ? 'checked' : 'uncheked'}>
-            option 1
+          <span className={options.Price ? 'checked' : 'uncheked'}>Price</span>
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={options.Name}
+            onChange={() => handleOptionChange('Name')}
+          />
+          <span className={options.Name ? 'checked' : 'uncheked'}>Name</span>
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={options.Author_name}
+            onChange={() => handleOptionChange('Author_name')}
+          />
+          <span className={options.Author_name ? 'checked' : 'uncheked'}>
+            Author name
           </span>
         </label>
         <label>
           <input
             type="checkbox"
-            checked={options.option_2}
-            onChange={() => handleOptionChange('option_2')}
+            checked={options.Rating}
+            onChange={() => handleOptionChange('Rating')}
           />
-          <span className={options.option_2 ? 'checked' : 'uncheked'}>
-            option 2
+          <span className={options.Rating ? 'checked' : 'uncheked'}>
+            Rating
           </span>
         </label>
         <label>
           <input
             type="checkbox"
-            checked={options.option_3}
-            onChange={() => handleOptionChange('option_3')}
+            checked={options.Date_of_issue}
+            onChange={() => handleOptionChange('Date_of_issue')}
           />
-          <span className={options.option_3 ? 'checked' : 'uncheked'}>
-            option 3
+          <span className={options.Date_of_issue ? 'checked' : 'uncheked'}>
+            Date of issue
           </span>
         </label>
       </div>
