@@ -5,10 +5,16 @@ import { userEmailState } from '../../../utils/selectors';
 import { exitUser } from '../../../store/slices/userSlice';
 import { StyledDetailCard } from './StyledBookDetails.styled';
 import Rating from '@mui/material/Rating';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  changeRatingOfBookAction,
+  setUserRating,
+  actionGetRaitingCurrentBook
+} from '../../../store/slices/bookSlice';
 
 const BooksDetails = () => {
-  const [value, setValue] = useState<number | null>(2);
+  const [value, setValue] = useState<number | null>(0);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -16,12 +22,21 @@ const BooksDetails = () => {
     (book) => book.bookId === Number(id)
   );
   const userEmail = useAppSelector(userEmailState);
+  const cover = '/card/covers/1.png';
+  const bookId = Number(id);
+
+  useEffect(() => {
+    dispatch(actionGetRaitingCurrentBook(bookId));
+    if (book?.rateOfUser) {
+      setValue(book?.rateOfUser)
+    }
+  }, [book?.rateOfUser]);
+
   const handleExitBtn = () => {
     dispatch(exitUser());
     localStorage.clear();
     navigate('/login');
   };
-  const cover = '/card/covers/1.png';
 
   return (
     <Layout user={userEmail} hangleExit={handleExitBtn}>
@@ -39,9 +54,11 @@ const BooksDetails = () => {
               <div className="starDetails">
                 <Rating
                   name="simple-controlled"
-                  value={book.average}
+                  value={value}
                   onChange={(event, newValue) => {
                     setValue(newValue);
+                    dispatch(changeRatingOfBookAction(bookId, newValue));
+                    console.log(newValue);
                   }}
                   sx={{
                     width: '220px',
@@ -51,6 +68,7 @@ const BooksDetails = () => {
                   size="large"
                   icon={<img src="/bookDetail/Group2.png" alt="" />}
                   emptyIcon={<img src="/bookDetail/emptyStar.png" alt="" />}
+                  // onChangeActive={() => console.log(value)}
                 />
               </div>
               <div className="RateThisBook">

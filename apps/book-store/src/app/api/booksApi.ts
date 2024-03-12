@@ -7,7 +7,7 @@ export const getItemsWithGenre = async (payload: {
   prices: number;
   sortBy: SortBy;
 }) => {
-  const response = await axios.post(`generators/getitemsGenre`, {
+  const response = await axios.post(`books/getitemsGenre`, {
     ids: payload.ids,
     page: payload.page,
     prices: payload.prices,
@@ -22,7 +22,7 @@ export const getItemsForAuthorized = async (payload: {
   prices: number;
   sortBy: SortBy;
 }) => {
-  const response = await axios.post(`generators/getItemsForAuthorized`, {
+  const response = await axios.post(`books/getItemsForAuthorized`, {
     ids: payload.ids,
     page: payload.page,
     prices: payload.prices,
@@ -32,8 +32,25 @@ export const getItemsForAuthorized = async (payload: {
 };
 
 export const addTofavoriteAsync = async (payload: { bookId: number }) => {
-  const response = await axios.post(`generators/addBookToFavorites`, {
+  const response = await axios.post(`books/addBookToFavorites`, {
     bookId: payload.bookId,
+  });
+  return response.data;
+};
+
+export const changeRatingBookAsync = async (payload: { bookId: number, rate: number }) => {
+  const response = await axios.post(`books/changeRatingOfBook`, {
+    bookId: payload.bookId,
+    rate: payload.rate,
+  });
+  return response.data;
+};
+
+export const getUserRatingBookAsync = async (payload: { bookId: number }) => {
+  const response = await axios.get(`books/getUserRatingCurrentBook`, {
+    params: {
+      bookId: payload.bookId,
+    },
   });
   return response.data;
 };

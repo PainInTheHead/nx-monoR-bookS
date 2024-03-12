@@ -6,6 +6,7 @@ import {
   current,
 } from '@reduxjs/toolkit';
 import { SortBy } from '../../pages/Types/types';
+import { create } from 'domain';
 
 export interface Book {
   bookId: number;
@@ -15,6 +16,7 @@ export interface Book {
   price: number;
   liked: boolean;
   average: number;
+  rateOfUser: number
   //   cover: string
 }
 
@@ -35,11 +37,11 @@ const initialState: BookState = {
   totalPages: 1,
   currentPage: 0,
   prices: [100, 999900],
-  sortBy: 'Price'
+  sortBy: 'Price',
 };
 
 export const actionGetBooks = createAction(
-  'generators/getitemsGenre',
+  'books/getitemsGenre',
   (genres, page, prices, sortBy) => ({
     payload: {
       genres,
@@ -50,7 +52,7 @@ export const actionGetBooks = createAction(
   })
 );
 export const actionGetBooksUser = createAction(
-  'generators/getItemsForAuthorized',
+  'books/getItemsForAuthorized',
   (genres, page, prices, sortBy) => ({
     payload: {
       genres,
@@ -61,7 +63,7 @@ export const actionGetBooksUser = createAction(
   })
 );
 export const actionAddToFavorite = createAction(
-  'generators/addBookToFavorites',
+  'books/addBookToFavorites',
   (bookId) => ({
     payload: {
       bookId,
@@ -69,13 +71,32 @@ export const actionAddToFavorite = createAction(
   })
 );
 export const actionGetBooksWithGenres = createAction(
-  `generators/getItemsGenresForAuthorized`,
+  `books/getItemsGenresForAuthorized`,
   (genres) => ({
     payload: {
       genres,
     },
   })
 );
+
+export const changeRatingOfBookAction = createAction(
+  `books/changeRatingOfBook`,
+  (bookId, rate) => ({
+    payload: {
+      bookId,
+      rate
+    },
+  })
+);
+
+export const actionGetRaitingCurrentBook = createAction(
+  `books/getUserRatingCurrentBook`,
+  (bookId) => ({
+    payload: {
+      bookId
+    },
+  })
+)
 
 const todoSlice = createSlice({
   name: 'books',
@@ -90,23 +111,21 @@ const todoSlice = createSlice({
       const likedBook = state.book.find((book) => {
         return book.bookId === action.payload.bookId;
       });
-      if (likedBook?.liked === true) {
-        likedBook.liked = false;
-      } else if (likedBook?.liked === false) {
-        likedBook.liked = true;
+      if (likedBook) {
+        likedBook.liked = !likedBook.liked
       }
     },
     addGenres(state, action) {
       const haveThisGenre = state.genres.find(
         (genre) => genre === action.payload.genreId
       );
+
       if (!haveThisGenre) {
         state.genres.push(action.payload.genreId);
       } else {
-        const filter = state.genres.filter(
+        state.genres = state.genres.filter(
           (genre) => genre !== action.payload.genreId
         );
-        state.genres = filter;
       }
     },
     updateCurrentPage(state, action) {
@@ -117,6 +136,13 @@ const todoSlice = createSlice({
     },
     setSortBy(state, action) {
       state.sortBy = action.payload
+    },
+
+    setUserRating(state, action) {
+      const currentBook = state.book.find(book => book.bookId === action.payload.bookId)
+      if (currentBook) {
+        currentBook.rateOfUser = action.payload.rate
+      }
     }
   },
 });
@@ -128,6 +154,7 @@ export const {
   updateCurrentPage,
   setPrices,
   setSortBy,
+  setUserRating
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

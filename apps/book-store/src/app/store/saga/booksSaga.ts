@@ -15,11 +15,17 @@ import {
   addBooks,
   actionGetBooksWithGenres,
   addGenres,
+  changeRatingOfBookAction,
+  setUserRating,
+  actionGetRaitingCurrentBook
 } from '../slices/bookSlice';
 import {
   getItemsWithGenre,
   getItemsForAuthorized,
   addTofavoriteAsync,
+  changeRatingBookAsync,
+  getUserRatingBookAsync
+
 } from '../../api/booksApi';
 import { SortBy } from '../../pages/Types/types';
 
@@ -51,7 +57,7 @@ function* handleGetBooksDefault(action: {
     yield put(addBooks({ allBooks, totalPages }));
     console.log(data);
   } catch (error) {
-    yield console.log(error);
+    console.log(error);
   }
 }
 
@@ -73,21 +79,53 @@ function* handleGetBooksWhithUser(action: {
     yield put(addBooks({ allBooks, totalPages }));
     console.log(data);
   } catch (error) {
+    console.log(error);
+  }
+}
+
+function* handleChangeRating(action: {
+  payload: { bookId: number; rate: number;};
+}) {
+  try {
+    const data: {
+      value: number,
+      book: number
+    } = yield call(changeRatingBookAsync, {
+      bookId: action.payload.bookId,
+      rate: action.payload.rate,
+    });
+    const { value, book } = data;
+
+    yield put(setUserRating({bookId: book, rate: value}))
+    console.log(data);
+  } catch (error) {
     yield console.log(error);
   }
 }
 
-// function* handleGenresBooksForAuthorized() {
-//   try {
-//     const
-//   } catch (error) {
+function* handleGetRaiting(action: {
+  payload: { bookId: number;};
+}) {
+  try {
+    const data: {
+      rate: number
+    } = yield call(getUserRatingBookAsync, {
+      bookId: action.payload.bookId,
+    });
+    const { rate } = data;
 
-//   }
-// }
+    yield put(setUserRating({bookId: action.payload.bookId, rate: rate}))
+    console.log(data);
+  } catch (error) {
+    yield console.log(error);
+  }
+}
 
 export function* bookSaga() {
   yield takeLatest(actionGetBooks, handleGetBooksDefault);
   yield takeLatest(actionGetBooksUser, handleGetBooksWhithUser);
   yield takeEvery(actionAddToFavorite, handleAddFavorite);
-  // yield takeLatest(actionGetBooksWithGenres, handleGenresBooksForAuthorized);
+  yield takeEvery(changeRatingOfBookAction, handleChangeRating);
+  yield takeLeading(actionGetRaitingCurrentBook, handleGetRaiting);
+
 }

@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledCard = styled.div`
   width: 305px;
   height: 663px;
   border-radius: 16px;
-  .MuiRating-root{
-    margin:15px 0;
+  .MuiRating-root {
+    margin: 15px 0;
   }
   .cover-card {
     position: relative;
@@ -48,21 +48,54 @@ export const StyledCard = styled.div`
     display: flex;
     justify-content: start;
     align-items: center;
-    .rateNumber{
+    .rateNumber {
       height: 20px;
       letter-spacing: 0;
       font-size: 16px;
       color: #b9bac3;
-      margin-left:15px;
+      margin-left: 15px;
     }
   }
 
-  .btn-price {
+  .cardCounter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    height: 48px;
+    border: solid 1px #344966;
+    border-radius: 16px;
+    font-size: 20px;
+    color: #000000;
+    button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f0f4ef;
+      cursor: pointer;
+    }
+    .countCard {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f0f4ef;
+      text-align:center;
+    }
+  }
+
+  .btn {
     cursor: pointer;
     width: 100%;
     height: 48px;
-    background-color: #344966;
     border-radius: 16px;
+  }
+  .btn-buy {
+    border: solid 1px #344966;
+  }
+
+  .btn-price {
+    background-color: #344966;
     border: none;
     .price {
       color: #f0f4ef;
