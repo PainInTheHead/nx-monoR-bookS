@@ -27,7 +27,7 @@ const Header = ({ user }: propsHeader) => {
         </div>
         {user ? (
           <div className="user-buttons">
-            <button>
+            <button onClick={() => navigate('/cart')}>
               <img
                 className="cart-img"
                 src="/cart/Cart.svg"

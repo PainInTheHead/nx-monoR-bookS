@@ -3,8 +3,10 @@ import styled from 'styled-components';
 export const StyledDetailCard = styled.div`
   width: 1280px;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
+  .book_about_warapper {
+    display: flex;
+    justify-content: space-between;
+  }
   .coverBookDetail {
     width: 522px;
     height: 780px;
@@ -14,14 +16,18 @@ export const StyledDetailCard = styled.div`
       height: 100%;
     }
   }
+  .headerDetail {
+    color: #0d1821;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 60px;
+  }
+  .Comment_headader {
+    margin-top: 110px;
+    margin-bottom: 50px;
+  }
   .aboutCardDetail {
     width: 630px;
-    .headerDetail {
-      color: #0d1821;
-      font-weight: 700;
-      font-size: 40px;
-      line-height: 60px;
-    }
     .authorDetail {
       color: #0d1821;
       font-weight: 400;
@@ -85,7 +91,7 @@ export const StyledDetailCard = styled.div`
         width: 240px;
         height: 50px;
         border-radius: 16px;
-        color: #F0F4EF;
+        color: #f0f4ef;
       }
       .Paperback {
         display: flex;
@@ -104,4 +110,5 @@ export const StyledDetailCard = styled.div`
       }
     }
   }
+
 `;

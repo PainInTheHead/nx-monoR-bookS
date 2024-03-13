@@ -11,6 +11,7 @@ import { useAppDispatch } from './hooks/hookStore';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import BooksDetails from './pages/Home/bookDetails/BooksDetails';
+import CartPage from './pages/Cart/CartPage';
 
 export function App() {
   const [isLoading, setLoading] = useState(true);
@@ -40,6 +41,14 @@ export function App() {
           element={
             <RequireAuth>
               <ProfilePage />
+            </RequireAuth>
+          }
+        ></Route>
+        <Route
+          path="/cart"
+          element={
+            <RequireAuth>
+              <CartPage />
             </RequireAuth>
           }
         ></Route>

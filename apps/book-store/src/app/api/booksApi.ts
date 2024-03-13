@@ -54,3 +54,29 @@ export const getUserRatingBookAsync = async (payload: { bookId: number }) => {
   });
   return response.data;
 };
+
+
+
+export const getCartBooksAsync = async () => {
+  const response = await axios.get(`books/getBooksOfCarts`);
+  return response.data;
+};
+
+
+export const addBookToCartAsync = async (payload: { bookId: number, count: number }) => {
+  const response = await axios.post(`books/addBookToCart`, {
+    bookId: payload.bookId,
+    count: payload.count,
+  });
+  return response.data;
+};
+
+
+export const getCommentForCurrentBookAsync = async (payload: { bookId: number }) => {
+  const response = await axios.get(`books/getCommentForCurrentBook`, {
+    params: {
+      bookId: payload.bookId,
+    },
+  });
+  return response.data;
+};

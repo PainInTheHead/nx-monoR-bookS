@@ -17,15 +17,23 @@ import {
   addGenres,
   changeRatingOfBookAction,
   setUserRating,
-  actionGetRaitingCurrentBook
+  actionGetRaitingCurrentBook,
+  actionRequestCartBook,
+  addToCart,
+  incrementCart,
+  actionAddToCart,
+  getComments,
+  actionGetCommentsOfBook,
 } from '../slices/bookSlice';
 import {
   getItemsWithGenre,
   getItemsForAuthorized,
   addTofavoriteAsync,
   changeRatingBookAsync,
-  getUserRatingBookAsync
-
+  getUserRatingBookAsync,
+  getCartBooksAsync,
+  addBookToCartAsync,
+  getCommentForCurrentBookAsync,
 } from '../../api/booksApi';
 import { SortBy } from '../../pages/Types/types';
 
@@ -121,11 +129,80 @@ function* handleGetRaiting(action: {
   }
 }
 
+function* handleGetToCart() {
+  try {
+    const data: {
+      bookId: number;
+      title: string;
+      price: number;
+      author: string;
+      count: number;
+    } = yield call(getCartBooksAsync);
+
+    yield put(addToCart(data));
+    console.log(data);
+  } catch (error) {
+    yield console.log(error);
+  }
+}
+
+function* handleAddToCart(action: { payload: { bookId: number, count: number } }) {
+  try {
+    const data: {
+      bookId: number;
+      title: string;
+      price: number;
+      author: string;
+      count: number;
+    } = yield call(addBookToCartAsync, {
+      bookId: action.payload.bookId,
+      count: action.payload.count
+    });
+
+    yield put(incrementCart({ bookId: action.payload.bookId, count: action.payload.count }));
+    console.log(data);
+  } catch (error) {
+    yield console.log(error);
+  }
+}
+
+function* handleGetComments(action: {
+  payload: { bookId: number };
+}) {
+  // getComments;
+  // actionGetCommentsOfBook;
+  // getCommentForCurrentBookAsync;
+  try {
+    const data: {
+      value: number;
+      avatar: string;
+      username: number;
+    } = yield call(getCommentForCurrentBookAsync, {
+      bookId: action.payload.bookId,
+    });
+
+    yield put(
+      getComments({
+        bookId: action.payload.bookId,
+        data: data,
+      })
+    );
+    console.log(data);
+  } catch (error) {
+    yield console.log(error);
+  }
+}
+
+
+
 export function* bookSaga() {
   yield takeLatest(actionGetBooks, handleGetBooksDefault);
   yield takeLatest(actionGetBooksUser, handleGetBooksWhithUser);
   yield takeEvery(actionAddToFavorite, handleAddFavorite);
   yield takeEvery(changeRatingOfBookAction, handleChangeRating);
   yield takeLeading(actionGetRaitingCurrentBook, handleGetRaiting);
+  yield takeEvery(actionRequestCartBook, handleGetToCart);
+  yield takeEvery(actionAddToCart, handleAddToCart);
+  yield takeEvery(actionGetCommentsOfBook, handleGetComments);
 
 }

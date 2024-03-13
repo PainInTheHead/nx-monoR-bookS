@@ -8,6 +8,12 @@ import {
 import { SortBy } from '../../pages/Types/types';
 import { create } from 'domain';
 
+export interface Comment {
+  value: string;
+  avatar:string;
+  username:string
+}
+
 export interface Book {
   bookId: number;
   title: string;
@@ -16,8 +22,17 @@ export interface Book {
   price: number;
   liked: boolean;
   average: number;
-  rateOfUser: number
+  rateOfUser: number;
+  comments: Comment[]
   //   cover: string
+}
+
+export interface Cart {
+  bookId: number;
+  title: string;
+  price: number;
+  count: number;
+  author: string;
 }
 
 interface BookState {
@@ -28,6 +43,7 @@ interface BookState {
   currentPage: number;
   prices: number[];
   sortBy: SortBy;
+  cart: Cart[];
 }
 
 const initialState: BookState = {
@@ -38,7 +54,17 @@ const initialState: BookState = {
   currentPage: 0,
   prices: [100, 999900],
   sortBy: 'Price',
+  cart: [],
 };
+
+export const actionGetCommentsOfBook = createAction(
+  `books/getComments`, 
+  (bookId) => ({
+    payload: {
+      bookId
+    }
+  })
+)
 
 export const actionGetBooks = createAction(
   'books/getitemsGenre',
@@ -84,7 +110,7 @@ export const changeRatingOfBookAction = createAction(
   (bookId, rate) => ({
     payload: {
       bookId,
-      rate
+      rate,
     },
   })
 );
@@ -93,10 +119,22 @@ export const actionGetRaitingCurrentBook = createAction(
   `books/getUserRatingCurrentBook`,
   (bookId) => ({
     payload: {
-      bookId
+      bookId,
     },
   })
-)
+);
+
+export const actionAddToCart = createAction(
+  `books/addBookToCart`,
+  (bookId, count) => ({
+    payload: {
+      bookId,
+      count,
+    },
+  })
+);
+
+export const actionRequestCartBook = createAction(`books/getBooksOfCarts`);
 
 const todoSlice = createSlice({
   name: 'books',
@@ -112,7 +150,7 @@ const todoSlice = createSlice({
         return book.bookId === action.payload.bookId;
       });
       if (likedBook) {
-        likedBook.liked = !likedBook.liked
+        likedBook.liked = !likedBook.liked;
       }
     },
     addGenres(state, action) {
@@ -131,17 +169,44 @@ const todoSlice = createSlice({
     updateCurrentPage(state, action) {
       state.currentPage = action.payload.page;
     },
+
     setPrices(state, action) {
       state.prices = action.payload;
     },
+
     setSortBy(state, action) {
-      state.sortBy = action.payload
+      state.sortBy = action.payload;
     },
 
     setUserRating(state, action) {
-      const currentBook = state.book.find(book => book.bookId === action.payload.bookId)
+      const currentBook = state.book.find(
+        (book) => book.bookId === action.payload.bookId
+      );
       if (currentBook) {
-        currentBook.rateOfUser = action.payload.rate
+        currentBook.rateOfUser = action.payload.rate;
+      }
+    },
+    addToCart(state, action) {
+      state.cart = action.payload;
+    },
+    incrementCart(state, action) {
+      const currentBook = state.cart.find(
+        (cartBook) => cartBook.bookId === action.payload.bookId
+      );
+      if (action.payload.count === 0) {
+       state.cart = state.cart.filter(
+          (book) => book.bookId !== action.payload.bookId
+        );
+      }
+
+      if (currentBook) {
+        (currentBook.count = action.payload.count);
+      }
+    },
+    getComments(state, action) {
+      const currentBook = state.book.find(book => book.bookId = action.payload.bookId)
+      if (currentBook) {
+        currentBook.comments = action.payload.data
       }
     }
   },
@@ -154,7 +219,10 @@ export const {
   updateCurrentPage,
   setPrices,
   setSortBy,
-  setUserRating
+  setUserRating,
+  addToCart,
+  incrementCart,
+  getComments,
 } = todoSlice.actions;
 
 export default todoSlice.reducer;
