@@ -80,3 +80,27 @@ export const getCommentForCurrentBookAsync = async (payload: { bookId: number })
   });
   return response.data;
 };
+
+export const postCommentForCurrentBookAsync = async (payload: { bookId: number, text: string }) => {
+  const response = await axios.post(`books/newComment`, {
+    text: payload.text,
+    bookId: payload.bookId,
+  });
+  return response.data;
+};
+
+
+export const getRecommendations = async (payload: { bookId: number}) => {
+  const response = await axios.post(`books/getRecommendations`, {
+      bookId: payload.bookId,
+  });
+  return response.data;
+};
+
+
+export const getRecommendationsForAuth = async (payload: { bookId: number}) => {
+  const response = await axios.post(`books/getRecommendationsForAuth`, {
+      bookId: payload.bookId,
+  });
+  return response.data;
+};

@@ -3,13 +3,14 @@ import { dataAboutBooks } from "../utils/Data";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hookStore";
 import { actionAddToFavorite, actionRequestCartBook } from "../../../store/slices/bookSlice";
 import { actionAddToCart } from "../../../store/slices/bookSlice";
+import { userState } from "../../../utils/selectors";
 
 
 const CardHolder = () => {
   const books = useAppSelector((book) => book.books.book)
   const cart = useAppSelector((cart) => cart.books.cart)
   const dispatch = useAppDispatch()
-
+  const user = useAppSelector(userState);
   const hangleSetLikedBook = (bookId: number) => {
     dispatch(actionAddToFavorite(bookId));
   };
@@ -30,6 +31,7 @@ const CardHolder = () => {
             hangleSetLikedBook={hangleSetLikedBook}
             handleAddtoCart={handleAddtoCart}
             cart={cart}
+            user={user}
             {...book}
           />
         );

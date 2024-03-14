@@ -12,6 +12,15 @@ export interface Cart {
   author:string;
 }
 
+export interface User {
+  email: string;
+  password: string | null;
+  username: string | 'Guest';
+  id: number | null;
+  avatar?: string;
+  active?: boolean;
+}
+
 interface PropsCard {
   bookId: number;
   title: string;
@@ -21,6 +30,7 @@ interface PropsCard {
   liked: boolean;
   average: number;
   cart: Cart[];
+  user: User;
   hangleSetLikedBook: (bookId: number) => void;
   handleAddtoCart: (bookId: number, count: number) => void;
 }
@@ -33,6 +43,7 @@ export function Card({
   price,
   liked,
   cart,
+  user,
   hangleSetLikedBook,
   handleAddtoCart,
 }: PropsCard) {
@@ -54,6 +65,7 @@ export function Card({
         value={average}
         bookId={bookId}
         cart={cart}
+        user={user}
       />
     </StyledCard>
   );

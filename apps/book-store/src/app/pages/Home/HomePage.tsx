@@ -11,9 +11,11 @@ import BannetAuth from './UIHome/Banners/BannetAuth';
 import BannerDefault from './UIHome/Banners/BannerDefault';
 import { useEffect, useRef } from 'react';
 import {
+  actionAddToCart,
   actionGetBooks,
   actionGetBooksUser,
   actionRequestCartBook,
+  setPrices,
   setSortBy,
 } from '../../store/slices/bookSlice';
 
@@ -38,17 +40,16 @@ export function HomePage() {
   useEffect(() => {
     if (user.email) {
       dispatch(actionGetBooksUser(genresState, currentPage, prices, sortBy));
-      // dispatch(actionRequestCartBook());
     } else {
       dispatch(actionGetBooks(genresState, currentPage, prices, sortBy));
     }
-  }, [user, genresState, currentPage, priceBetween, sortBy]);
+  }, [user,setPrices, genresState, currentPage, priceBetween, sortBy, dispatch]);
 
   useEffect(() => {
     if (user.email) {
       dispatch(actionRequestCartBook());
     }
-  }, [user, cart]);
+  }, [user, dispatch]);
   return (
     <Layout user={userEmail} hangleExit={handleExitBtn}>
       <StyledHome>

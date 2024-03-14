@@ -2,31 +2,40 @@ import { Layout } from '@book-store/BookStoreLibrary';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hookStore';
 import { exitUser } from '../../store/slices/userSlice';
-import { userEmailState } from '../../utils/selectors';
+import { userEmailState, userState } from '../../utils/selectors';
 import { StyledCart } from './CartPage.styled';
 import CartBook from './CartBook/CartBook';
+import { actionRequestCartBook } from '../../store/slices/bookSlice';
+import { useEffect } from 'react';
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userEmail = useAppSelector(userEmailState);
   const cart = useAppSelector((state) => state.books.cart);
-  const total = cart.reduce((sum, book) => sum + book.price, 0);
+  const total = cart.reduce((sum, book) => sum + book.price * book.count, 0);
   const handleExitBtn = () => {
     dispatch(exitUser());
     localStorage.clear();
     navigate('/login');
   };
+  const user = useAppSelector(userState);
+
+  useEffect(() => {
+    if (user.email) {
+      dispatch(actionRequestCartBook());
+    }
+  }, [user, dispatch]);
 
   return (
     <Layout user={userEmail} hangleExit={handleExitBtn}>
       <StyledCart>
         {cart.length === 0 ? (
-          <div className='empty_con'>
+          <div className="empty_con">
             <img src="/cart/Books.png" alt="Books" />
-            <div className='about_empty'>
-              <h1 className='cart_header'>Your cart is empty</h1>
-              <p className='description_cart'>
+            <div className="about_empty">
+              <h1 className="cart_header">Your cart is empty</h1>
+              <p className="description_cart">
                 Add items to cart to make a purchase.Go to the catalogue no.
               </p>
               <button

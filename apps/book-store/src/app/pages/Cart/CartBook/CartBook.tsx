@@ -35,7 +35,7 @@ const CartBook: React.FC<PropsCart> = ({
           <button
             className="btn_count"
             onClick={() => {
-              dispatch(actionAddToCart( bookId, count - 1));
+              dispatch(actionAddToCart(bookId, count - 1));
             }}
           >
             -
@@ -44,17 +44,22 @@ const CartBook: React.FC<PropsCart> = ({
           <button
             className="btn_count"
             onClick={() => {
-              dispatch(actionAddToCart(bookId, count + 1))
+              dispatch(actionAddToCart(bookId, count + 1));
             }}
           >
             +
           </button>
 
-          <button className="delete">
+          <button
+            className="delete"
+            onClick={() => {
+              dispatch(actionAddToCart(bookId, 0));
+            }}
+          >
             <img src="/cart/Delete.png" alt="delete" />
           </button>
         </div>
-        <h3 className="total_price__book">${price} USD </h3>
+        <h3 className="total_price__book">${price * count} USD </h3>
       </div>
     </StyledCartBook>
   );

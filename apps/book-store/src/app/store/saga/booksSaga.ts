@@ -24,6 +24,11 @@ import {
   actionAddToCart,
   getComments,
   actionGetCommentsOfBook,
+  actionPutNewComment,
+  putComment,
+  actionGetRecomend,
+  getRecomend,
+  actionGetCommentsOfBookAuth,
 } from '../slices/bookSlice';
 import {
   getItemsWithGenre,
@@ -34,6 +39,9 @@ import {
   getCartBooksAsync,
   addBookToCartAsync,
   getCommentForCurrentBookAsync,
+  postCommentForCurrentBookAsync,
+  getRecommendations,
+  getRecommendationsForAuth,
 } from '../../api/booksApi';
 import { SortBy } from '../../pages/Types/types';
 
@@ -92,37 +100,35 @@ function* handleGetBooksWhithUser(action: {
 }
 
 function* handleChangeRating(action: {
-  payload: { bookId: number; rate: number;};
+  payload: { bookId: number; rate: number };
 }) {
   try {
     const data: {
-      value: number,
-      book: number
+      value: number;
+      book: number;
     } = yield call(changeRatingBookAsync, {
       bookId: action.payload.bookId,
       rate: action.payload.rate,
     });
     const { value, book } = data;
 
-    yield put(setUserRating({bookId: book, rate: value}))
+    yield put(setUserRating({ bookId: book, rate: value }));
     console.log(data);
   } catch (error) {
     yield console.log(error);
   }
 }
 
-function* handleGetRaiting(action: {
-  payload: { bookId: number;};
-}) {
+function* handleGetRaiting(action: { payload: { bookId: number } }) {
   try {
     const data: {
-      rate: number
+      rate: number;
     } = yield call(getUserRatingBookAsync, {
       bookId: action.payload.bookId,
     });
     const { rate } = data;
 
-    yield put(setUserRating({bookId: action.payload.bookId, rate: rate}))
+    yield put(setUserRating({ bookId: action.payload.bookId, rate: rate }));
     console.log(data);
   } catch (error) {
     yield console.log(error);
@@ -146,7 +152,9 @@ function* handleGetToCart() {
   }
 }
 
-function* handleAddToCart(action: { payload: { bookId: number, count: number } }) {
+function* handleAddToCart(action: {
+  payload: { bookId: number; count: number };
+}) {
   try {
     const data: {
       bookId: number;
@@ -156,27 +164,31 @@ function* handleAddToCart(action: { payload: { bookId: number, count: number } }
       count: number;
     } = yield call(addBookToCartAsync, {
       bookId: action.payload.bookId,
-      count: action.payload.count
+      count: action.payload.count,
     });
 
-    yield put(incrementCart({ bookId: action.payload.bookId, count: action.payload.count }));
+    yield put(
+      incrementCart({
+        bookId: action.payload.bookId,
+        count: action.payload.count,
+      })
+    );
     console.log(data);
   } catch (error) {
     yield console.log(error);
   }
 }
 
-function* handleGetComments(action: {
-  payload: { bookId: number };
-}) {
+function* handleGetComments(action: { payload: { bookId: number } }) {
   // getComments;
   // actionGetCommentsOfBook;
   // getCommentForCurrentBookAsync;
   try {
     const data: {
-      value: number;
+      id:number;
+      value: string;
       avatar: string;
-      username: number;
+      username: string;
     } = yield call(getCommentForCurrentBookAsync, {
       bookId: action.payload.bookId,
     });
@@ -193,16 +205,80 @@ function* handleGetComments(action: {
   }
 }
 
+function* handlePutComment(action: { payload: { bookId: number, text: string } }) {
+    // postCommentForCurrentBookAsync
+  // actionPutNewComment
+  try {
+    const data: {
+      id:number;
+      value: string;
+      avatar: string;
+      username: string;
+    } = yield call(postCommentForCurrentBookAsync, {
+      bookId: action.payload.bookId,
+      text:action.payload.text
+    });
+
+    yield put(
+      putComment({
+        bookId: action.payload.bookId,
+        data: data,
+      })
+    );
+    console.log(data);
+  } catch (error) {
+    yield console.log(error);
+  }
+}
+
+
+function* handleGetRecomend(action: { payload: { bookId: number } }) {
+  // actionGetRecomend
+// getRecommendations
+try {
+  const data: Book[] = yield call(getRecommendations, {
+    bookId: action.payload.bookId,
+  });
+
+  yield put(
+    getRecomend(data)
+  );
+  console.log(data);
+} catch (error) {
+  yield console.log(error);
+}
+}
+
+function* handleGetRecomendAuth(action: { payload: { bookId: number } }) {
+  // actionGetRecomend
+// getRecommendations
+try {
+  const data: Book[] = yield call(getRecommendationsForAuth, {
+    bookId: action.payload.bookId,
+  });
+
+  yield put(
+    getRecomend(data)
+  );
+  console.log(data);
+} catch (error) {
+  yield console.log(error);
+}
+}
 
 
 export function* bookSaga() {
   yield takeLatest(actionGetBooks, handleGetBooksDefault);
-  yield takeLatest(actionGetBooksUser, handleGetBooksWhithUser);
+  yield takeLeading(actionGetBooksUser, handleGetBooksWhithUser);
   yield takeEvery(actionAddToFavorite, handleAddFavorite);
   yield takeEvery(changeRatingOfBookAction, handleChangeRating);
   yield takeLeading(actionGetRaitingCurrentBook, handleGetRaiting);
-  yield takeEvery(actionRequestCartBook, handleGetToCart);
+  yield takeLatest(actionRequestCartBook, handleGetToCart);
   yield takeEvery(actionAddToCart, handleAddToCart);
-  yield takeEvery(actionGetCommentsOfBook, handleGetComments);
+  yield takeLeading(actionGetCommentsOfBook, handleGetComments);
+  yield takeEvery(actionPutNewComment, handlePutComment);
+  yield takeLeading(actionGetRecomend, handleGetRecomend);
+  yield takeLeading(actionGetCommentsOfBookAuth, handleGetRecomendAuth);
 
 }
+// actionGetCommentsOfBookAuth

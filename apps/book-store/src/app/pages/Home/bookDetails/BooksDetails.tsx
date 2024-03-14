@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../hooks/hookStore';
 import { Layout } from '@book-store/BookStoreLibrary';
-import { userEmailState } from '../../../utils/selectors';
+import { userEmailState, userState } from '../../../utils/selectors';
 import { exitUser } from '../../../store/slices/userSlice';
 import { StyledDetailCard } from './StyledBookDetails.styled';
 import Rating from '@mui/material/Rating';
@@ -11,9 +11,16 @@ import {
   setUserRating,
   actionGetRaitingCurrentBook,
   actionGetCommentsOfBook,
+  actionGetRecomend,
+  actionAddToFavorite,
+  actionAddToCart,
+  actionGetCommentsOfBookAuth,
+  changeLikedRec,
 } from '../../../store/slices/bookSlice';
 import Comment from './comments/Comment';
 import FormNewCom from './formComment/FormNewCom';
+import BannetAuth from '../UIHome/Banners/BannetAuth';
+import { Card } from "@book-store/BookStoreLibrary";
 
 const BooksDetails = () => {
   const [value, setValue] = useState<number | null>(0);
@@ -27,23 +34,44 @@ const BooksDetails = () => {
   const userEmail = useAppSelector(userEmailState);
   const cover = '/card/covers/1.png';
   const bookId = Number(id);
+  const coments = book?.comments;
+  const recommended = useAppSelector(state => state.books.recommendations)
+  const cart = useAppSelector((cart) => cart.books.cart)
+  const user = useAppSelector(userState);
 
   useEffect(() => {
-    dispatch(actionGetRaitingCurrentBook(bookId));
-    if (book?.rateOfUser) {
-      setValue(book?.rateOfUser);
+    if (userEmail) {
+      dispatch(actionGetRaitingCurrentBook(bookId));
+      if (book?.rateOfUser) {
+        setValue(book?.rateOfUser);
+      }
     }
-  }, [book?.rateOfUser]);
+  }, [book?.rateOfUser, dispatch, userEmail]);
 
-  // useEffect(() => {
-  //   dispatch(actionGetCommentsOfBook(bookId));
-  // }, []);
+  useEffect(() => {
+    dispatch(actionGetCommentsOfBook(bookId));
+    if (user.email) {
+      dispatch(actionGetCommentsOfBookAuth(bookId));
+    } else {
+      dispatch(actionGetRecomend(bookId))
+
+    }
+  }, [user, dispatch, ]);
 
   const handleExitBtn = () => {
     dispatch(exitUser());
     localStorage.clear();
     navigate('/login');
   };
+  const hangleSetLikedBook = (bookId: number) => {
+    dispatch(actionAddToFavorite(bookId));
+    dispatch(changeLikedRec({bookId: bookId}))
+  };
+
+
+  const handleAddtoCart = (bookId : number , count : number) => {
+    dispatch(actionAddToCart(bookId, count));
+  }
 
   return (
     <Layout user={userEmail} hangleExit={handleExitBtn}>
@@ -98,8 +126,34 @@ const BooksDetails = () => {
               </div>
             </div>
           </div>
-          <Comment />
-          <FormNewCom />
+          <h1 className="headerDetail Comment_headader">Comments</h1>
+          <div className="all_comments__curentbook">
+            {coments?.length === 0 ? (
+              <p className="first_comment">Be the first to comment!</p>
+            ) : (
+              coments?.map((comment) => {
+                return <Comment key={comment.id} {...comment} />;
+              })
+            )}
+          </div>
+          {userEmail ? <FormNewCom bookId={bookId} /> : <BannetAuth />}
+          <div className='recommendations'>
+            <h1 className='header_rec'>Recommendations</h1>
+            <div className="catalog_content">
+              {recommended.map((book) => {
+                return (
+                  <Card
+                    key={book.bookId}
+                    hangleSetLikedBook={hangleSetLikedBook}
+                    handleAddtoCart={handleAddtoCart}
+                    cart={cart}
+                    user={user}
+                    {...book}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </StyledDetailCard>
       ) : (
         <div>Book not Found ^_^</div>

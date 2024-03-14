@@ -2,7 +2,7 @@
 import Rating from '@mui/material/Rating';
 import RatingBook from '../ratingStars/RatingBook';
 import { useEffect, useState } from 'react';
-import { Cart } from '../Cards';
+import { Cart, User } from '../Cards';
 
 interface PropsAbout {
   name: string;
@@ -12,6 +12,7 @@ interface PropsAbout {
   handleAddtoCart: (bookId: number, count: number) => void;
   bookId: number;
   cart: Cart[];
+  user: User;
 }
 
 const AboutCard: React.FC<PropsAbout> = ({
@@ -21,12 +22,13 @@ const AboutCard: React.FC<PropsAbout> = ({
   value,
   bookId,
   cart,
+  user,
   handleAddtoCart,
 }) => {
   const curentCount = cart.find((book) => book.bookId === bookId);
-  const count = curentCount?.count;
+  const counted = curentCount?.count;
   const [stateBuy, setStateBuy] = useState(false);
-  // const [count, setCount] = useState(0);
+  const [count, setCount] = useState(counted);
   return (
     <div className="about-card">
       <div className="name-athor">
@@ -35,11 +37,12 @@ const AboutCard: React.FC<PropsAbout> = ({
       </div>
       <RatingBook value={value} />
       <div>
-        {count !== undefined && count > 0 && stateBuy ? (
+        {count !== undefined && count > 0 && stateBuy && user.email ? (
           <div className="cardCounter">
             <button
               onClick={() => {
                 handleAddtoCart(bookId, count - 1);
+                setCount(count - 1);
               }}
             >
               -
@@ -48,6 +51,7 @@ const AboutCard: React.FC<PropsAbout> = ({
             <button
               onClick={() => {
                 handleAddtoCart(bookId, count + 1);
+                setCount(count + 1);
               }}
             >
               +
@@ -60,8 +64,10 @@ const AboutCard: React.FC<PropsAbout> = ({
               setStateBuy(true);
               if (!count) {
                 handleAddtoCart(bookId, 1);
+                setCount(1);
               } else {
                 handleAddtoCart(bookId, count);
+                setCount(count);
               }
             }}
           >

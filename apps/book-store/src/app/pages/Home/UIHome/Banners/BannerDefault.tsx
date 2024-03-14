@@ -1,6 +1,10 @@
+
+import { AuthBanStyled, HomeStyledBan } from "./BanAutn.styled";
+
+
 const BannerDefault = () => {
   return (
-    <div className="HomeBanner">
+    <HomeStyledBan>
       <div className="aboutHomeBanner">
         <h1>Build your library with us</h1>
         <p>Buy two books and get one for free</p>
@@ -22,7 +26,7 @@ const BannerDefault = () => {
           className="girlImg"
         />
       </div>
-    </div>
+    </HomeStyledBan>
   );
 };
 

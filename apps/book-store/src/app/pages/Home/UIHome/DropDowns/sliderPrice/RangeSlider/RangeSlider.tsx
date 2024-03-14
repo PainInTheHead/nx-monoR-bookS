@@ -2,8 +2,11 @@ import { StyledSliderPrice } from './rangeSlider.styled';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { CoolSlider } from './MUI.styled';
-import { useAppDispatch, useAppSelector } from '../../../../../../hooks/hookStore';
-import {setPrices} from '../../../../../../store/slices/bookSlice'
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../../../hooks/hookStore';
+import { setPrices } from '../../../../../../store/slices/bookSlice';
 
 function valuetext(value: number) {
   return `${value}°C`;
@@ -12,33 +15,29 @@ function valuetext(value: number) {
 const minDistance = 10;
 
 const RangeSliderPrice = () => {
-  const dispatch = useAppDispatch()
-  const prices = useAppSelector(state => state.books.prices)
-  const [value1, setValue1] = useState<number[]>([100, 170000]);
+  const dispatch = useAppDispatch();
+  const prices = useAppSelector((state) => state.books.prices);
+  const [value1, setValue1] = useState<number[]>([100, 999900]);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
-
-useEffect(() => {
-  if (timerId) {
-    clearTimeout(timerId);
-  }
-
-  const newTimerId = setTimeout(() => {
-    console.log('value:', value1);
-    dispatch(setPrices(value1));
-  }, 1000);
-
-  setTimerId(newTimerId);
-
-  return () => {
-    if (newTimerId) {
-      clearTimeout(newTimerId);
+  useEffect(() => {
+    if (timerId) {
+      clearTimeout(timerId);
     }
-  };
-}, [value1]);
 
+    const newTimerId = setTimeout(() => {
+      console.log('value:', value1);
+      dispatch(setPrices(value1));
+    }, 1000);
 
+    setTimerId(newTimerId);
 
+    return () => {
+      if (newTimerId) {
+        clearTimeout(newTimerId);
+      }
+    };
+  }, [value1]);
 
   const handleChange1 = (
     event: Event,

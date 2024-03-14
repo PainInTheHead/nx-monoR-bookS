@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { AuthBanStyled } from "./BanAutn.styled";
 
 const BannetAuth = () => {
   return (
-    <div className="HomeBanner">
+    <AuthBanStyled>
       <div className="aboutAuthBanner">
         <h1>Authorize now</h1>
         <p>Authorize now and discover the fabulous world of books</p>
@@ -31,7 +32,7 @@ const BannetAuth = () => {
           className="FeayImg"
         />
       </div>
-    </div>
+    </AuthBanStyled>
   );
 };
 

@@ -9,9 +9,10 @@ import { SortBy } from '../../pages/Types/types';
 import { create } from 'domain';
 
 export interface Comment {
+  id: number;
   value: string;
-  avatar:string;
-  username:string
+  avatar: string;
+  username: string;
 }
 
 export interface Book {
@@ -23,7 +24,7 @@ export interface Book {
   liked: boolean;
   average: number;
   rateOfUser: number;
-  comments: Comment[]
+  comments: Comment[];
   //   cover: string
 }
 
@@ -44,6 +45,7 @@ interface BookState {
   prices: number[];
   sortBy: SortBy;
   cart: Cart[];
+  recommendations: Book[];
 }
 
 const initialState: BookState = {
@@ -55,11 +57,29 @@ const initialState: BookState = {
   prices: [100, 999900],
   sortBy: 'Price',
   cart: [],
+  recommendations: [],
 };
 
 export const actionGetCommentsOfBook = createAction(
-  `books/getComments`, 
+  `books/getComments`,
   (bookId) => ({
+    payload: {
+      bookId,
+    },
+  })
+);
+
+export const actionGetCommentsOfBookAuth = createAction(
+  `books/getRecommendationsAuth`,
+  (bookId) => ({
+    payload: {
+      bookId,
+    },
+  })
+);
+
+export const actionGetRecomend =  createAction(
+  'books/getRecommendations', (bookId) => ({
     payload: {
       bookId
     }
@@ -136,6 +156,16 @@ export const actionAddToCart = createAction(
 
 export const actionRequestCartBook = createAction(`books/getBooksOfCarts`);
 
+export const actionPutNewComment = createAction(
+  `books/newCommentCurrentBook`,
+  (bookId, text) => ({
+    payload: {
+      bookId,
+      text,
+    },
+  })
+);
+
 const todoSlice = createSlice({
   name: 'books',
   initialState,
@@ -187,28 +217,51 @@ const todoSlice = createSlice({
       }
     },
     addToCart(state, action) {
-      state.cart = action.payload;
+      if (action.payload.length !== 0) {
+        state.cart = action.payload;
+      }
     },
     incrementCart(state, action) {
       const currentBook = state.cart.find(
         (cartBook) => cartBook.bookId === action.payload.bookId
       );
       if (action.payload.count === 0) {
-       state.cart = state.cart.filter(
+        state.cart = state.cart.filter(
           (book) => book.bookId !== action.payload.bookId
         );
       }
 
       if (currentBook) {
-        (currentBook.count = action.payload.count);
+        currentBook.count = action.payload.count;
       }
     },
     getComments(state, action) {
-      const currentBook = state.book.find(book => book.bookId = action.payload.bookId)
+      const currentBook = state.book.find(
+        (book) => book.bookId === action.payload.bookId
+      );
       if (currentBook) {
-        currentBook.comments = action.payload.data
+        currentBook.comments = action.payload.data;
       }
-    }
+    },
+    putComment(state, action) {
+      const currentBook = state.book.find(
+        (book) => book.bookId === action.payload.bookId
+      );
+      if (currentBook) {
+        currentBook.comments.push(action.payload.data);
+      }
+    },
+    getRecomend(state, action) {
+      state.recommendations = action.payload
+    },
+    changeLikedRec(state, action) {
+      const likedBook = state.recommendations.find((book) => {
+        return book.bookId === action.payload.bookId;
+      });
+      if (likedBook) {
+        likedBook.liked = !likedBook.liked;
+      }
+    },
   },
 });
 
@@ -223,6 +276,9 @@ export const {
   addToCart,
   incrementCart,
   getComments,
+  putComment,
+  getRecomend,
+  changeLikedRec
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -28,6 +28,7 @@ export const StyledFormNewCom = styled.form`
     }
   }
   .btn-com {
+    cursor: pointer;
     margin-top: 30px;
     width: 280px;
     height: 50px;
