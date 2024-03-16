@@ -9,6 +9,9 @@ import axios from 'axios';
 import { FormInput } from '@book-store/BookStoreLibrary';
 import type { MouseEvent } from 'react';
 import { FormTypes, IFormInput } from './../../Types/types';
+import { useAppDispatch } from '../../../hooks/hookStore';
+import { actionRegistrationUser } from '../../../store/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const schema = z
   .object({
@@ -26,6 +29,8 @@ const schema = z
   });
 
 const RegForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -65,19 +70,15 @@ const RegForm = () => {
     });
   };
 
+  const navigateFunction = (path: string) => {
+    navigate(path);
+  };
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
-    // const response = await axios.post(
-    //   `http://localhost:3002/user/registration`,
-    //   {
-    //     email: data.Email,
-    //     password: data.Password,
-    //   }
-    // );
-    // if (!response) {
-    //   return alert("Try again :(");
-    // }
-    // return router.push("/authorization/login");
+    dispatch(
+      actionRegistrationUser(data.Email, data.Password, navigateFunction)
+    );
   };
 
   const [showPassword, setShowPassword] = useState(true);

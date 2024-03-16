@@ -13,6 +13,7 @@ import {
   actionChangeInfo,
   updateUserInfo,
   actionChangePass,
+  actionRegistrationUser,
 } from './../slices/userSlice'; // Ваши действия
 import {
   authorization,
@@ -20,11 +21,17 @@ import {
   newAvatarAsync,
   newUserDataAsync,
   newUserPassAsync,
+  registration,
 } from '../../api/userApi';
 import { addUser } from './../slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 function* handleUserActionLogin(action: {
-  payload: { Email: string; Password: string };
+  payload: {
+    Email: string;
+    Password: string;
+    navigate: (path: string) => void;
+  };
 }) {
   yield localStorage.clear();
   try {
@@ -40,6 +47,7 @@ function* handleUserActionLogin(action: {
     const { token, id, avatar, userName, email } = data;
     yield put(addUser({ id, email, avatar, userName }));
     localStorage.setItem('token', token);
+    action.payload.navigate('/');
   } catch (error) {
     console.log(error);
   }
@@ -106,10 +114,33 @@ function* handleChangePass(action: { payload: { Password: string } }) {
   }
 }
 
+// actionRegistrationUser
+// registration
+
+function* handleRegistration(action: {
+  payload: {
+    Email: string;
+    Password: string;
+    navigate: (path: string) => void;
+  };
+}) {
+  try {
+    const response: string = yield call(registration, {
+      Email: action.payload.Email,
+      Password: action.payload.Password,
+    });
+    action.payload.navigate('/login')
+  } catch (error) {
+    yield console.log(error);
+    alert(error);
+  }
+}
+
 export function* userSaga() {
   yield takeEvery(actionLoginUser, handleUserActionLogin);
   yield takeLeading(getuserAction, handleGetUserEffect);
   yield takeLeading(actionNewAvatar, handleNewAvatar);
   yield takeLeading(actionChangeInfo, handleChangeUserInfo);
   yield takeLeading(actionChangePass, handleChangePass);
+  yield takeLeading(actionRegistrationUser, handleRegistration);
 }

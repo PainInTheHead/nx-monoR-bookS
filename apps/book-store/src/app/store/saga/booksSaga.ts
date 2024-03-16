@@ -29,6 +29,10 @@ import {
   actionGetRecomend,
   getRecomend,
   actionGetCommentsOfBookAuth,
+  getCurrentBookState,
+  actionGetCurrentBook,
+  addGenresFilters,
+  actionGetGenresFilters,
 } from '../slices/bookSlice';
 import {
   getItemsWithGenre,
@@ -42,6 +46,8 @@ import {
   postCommentForCurrentBookAsync,
   getRecommendations,
   getRecommendationsForAuth,
+  getCurrentBook,
+  getGenresNamesFilters,
 } from '../../api/booksApi';
 import { SortBy } from '../../pages/Types/types';
 
@@ -59,7 +65,13 @@ function* handleAddFavorite(action: { payload: { bookId: number } }) {
 }
 
 function* handleGetBooksDefault(action: {
-  payload: { genres: number[]; page: number; prices: number; sortBy: SortBy };
+  payload: {
+    genres: number[];
+    page: number;
+    prices: number;
+    sortBy: SortBy;
+    searchQuery:string;
+  };
 }) {
   try {
     const data: { allBooks: Book; totalCount: number; totalPages: number } =
@@ -68,6 +80,7 @@ function* handleGetBooksDefault(action: {
         page: action.payload.page,
         prices: action.payload.prices,
         sortBy: action.payload.sortBy,
+        searchQuery: action.payload.searchQuery,
       });
     const { allBooks, totalPages } = data;
     yield put(addBooks({ allBooks, totalPages }));
@@ -78,7 +91,13 @@ function* handleGetBooksDefault(action: {
 }
 
 function* handleGetBooksWhithUser(action: {
-  payload: { genres: number[]; page: number; prices: number; sortBy: SortBy };
+  payload: {
+    genres: number[];
+    page: number;
+    prices: number;
+    sortBy: SortBy;
+    searchQuery: string;
+  };
 }) {
   try {
     const data: {
@@ -90,6 +109,7 @@ function* handleGetBooksWhithUser(action: {
       page: action.payload.page,
       prices: action.payload.prices,
       sortBy: action.payload.sortBy,
+      searchQuery: action.payload.searchQuery,
     });
     const { allBooks, totalPages } = data;
     yield put(addBooks({ allBooks, totalPages }));
@@ -266,6 +286,37 @@ try {
 }
 }
 
+function* handleGetCurrentBook(action: { payload: { bookId: number } }) {
+  //actionGetCurrentBook
+  //getCurrentBook
+  try {
+    const data: Book = yield call(getCurrentBook, {
+      bookId: action.payload.bookId,
+    });
+
+    yield put(
+      getCurrentBookState({ bookId: action.payload.bookId, currentBook: data })
+    );
+    console.log(data);
+  } catch (error) {
+    yield console.log(error);
+  }
+}
+
+
+function* handleAddGenresFilters() {
+  // getGenresNamesFilters
+  // actionGetGenresFilters
+  // addGenresFilters
+  try {
+    const data: Book = yield call(getGenresNamesFilters);
+    yield put(addGenresFilters(data));
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export function* bookSaga() {
   yield takeLatest(actionGetBooks, handleGetBooksDefault);
@@ -279,6 +330,7 @@ export function* bookSaga() {
   yield takeEvery(actionPutNewComment, handlePutComment);
   yield takeLeading(actionGetRecomend, handleGetRecomend);
   yield takeLeading(actionGetCommentsOfBookAuth, handleGetRecomendAuth);
-
+  yield takeLeading(actionGetCurrentBook, handleGetCurrentBook);
+  yield takeLeading(actionGetGenresFilters, handleAddGenresFilters);
 }
 // actionGetCommentsOfBookAuth

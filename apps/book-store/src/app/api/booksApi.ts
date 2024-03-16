@@ -1,3 +1,4 @@
+import { string } from 'zod';
 import { SortBy } from '../pages/Types/types';
 import axios from './axios.config';
 
@@ -6,12 +7,14 @@ export const getItemsWithGenre = async (payload: {
   page: number;
   prices: number;
   sortBy: SortBy;
+  searchQuery: string;
 }) => {
   const response = await axios.post(`books/getitemsGenre`, {
     ids: payload.ids,
     page: payload.page,
     prices: payload.prices,
     sortBy: payload.sortBy,
+    searchQuery: payload.searchQuery,
   });
   return response.data;
 };
@@ -21,12 +24,14 @@ export const getItemsForAuthorized = async (payload: {
   page: number;
   prices: number;
   sortBy: SortBy;
+  searchQuery: string;
 }) => {
   const response = await axios.post(`books/getItemsForAuthorized`, {
     ids: payload.ids,
     page: payload.page,
     prices: payload.prices,
     sortBy: payload.sortBy,
+    searchQuery: payload.searchQuery,
   });
   return response.data;
 };
@@ -104,3 +109,17 @@ export const getRecommendationsForAuth = async (payload: { bookId: number}) => {
   });
   return response.data;
 };
+
+
+export const getCurrentBook = async (payload: { bookId: number }) => {
+  const response = await axios.get(`books/getCurrentBook/${payload.bookId}`);
+  return response.data;
+};
+
+export const getGenresNamesFilters = async () => {
+  const response = await axios.get(`books/getGenres`);
+  return response.data;
+};
+
+
+// localhost: 3005 / user / registration;

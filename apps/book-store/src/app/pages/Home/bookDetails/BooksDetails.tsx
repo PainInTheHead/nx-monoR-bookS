@@ -16,6 +16,7 @@ import {
   actionAddToCart,
   actionGetCommentsOfBookAuth,
   changeLikedRec,
+  actionGetCurrentBook,
 } from '../../../store/slices/bookSlice';
 import Comment from './comments/Comment';
 import FormNewCom from './formComment/FormNewCom';
@@ -49,6 +50,7 @@ const BooksDetails = () => {
   }, [book?.rateOfUser, dispatch, userEmail]);
 
   useEffect(() => {
+    dispatch(actionGetCurrentBook(bookId));
     dispatch(actionGetCommentsOfBook(bookId));
     if (user.email) {
       dispatch(actionGetCommentsOfBookAuth(bookId));
@@ -64,8 +66,10 @@ const BooksDetails = () => {
     navigate('/login');
   };
   const hangleSetLikedBook = (bookId: number) => {
+    if (user.email) {
     dispatch(actionAddToFavorite(bookId));
     dispatch(changeLikedRec({bookId: bookId}))
+    }
   };
 
 

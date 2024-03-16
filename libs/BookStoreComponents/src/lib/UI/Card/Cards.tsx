@@ -27,6 +27,7 @@ interface PropsCard {
   description: string;
   author: string;
   price: number;
+  cover: string;
   liked: boolean;
   average: number;
   cart: Cart[];
@@ -43,11 +44,12 @@ export function Card({
   price,
   liked,
   cart,
+  cover,
   user,
   hangleSetLikedBook,
   handleAddtoCart,
 }: PropsCard) {
-  const cover = '/card/covers/1';
+  // const cover = '/card/covers/1';
 
   return (
     <StyledCard>

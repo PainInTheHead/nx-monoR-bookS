@@ -37,10 +37,22 @@ const initialState: UserState = {
 
 export const actionLoginUser = createAction(
   'user/login',
-  (Email: string, Password: string) => ({
+  (Email: string, Password: string, navigate: (path: string) => void) => ({
     payload: {
       Email,
       Password,
+      navigate,
+    },
+  })
+);
+
+export const actionRegistrationUser = createAction(
+  'user/login',
+  (Email: string, Password: string, navigate: (path: string) => void) => ({
+    payload: {
+      Email,
+      Password,
+      navigate,
     },
   })
 );

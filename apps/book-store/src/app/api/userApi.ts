@@ -61,3 +61,12 @@ export const newUserPassAsync = async (payload: {
   return response.data
 }
 
+
+export const registration = async (payload: { Email: string; Password: string }) => {
+  const response = await axios.post(`user/registration`, {
+    email: payload.Email,
+    password: payload.Password,
+  });
+  return response.data;
+}
+

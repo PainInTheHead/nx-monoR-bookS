@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyledDropdownCategories } from './dropCat.styled';
 import ButtonDrop from '../btn-drop/ButtonDrop';
 import { OptionsDrop, OptionsSort, Options } from '../../../../Types/types';
 import { handleProprsForDrop } from '../../../../Types/interfaces';
-import { useAppDispatch, useAppSelector } from './../../../../../hooks/hookStore';
-import { addGenres } from './../../../../../store/slices/bookSlice';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from './../../../../../hooks/hookStore';
+import {
+  actionGetGenresFilters,
+  addGenres,
+} from './../../../../../store/slices/bookSlice';
 
 const DropdownCategories: React.FC<handleProprsForDrop> = ({
   handleChangeDropDownActive,
   activeDrop,
 }) => {
-  const dispatch = useAppDispatch()
-  
+  const dispatch = useAppDispatch();
+  const genresFilters = useAppSelector((state) => state.books.genresFilter);
+  useEffect(() => {
+    dispatch(actionGetGenresFilters());
+    const initialOptionsState: { [key: string]: boolean } = {};
+    const keyOfGenres = genresFilters.map((genre) => {
+      return (initialOptionsState[genre.name] = false);
+    });
+    setOptions(initialOptionsState);
+  }, []);
 
-
-  const [options, setOptions] = useState<Options>({
-    option1: false,
-    option2: false,
-    option3: false,
-  });
+  const [options, setOptions] = useState<{ [key: string]: boolean }>({});
 
   const handleToggle = () => {
     handleChangeDropDownActive('Genre');
   };
 
-  const handleOptionChange = (option: keyof Options, genre : number) => {
-    setOptions({ ...options, [option]: !options[option] });
-    dispatch(addGenres({ genreId: genre }));
+  const handleOptionChange = (option: string, genre: number) => {
+    setOptions((prevOptions) => {
+      const updatedOptions = { ...prevOptions, [option]: !prevOptions[option] };
+      dispatch(addGenres({ genreId: genre }));
+      return updatedOptions;
+    });
   };
 
   return (
@@ -49,33 +61,23 @@ const DropdownCategories: React.FC<handleProprsForDrop> = ({
           height={20}
           alt="elem"
         />
-        <label>
-          <input
-            type="checkbox"
-            checked={options.option1}
-            onChange={() => handleOptionChange('option1', 1)}
-          />
-          <div className={options.option1 ? 'checked' : 'uncheked'}></div>
-          <span>Категория 1</span>
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={options.option2}
-            onChange={() => handleOptionChange('option2', 2)}
-          />
-          <div className={options.option2 ? 'checked' : 'uncheked'}></div>
-          <span>Категория 2</span>
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={options.option3}
-            onChange={() => handleOptionChange('option3', 1)}
-          />
-          <div className={options.option3 ? 'checked' : 'uncheked'}></div>
-          <span>Категория 3</span>
-        </label>
+        {genresFilters.map((genre) => {
+          const genreName = genre.name;
+          const id = genre.id;
+          return (
+            <label key={id}>
+              <input
+                type="checkbox"
+                checked={options[genreName] || false}
+                onChange={() => handleOptionChange(genreName, id)}
+              />
+              <div
+                className={options[genreName] ? 'checked' : 'uncheked'}
+              ></div>
+              <span>{genreName}</span>
+            </label>
+          );
+        })}
       </div>
     </StyledDropdownCategories>
   );

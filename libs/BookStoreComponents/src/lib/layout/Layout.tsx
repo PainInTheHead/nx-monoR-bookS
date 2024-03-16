@@ -6,16 +6,17 @@ import { ReactNode } from 'react';
 /* eslint-disable-next-line */
 export interface LayoutProps {
   children: ReactNode;
-  user: string | null
-  hangleExit: () => void
+  user: string | null;
+  hangleExit: () => void;
+  hangleSetCearch?: (SearchQuery: string) => void;
 }
 
-export function Layout({ children, user, hangleExit }: LayoutProps) {
+export function Layout({ children, user, hangleExit, hangleSetCearch }: LayoutProps) {
   return (
     <>
-      <Header user={user} />
+      <Header user={user} hangleSetCearch={hangleSetCearch} />
       <main className="main">{children}</main>
-      <Footer hangleExit={hangleExit}/>
+      <Footer hangleExit={hangleExit} />
     </>
   );
 }

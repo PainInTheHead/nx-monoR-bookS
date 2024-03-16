@@ -25,6 +25,7 @@ export interface Book {
   average: number;
   rateOfUser: number;
   comments: Comment[];
+  cover: string;
   //   cover: string
 }
 
@@ -34,6 +35,10 @@ export interface Cart {
   price: number;
   count: number;
   author: string;
+}
+export interface genresFilter {
+  id: number;
+  name: string;
 }
 
 interface BookState {
@@ -46,6 +51,8 @@ interface BookState {
   sortBy: SortBy;
   cart: Cart[];
   recommendations: Book[];
+  searchQuery: string;
+  genresFilter: genresFilter[]
 }
 
 const initialState: BookState = {
@@ -58,7 +65,11 @@ const initialState: BookState = {
   sortBy: 'Price',
   cart: [],
   recommendations: [],
+  searchQuery: '',
+  genresFilter: [],
 };
+
+export const actionGetGenresFilters = createAction(`books/getGenres`);
 
 export const actionGetCommentsOfBook = createAction(
   `books/getComments`,
@@ -88,23 +99,25 @@ export const actionGetRecomend =  createAction(
 
 export const actionGetBooks = createAction(
   'books/getitemsGenre',
-  (genres, page, prices, sortBy) => ({
+  (genres, page, prices, sortBy, searchQuery) => ({
     payload: {
       genres,
       page,
       prices,
       sortBy,
+      searchQuery,
     },
   })
 );
 export const actionGetBooksUser = createAction(
   'books/getItemsForAuthorized',
-  (genres, page, prices, sortBy) => ({
+  (genres, page, prices, sortBy, searchQuery) => ({
     payload: {
       genres,
       page,
       prices,
       sortBy,
+      searchQuery,
     },
   })
 );
@@ -165,6 +178,14 @@ export const actionPutNewComment = createAction(
     },
   })
 );
+
+export const actionGetCurrentBook = createAction(`books/getCurrentBook`, (bookId) => ({
+  payload: {
+    bookId,
+  },
+}));
+
+
 
 const todoSlice = createSlice({
   name: 'books',
@@ -252,7 +273,7 @@ const todoSlice = createSlice({
       }
     },
     getRecomend(state, action) {
-      state.recommendations = action.payload
+      state.recommendations = action.payload;
     },
     changeLikedRec(state, action) {
       const likedBook = state.recommendations.find((book) => {
@@ -262,6 +283,20 @@ const todoSlice = createSlice({
         likedBook.liked = !likedBook.liked;
       }
     },
+    changeSearchQuery(state, action) {
+      state.searchQuery = action.payload
+    },
+    getCurrentBookState (state, action) {
+      const haveBook = state.book.find(
+        (book) => book.bookId === action.payload.bookId
+      );
+      if (!haveBook) {
+        state.book.push(action.payload.currentBook)
+      }
+    },
+    addGenresFilters(state, action) {
+      state.genresFilter = action.payload
+    }
   },
 });
 
@@ -278,7 +313,10 @@ export const {
   getComments,
   putComment,
   getRecomend,
-  changeLikedRec
+  changeLikedRec,
+  changeSearchQuery,
+  getCurrentBookState,
+  addGenresFilters,
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

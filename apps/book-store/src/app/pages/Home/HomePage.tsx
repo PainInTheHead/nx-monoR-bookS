@@ -15,6 +15,7 @@ import {
   actionGetBooks,
   actionGetBooksUser,
   actionRequestCartBook,
+  changeSearchQuery,
   setPrices,
   setSortBy,
 } from '../../store/slices/bookSlice';
@@ -30,7 +31,7 @@ export function HomePage() {
   const sortBy = useAppSelector((state) => state.books.sortBy);
   const prices = priceBetween.map((price) => Math.floor(price / 100));
   const cart = useAppSelector((state) => state.books.cart);
-
+const searchQuery = useAppSelector((state) => state.books.searchQuery)
   const dispatch = useAppDispatch();
   const handleExitBtn = () => {
     dispatch(exitUser());
@@ -39,19 +40,46 @@ export function HomePage() {
   };
   useEffect(() => {
     if (user.email) {
-      dispatch(actionGetBooksUser(genresState, currentPage, prices, sortBy));
+      dispatch(
+        actionGetBooksUser(
+          genresState,
+          currentPage,
+          prices,
+          sortBy,
+          searchQuery
+        )
+      );
     } else {
-      dispatch(actionGetBooks(genresState, currentPage, prices, sortBy));
+      dispatch(
+        actionGetBooks(genresState, currentPage, prices, sortBy, searchQuery)
+      );
     }
-  }, [user,setPrices, genresState, currentPage, priceBetween, sortBy, dispatch]);
+  }, [
+    user,
+    setPrices,
+    genresState,
+    currentPage,
+    priceBetween,
+    sortBy,
+    dispatch,
+    searchQuery,
+  ]);
 
   useEffect(() => {
     if (user.email) {
       dispatch(actionRequestCartBook());
     }
   }, [user, dispatch]);
+
+  const hangleSetCearch = (SearchQuery : string) => {
+    dispatch(changeSearchQuery(SearchQuery));
+  };
   return (
-    <Layout user={userEmail} hangleExit={handleExitBtn}>
+    <Layout
+      user={userEmail}
+      hangleExit={handleExitBtn}
+      hangleSetCearch={hangleSetCearch}
+    >
       <StyledHome>
         <BannerDefault />
         <div className="catalog-filter">

@@ -5,7 +5,7 @@ interface PropsCover {
   handleClickLikeBtn: () => void;
   liked?: boolean;
   cover: string;
-  bookId: number
+  bookId: number;
 }
 
 const CoverCard: React.FC<PropsCover> = ({
@@ -14,13 +14,18 @@ const CoverCard: React.FC<PropsCover> = ({
   cover,
   bookId,
 }) => {
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
-
-
+  // http://localhost:3005/uploads/
   return (
     <div className="cover-card" onClick={() => navigate(`book/${bookId}`)}>
-      <img src={`${cover}.png`} width={305} height={448} alt="cover" />
+      <img
+        src={cover}
+        width={305}
+        height={448}
+        alt="cover"
+      />
+      {/* <img src={`${cover}.png`} width={305} height={448} alt="cover" /> */}
       <button
         className="like-btn"
         onClick={(e) => {

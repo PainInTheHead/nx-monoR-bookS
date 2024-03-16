@@ -45,26 +45,15 @@ const LoginForm = () => {
     return reset({ Password: '', Email: emailValue });
   };
 
+const navigateFunction = (path: string) => {
+  navigate(path);
+};
+
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
     const { Email, Password } = data;
-    dispatch(actionLoginUser(Email, Password));
-    navigate('/');
-    // const email = data.Email;
-    // const password = data.Password;
-
-    // const result = await signIn("credentials", {
-    //   redirect: false, // Не перенаправлять при неудаче
-    //   email,
-    //   password,
-    // });
-
-    // if (result?.error) {
-    //   // Показать сообщение об ошибке
-    //   console.error(result.error);
-    // } else {
-    //   return router.push("/profile");
-    // }
+    dispatch(actionLoginUser(Email, Password, navigateFunction));
   };
 
   const [showPassword, setShowPassword] = useState(true);
