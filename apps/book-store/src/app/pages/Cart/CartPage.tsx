@@ -13,6 +13,7 @@ const CartPage = () => {
   const navigate = useNavigate();
   const userEmail = useAppSelector(userEmailState);
   const cart = useAppSelector((state) => state.books.cart);
+  const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
   const total = cart.reduce((sum, book) => sum + book.price * book.count, 0);
   const handleExitBtn = () => {
     dispatch(exitUser());
@@ -28,7 +29,11 @@ const CartPage = () => {
   }, [user, dispatch]);
 
   return (
-    <Layout user={userEmail} hangleExit={handleExitBtn}>
+    <Layout
+      user={userEmail}
+      hangleExit={handleExitBtn}
+      totalQuantity={totalQuantity}
+    >
       <StyledCart>
         {cart.length === 0 ? (
           <div className="empty_con">

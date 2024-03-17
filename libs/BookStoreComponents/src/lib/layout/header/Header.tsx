@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { HeaderMain } from './header.styled';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { Cart } from '../../UI/Card/Cards';
 interface propsHeader {
   user: string | null;
   hangleSetCearch?: (SearchQuery: string) => void;
+  totalQuantity: number;
 }
 
-const Header = ({ user, hangleSetCearch }: propsHeader) => {
+const Header = ({ user, hangleSetCearch, totalQuantity }: propsHeader) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -61,28 +63,34 @@ const Header = ({ user, hangleSetCearch }: propsHeader) => {
         </div>
         {user ? (
           <div className="user-buttons">
-            <button onClick={() => navigate('/cart')}>
+            <button className="cart_btn" onClick={() => navigate('/cart')}>
               <img
                 className="cart-img"
-                src="/cart/Cart.svg"
+                src="/header_icons/Cart.svg"
                 width={26}
                 height={26}
                 alt="cart"
               />
+              {totalQuantity > 0 && (
+                <div className="cart-img-count">{totalQuantity}</div>
+              )}
             </button>
+
             <button>
               <img
-                src="/card/liked.svg"
-                width={48}
-                height={48}
+                className="favorites_img"
+                src="/header_icons/favorites.svg"
+                width={26}
+                height={26}
                 alt="liked of User"
               />
             </button>
             <button onClick={() => navigate('/profile')}>
               <img
-                src="/cart/userprofile.svg"
-                width={48}
-                height={48}
+                className="user_img"
+                src="/header_icons/user.svg"
+                width={26}
+                height={26}
                 alt="profile"
               />
             </button>

@@ -63,10 +63,21 @@ const navigateFunction = (path: string) => {
     setShowPassword(!showPassword);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Чтобы предотвратить дополнительное поведение браузера
+      handleSubmit(onSubmit)(); // Вызов функции отправки формы
+    }
+  };
+
   return (
     <StyledLogInForm>
       <h1 className={`h1-login-form`}>Log In</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className={`login-form`}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={`login-form`}
+        onKeyDown={handleKeyDown}
+      >
         <div className="email">
           <FormInput
             register={register}

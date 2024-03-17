@@ -31,6 +31,7 @@ export function HomePage() {
   const sortBy = useAppSelector((state) => state.books.sortBy);
   const prices = priceBetween.map((price) => Math.floor(price / 100));
   const cart = useAppSelector((state) => state.books.cart);
+   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
 const searchQuery = useAppSelector((state) => state.books.searchQuery)
   const dispatch = useAppDispatch();
   const handleExitBtn = () => {
@@ -76,6 +77,7 @@ const searchQuery = useAppSelector((state) => state.books.searchQuery)
   };
   return (
     <Layout
+      totalQuantity={totalQuantity}
       user={userEmail}
       hangleExit={handleExitBtn}
       hangleSetCearch={hangleSetCearch}

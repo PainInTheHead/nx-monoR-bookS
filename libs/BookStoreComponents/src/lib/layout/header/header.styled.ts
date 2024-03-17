@@ -50,7 +50,7 @@ export const HeaderMain = styled.header`
     .btn-login-con {
       display: flex;
       justify-content: center;
-      align-items:center;
+      align-items: center;
       width: 231px;
       height: 44px;
       background-color: #344966;
@@ -70,7 +70,7 @@ export const HeaderMain = styled.header`
     buttons {
       cursor: pointer;
     }
-    & > button:nth-child(1) {
+    & > button {
       position: relative;
       height: 48px;
       width: 48px;
@@ -83,10 +83,33 @@ export const HeaderMain = styled.header`
         left: 48%;
         transform: translate(-50%, -50%);
       }
+      .favorites_img {
+        position: absolute;
+        top: 52%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .user_img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     & > button:not(:last-child) {
       margin-right: 27px;
     }
+  }
+  .cart-img-count {
+    width: 23px;
+    height: 23px;
+    color: #344966;
+    border-radius: 50%;
+    position: absolute;
+    top: 10%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    background-color: #bfcc94;
   }
 `;

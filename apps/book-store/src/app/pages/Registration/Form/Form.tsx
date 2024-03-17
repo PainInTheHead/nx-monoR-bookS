@@ -62,12 +62,13 @@ const RegForm = () => {
         Password: passValue,
         Email: emailValue,
       });
+    } else if (name === 'Password') {
+      return reset({
+        Password: '',
+        Email: emailValue,
+        ConfirmPassword: confirmValue,
+      });
     }
-    return reset({
-      Password: '',
-      Email: emailValue,
-      ConfirmPassword: confirmValue,
-    });
   };
 
   const navigateFunction = (path: string) => {
@@ -88,10 +89,17 @@ const RegForm = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Чтобы предотвратить дополнительное поведение браузера
+      handleSubmit(onSubmit)(); // Вызов функции отправки формы
+    }
+  };
+
   return (
     <StyledRegInForm>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
         <div className="email">
           <FormInput
             register={register}
@@ -127,7 +135,7 @@ const RegForm = () => {
           <FormInput
             register={register}
             handleClearHolderLog={handleClearHolderLog}
-            Value={passValue}
+            Value={confirmValue}
             name={'ConfirmPassword'}
             error={errors.ConfirmPassword}
             errors={errors}

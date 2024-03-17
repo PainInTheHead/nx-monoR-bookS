@@ -8,16 +8,22 @@ import { exitUser } from '../../store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 export function ProfilePage() {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const handleExitBtn = () => {
-    dispatch(exitUser())
-    localStorage.clear()
-    navigate('/login')
-  }
-  const user = useAppSelector(userEmailState)
+    dispatch(exitUser());
+    localStorage.clear();
+    navigate('/login');
+  };
+  const user = useAppSelector(userEmailState);
+  const cart = useAppSelector((state) => state.books.cart);
+  const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
   return (
-    <Layout user={user}  hangleExit={handleExitBtn}>
+    <Layout
+      user={user}
+      hangleExit={handleExitBtn}
+      totalQuantity={totalQuantity}
+    >
       <StyledPageProfile>
         <ProfileAvatar />
         <FormChangeProfile />

@@ -50,6 +50,7 @@ import {
   getGenresNamesFilters,
 } from '../../api/booksApi';
 import { SortBy } from '../../pages/Types/types';
+import { toast } from 'react-hot-toast';
 
 function* handleAddFavorite(action: { payload: { bookId: number } }) {
   try {
@@ -60,9 +61,15 @@ function* handleAddFavorite(action: { payload: { bookId: number } }) {
     yield put(changeLiked({ bookId: data.book }));
     console.log(data.book);
   } catch (error) {
-    yield console.log(error);
+    toast.error('It is impossible to perform an action without authorization', {
+      icon: '❌',
+    });
+    console.log(error);
   }
 }
+
+// toast.success('Authorization success!');
+// toast.error('Authorization failure!');
 
 function* handleGetBooksDefault(action: {
   payload: {
@@ -70,7 +77,7 @@ function* handleGetBooksDefault(action: {
     page: number;
     prices: number;
     sortBy: SortBy;
-    searchQuery:string;
+    searchQuery: string;
   };
 }) {
   try {
@@ -134,8 +141,14 @@ function* handleChangeRating(action: {
 
     yield put(setUserRating({ bookId: book, rate: value }));
     console.log(data);
+    toast.success('Thanks for your feedback!', {
+      icon: '❤',
+    });
   } catch (error) {
-    yield console.log(error);
+    toast.error('It is impossible to perform an action without authorization', {
+      icon: '❌',
+    });
+    console.log(error);
   }
 }
 
@@ -163,6 +176,7 @@ function* handleGetToCart() {
       price: number;
       author: string;
       count: number;
+      cover: string;
     } = yield call(getCartBooksAsync);
 
     yield put(addToCart(data));
@@ -182,6 +196,7 @@ function* handleAddToCart(action: {
       price: number;
       author: string;
       count: number;
+      cover: string;
     } = yield call(addBookToCartAsync, {
       bookId: action.payload.bookId,
       count: action.payload.count,
@@ -193,6 +208,8 @@ function* handleAddToCart(action: {
         count: action.payload.count,
       })
     );
+
+    yield call(handleGetToCart);
     console.log(data);
   } catch (error) {
     yield console.log(error);
@@ -200,15 +217,13 @@ function* handleAddToCart(action: {
 }
 
 function* handleGetComments(action: { payload: { bookId: number } }) {
-  // getComments;
-  // actionGetCommentsOfBook;
-  // getCommentForCurrentBookAsync;
   try {
     const data: {
-      id:number;
+      id: number;
       value: string;
       avatar: string;
       username: string;
+      timeAgo: string;
     } = yield call(getCommentForCurrentBookAsync, {
       bookId: action.payload.bookId,
     });
@@ -225,18 +240,19 @@ function* handleGetComments(action: { payload: { bookId: number } }) {
   }
 }
 
-function* handlePutComment(action: { payload: { bookId: number, text: string } }) {
-    // postCommentForCurrentBookAsync
-  // actionPutNewComment
+function* handlePutComment(action: {
+  payload: { bookId: number; text: string };
+}) {
   try {
     const data: {
-      id:number;
+      id: number;
       value: string;
       avatar: string;
       username: string;
+      timeAgo: string;
     } = yield call(postCommentForCurrentBookAsync, {
       bookId: action.payload.bookId,
-      text:action.payload.text
+      text: action.payload.text,
     });
 
     yield put(
@@ -246,49 +262,44 @@ function* handlePutComment(action: { payload: { bookId: number, text: string } }
       })
     );
     console.log(data);
+    toast.success('Thanks for your feedback!', {
+      icon: '❤',
+    });
+  } catch (error) {
+    toast.error('Unable to complete', {
+      icon: '❌',
+    });
+    console.log(error);
+  }
+}
+
+function* handleGetRecomend(action: { payload: { bookId: number } }) {
+  try {
+    const data: Book[] = yield call(getRecommendations, {
+      bookId: action.payload.bookId,
+    });
+
+    yield put(getRecomend(data));
+    console.log(data);
   } catch (error) {
     yield console.log(error);
   }
 }
 
-
-function* handleGetRecomend(action: { payload: { bookId: number } }) {
-  // actionGetRecomend
-// getRecommendations
-try {
-  const data: Book[] = yield call(getRecommendations, {
-    bookId: action.payload.bookId,
-  });
-
-  yield put(
-    getRecomend(data)
-  );
-  console.log(data);
-} catch (error) {
-  yield console.log(error);
-}
-}
-
 function* handleGetRecomendAuth(action: { payload: { bookId: number } }) {
-  // actionGetRecomend
-// getRecommendations
-try {
-  const data: Book[] = yield call(getRecommendationsForAuth, {
-    bookId: action.payload.bookId,
-  });
+  try {
+    const data: Book[] = yield call(getRecommendationsForAuth, {
+      bookId: action.payload.bookId,
+    });
 
-  yield put(
-    getRecomend(data)
-  );
-  console.log(data);
-} catch (error) {
-  yield console.log(error);
-}
+    yield put(getRecomend(data));
+    console.log(data);
+  } catch (error) {
+    yield console.log(error);
+  }
 }
 
 function* handleGetCurrentBook(action: { payload: { bookId: number } }) {
-  //actionGetCurrentBook
-  //getCurrentBook
   try {
     const data: Book = yield call(getCurrentBook, {
       bookId: action.payload.bookId,
@@ -303,11 +314,7 @@ function* handleGetCurrentBook(action: { payload: { bookId: number } }) {
   }
 }
 
-
 function* handleAddGenresFilters() {
-  // getGenresNamesFilters
-  // actionGetGenresFilters
-  // addGenresFilters
   try {
     const data: Book = yield call(getGenresNamesFilters);
     yield put(addGenresFilters(data));
@@ -316,7 +323,6 @@ function* handleAddGenresFilters() {
     console.log(error);
   }
 }
-
 
 export function* bookSaga() {
   yield takeLatest(actionGetBooks, handleGetBooksDefault);
@@ -333,4 +339,3 @@ export function* bookSaga() {
   yield takeLeading(actionGetCurrentBook, handleGetCurrentBook);
   yield takeLeading(actionGetGenresFilters, handleAddGenresFilters);
 }
-// actionGetCommentsOfBookAuth

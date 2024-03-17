@@ -7,12 +7,14 @@ import {
 } from '@reduxjs/toolkit';
 import { SortBy } from '../../pages/Types/types';
 import { create } from 'domain';
+import toast from 'react-hot-toast';
 
 export interface Comment {
   id: number;
   value: string;
   avatar: string;
   username: string;
+  timeAgo: string;
 }
 
 export interface Book {
@@ -35,6 +37,7 @@ export interface Cart {
   price: number;
   count: number;
   author: string;
+  cover: string;
 }
 export interface genresFilter {
   id: number;
@@ -52,7 +55,7 @@ interface BookState {
   cart: Cart[];
   recommendations: Book[];
   searchQuery: string;
-  genresFilter: genresFilter[]
+  genresFilter: genresFilter[];
 }
 
 const initialState: BookState = {
@@ -89,13 +92,14 @@ export const actionGetCommentsOfBookAuth = createAction(
   })
 );
 
-export const actionGetRecomend =  createAction(
-  'books/getRecommendations', (bookId) => ({
+export const actionGetRecomend = createAction(
+  'books/getRecommendations',
+  (bookId) => ({
     payload: {
-      bookId
-    }
+      bookId,
+    },
   })
-)
+);
 
 export const actionGetBooks = createAction(
   'books/getitemsGenre',
@@ -179,13 +183,14 @@ export const actionPutNewComment = createAction(
   })
 );
 
-export const actionGetCurrentBook = createAction(`books/getCurrentBook`, (bookId) => ({
-  payload: {
-    bookId,
-  },
-}));
-
-
+export const actionGetCurrentBook = createAction(
+  `books/getCurrentBook`,
+  (bookId) => ({
+    payload: {
+      bookId,
+    },
+  })
+);
 
 const todoSlice = createSlice({
   name: 'books',
@@ -201,6 +206,15 @@ const todoSlice = createSlice({
         return book.bookId === action.payload.bookId;
       });
       if (likedBook) {
+        if (likedBook.liked) {
+          toast.success('Removed from favorites successfully', {
+            icon: '✅',
+          });
+        } else {
+          toast.success('Added to favorites successfully!', {
+            icon: '✅',
+          });
+        }
         likedBook.liked = !likedBook.liked;
       }
     },
@@ -284,19 +298,19 @@ const todoSlice = createSlice({
       }
     },
     changeSearchQuery(state, action) {
-      state.searchQuery = action.payload
+      state.searchQuery = action.payload;
     },
-    getCurrentBookState (state, action) {
+    getCurrentBookState(state, action) {
       const haveBook = state.book.find(
         (book) => book.bookId === action.payload.bookId
       );
       if (!haveBook) {
-        state.book.push(action.payload.currentBook)
+        state.book.push(action.payload.currentBook);
       }
     },
     addGenresFilters(state, action) {
-      state.genresFilter = action.payload
-    }
+      state.genresFilter = action.payload;
+    },
   },
 });
 

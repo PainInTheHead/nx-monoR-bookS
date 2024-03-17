@@ -25,6 +25,7 @@ import {
 } from '../../api/userApi';
 import { addUser } from './../slices/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 function* handleUserActionLogin(action: {
   payload: {
@@ -47,8 +48,14 @@ function* handleUserActionLogin(action: {
     const { token, id, avatar, userName, email } = data;
     yield put(addUser({ id, email, avatar, userName }));
     localStorage.setItem('token', token);
+    toast.success('Authorization success!', {
+      icon: '✅',
+    });
     action.payload.navigate('/');
   } catch (error) {
+    toast.error('Authorization failure!', {
+      icon: '❌',
+    });
     console.log(error);
   }
 }
@@ -77,8 +84,10 @@ function* handleNewAvatar(action: { payload: { formData: FormData } }) {
     const response: string = yield call(newAvatarAsync, { formData: formData });
     const filename: string = yield response;
     yield put(newAvatar(filename));
+    toast.success('Update user avatar success!');
   } catch (error) {
     yield console.log(error);
+    toast.error('Update user avatar failed!');
   }
 }
 
@@ -98,8 +107,10 @@ function* handleChangeUserInfo(action: {
     yield put(
       updateUserInfo({ Email: response.email, UserName: response.userName })
     );
+    toast.success('Update user information success!');
   } catch (error) {
     yield console.log(error);
+    toast.error('Update user information failed!');
   }
 }
 
@@ -109,8 +120,9 @@ function* handleChangePass(action: { payload: { Password: string } }) {
       Password: action.payload.Password,
     });
     console.log(response);
+    toast.success('Update password success!');
   } catch (error) {
-    yield console.log(error);
+    toast.error('Update password failed!');
   }
 }
 
@@ -129,10 +141,15 @@ function* handleRegistration(action: {
       Email: action.payload.Email,
       Password: action.payload.Password,
     });
-    action.payload.navigate('/login')
+    yield toast.success('Registration completed successfully', {
+      icon: '✅',
+    });
+    action.payload.navigate('/login');
   } catch (error) {
-    yield console.log(error);
-    alert(error);
+    toast.error('An error occurred during registration', {
+      icon: '❌',
+    });
+    console.log(error);
   }
 }
 

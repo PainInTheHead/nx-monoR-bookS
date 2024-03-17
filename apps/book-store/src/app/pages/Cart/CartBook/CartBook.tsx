@@ -12,6 +12,7 @@ interface PropsCart {
   author: string;
   price: number;
   count: number;
+  cover: string;
 }
 
 const CartBook: React.FC<PropsCart> = ({
@@ -20,13 +21,14 @@ const CartBook: React.FC<PropsCart> = ({
   author,
   price,
   count,
+  cover,
 }) => {
   const dispatch = useAppDispatch();
   //   const [count, setCount] = useState(0);
   return (
     <StyledCartBook>
       <div className="book_cover">
-        <img src="/card/covers/1.png" alt="book" />
+        <img src={cover} alt="book" />
       </div>
       <div className="about_cart_book">
         <h1 className="h1cart">{title}</h1>

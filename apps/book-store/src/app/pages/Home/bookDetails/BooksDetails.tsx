@@ -39,7 +39,7 @@ const BooksDetails = () => {
   const recommended = useAppSelector(state => state.books.recommendations)
   const cart = useAppSelector((cart) => cart.books.cart)
   const user = useAppSelector(userState);
-
+const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
   useEffect(() => {
     if (userEmail) {
       dispatch(actionGetRaitingCurrentBook(bookId));
@@ -78,7 +78,11 @@ const BooksDetails = () => {
   }
 
   return (
-    <Layout user={userEmail} hangleExit={handleExitBtn}>
+    <Layout
+      user={userEmail}
+      hangleExit={handleExitBtn}
+      totalQuantity={totalQuantity}
+    >
       {book ? (
         <StyledDetailCard>
           <div className="book_about_warapper">
@@ -141,8 +145,8 @@ const BooksDetails = () => {
             )}
           </div>
           {userEmail ? <FormNewCom bookId={bookId} /> : <BannetAuth />}
-          <div className='recommendations'>
-            <h1 className='header_rec'>Recommendations</h1>
+          <div className="recommendations">
+            <h1 className="header_rec">Recommendations</h1>
             <div className="catalog_content">
               {recommended.map((book) => {
                 return (

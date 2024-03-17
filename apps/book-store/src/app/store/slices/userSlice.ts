@@ -47,7 +47,7 @@ export const actionLoginUser = createAction(
 );
 
 export const actionRegistrationUser = createAction(
-  'user/login',
+  'user/registration',
   (Email: string, Password: string, navigate: (path: string) => void) => ({
     payload: {
       Email,

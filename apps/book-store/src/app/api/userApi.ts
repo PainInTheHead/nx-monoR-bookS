@@ -1,15 +1,15 @@
 import axios from './axios.config';
 
-export const registrationAsync = async (payload: {
-  email: string;
-  password: string;
-}) => {
-  const response = await axios.post(`user/registration`, {
-    email: payload.email,
-    password: payload.password,
-  });
-  return response.data;
-};
+// export const registrationAsync = async (payload: {
+//   email: string;
+//   password: string;
+// }) => {
+//   const response = await axios.post(`user/registration`, {
+//     email: payload.email,
+//     password: payload.password,
+//   });
+//   return response.data;
+// };
 
 export const authorization = async (payload: {
   email: string;
