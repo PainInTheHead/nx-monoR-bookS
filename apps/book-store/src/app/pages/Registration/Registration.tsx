@@ -6,16 +6,24 @@ import { userEmailState } from '../../utils/selectors';
 import { useAppDispatch } from '../../hooks/hookStore';
 import { exitUser } from '../../store/slices/userSlice';
 
-
 export function RegistragionPage() {
-  const user = useAppSelector(userEmailState)
-  const dispatch = useAppDispatch()
+  const user = useAppSelector(userEmailState);
+  const dispatch = useAppDispatch();
   const handleExitBtn = () => {
-    dispatch(exitUser())
-    localStorage.clear()
-  }
+    dispatch(exitUser());
+    localStorage.clear();
+  };
+  const books = useAppSelector(state => state.books.book)
+  const cart = useAppSelector((state) => state.books.cart);
+  const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
+  const likedBooks = books.filter((book) => book.liked === true);
   return (
-    <Layout user={user}  hangleExit={handleExitBtn}>
+    <Layout
+    user={user}
+    hangleExit={handleExitBtn}
+    totalQuantity={totalQuantity}
+    likedCount={likedBooks.length}
+    >
       <StyledLogIn>
         <LoginForm />
         <img

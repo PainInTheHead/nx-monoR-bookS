@@ -1,5 +1,4 @@
 import { Card } from "@book-store/BookStoreLibrary";
-import { dataAboutBooks } from "../utils/Data";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hookStore";
 import { actionAddToFavorite, actionRequestCartBook } from "../../../store/slices/bookSlice";
 import { actionAddToCart } from "../../../store/slices/bookSlice";

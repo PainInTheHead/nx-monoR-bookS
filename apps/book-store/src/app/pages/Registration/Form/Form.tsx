@@ -83,16 +83,24 @@ const RegForm = () => {
   };
 
   const [showPassword, setShowPassword] = useState(true);
+  const [showPasswordConf, setShowPasswordConf] = useState(true);
 
   const handleTogglePassword: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
 
+  const handleTogglePasswordConf: MouseEventHandler<HTMLButtonElement> = (
+    e
+  ) => {
+    e.preventDefault();
+    setShowPasswordConf(!showPasswordConf);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Чтобы предотвратить дополнительное поведение браузера
-      handleSubmit(onSubmit)(); // Вызов функции отправки формы
+      e.preventDefault();
+      handleSubmit(onSubmit)();
     }
   };
 
@@ -139,8 +147,8 @@ const RegForm = () => {
             name={'ConfirmPassword'}
             error={errors.ConfirmPassword}
             errors={errors}
-            handleTogglePassword={handleTogglePassword}
-            showPassword={showPassword}
+            handleTogglePassword={handleTogglePasswordConf}
+            showPassword={showPasswordConf}
           />
           <label className="label" htmlFor="confirmPassword">
             Repeat your password without errors

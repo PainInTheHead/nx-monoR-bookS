@@ -53,10 +53,11 @@ export const newUserDataAsync = async (payload: {
 
 
 export const newUserPassAsync = async (payload: {
-  Password: string
+  Password: string, oldPassword: string
 }) => {
   const response = await axios.put(`user/changePasswordUser`, {
     Password: payload.Password,
+    oldPassword: payload.oldPassword
   })
   return response.data
 }

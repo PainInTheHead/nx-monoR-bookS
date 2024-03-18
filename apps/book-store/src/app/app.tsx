@@ -7,19 +7,55 @@ import RegistragionPage from './pages/Registration/Registration';
 import RequireAuth from './utils/requreAuth';
 import { useEffect, useState } from 'react';
 import { getuserAction } from './store/slices/userSlice';
-import { useAppDispatch } from './hooks/hookStore';
+import { useAppDispatch, useAppSelector } from './hooks/hookStore';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import BooksDetails from './pages/Home/bookDetails/BooksDetails';
+import BooksDetails from './pages/bookDetails/BooksDetails';
 import CartPage from './pages/Cart/CartPage';
+import FavoritesPage from './pages/Favorites/Favorites';
+import {
+  actionGetBooksUser,
+  actionRequestCartBook,
+  setPrices,
+} from './store/slices/bookSlice';
+import { userState } from './utils/selectors';
 
 export function App() {
-  const [isLoading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
+  const genresState = useAppSelector((books) => books.books.genres);
+  const currentPage = useAppSelector((books) => books.books.currentPage) + 1;
+  const priceBetween = useAppSelector((state) => state.books.prices);
+  const sortBy = useAppSelector((state) => state.books.sortBy);
+  const prices = priceBetween.map((price) => Math.floor(price / 100));
+  const searchQuery = useAppSelector((state) => state.books.searchQuery);
+  const user = useAppSelector(userState);
+
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     dispatch(getuserAction());
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    dispatch(
+      actionGetBooksUser(genresState, currentPage, prices, sortBy, searchQuery)
+    );
+  }, [
+    user,
+    setPrices,
+    genresState,
+    currentPage,
+    priceBetween,
+    sortBy,
+    dispatch,
+    searchQuery,
+  ]);
+
+  useEffect(() => {
+    if (user.email) {
+      dispatch(actionRequestCartBook());
+    }
+  }, [user, dispatch]);
   return isLoading ? (
     <Box
       sx={{
@@ -49,6 +85,14 @@ export function App() {
           element={
             <RequireAuth>
               <CartPage />
+            </RequireAuth>
+          }
+        ></Route>
+        <Route
+          path="/favorites"
+          element={
+            <RequireAuth>
+              <FavoritesPage />
             </RequireAuth>
           }
         ></Route>

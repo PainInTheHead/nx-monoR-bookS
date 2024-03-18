@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledDetailCard = styled.div`
-  width: 1280px;
-  margin: 0 auto;
+export const StyledAboutDetailCard = styled.div`
   .book_about_warapper {
     display: flex;
     justify-content: space-between;
@@ -110,27 +108,59 @@ export const StyledDetailCard = styled.div`
       }
     }
   }
-
-  .all_comments__curentbook > :not(:last-child) {
-    margin-bottom: 20px;
-  }
-  .first_comment {
-    font-size: 40px;
-  }
-  .recommendations{
-    margin-top:30px;
-    .catalog_content {
-      margin-top: 20px;
-      display: flex;
-      gap: 20px;
+  .cardCounter {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 240px;
+    height: 50px;
+    border: solid 1px #344966;
+    border-radius: 16px;
+    font-size: 20px;
+    color: #000000;
+    button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f0f4ef;
+      cursor: pointer;
     }
-    .header_rec {
-      color: #0d1821;
-      font-weight: 700;
-      font-size: 40px;
-      line-height: 60px;
+    .countCard {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f0f4ef;
+      text-align: center;
     }
+  }
 
+  .btn {
+    cursor: pointer;
+    width: 100%;
+    height: 48px;
+    border-radius: 16px;
+  }
+  .btn-buy {
+    border: solid 1px #344966;
+  }
 
+  .btn-price {
+    background-color: #344966;
+    border: none;
+    .price {
+      color: #f0f4ef;
+      font-size: 20px;
+      margin: 0 auto;
+    }
+    &:hover {
+      background-color: #0d1821;
+      transition: background-color 0.5s ease;
+    }
+    &:focus {
+      box-shadow: 0 0 0 8px rgba(214, 216, 231, 1);
+      transition: box-shadow 0.3s ease;
+    }
   }
 `;

@@ -29,8 +29,22 @@ const AboutCard: React.FC<PropsAbout> = ({
   const counted = curentCount?.count;
   const [stateBuy, setStateBuy] = useState(false);
   const [count, setCount] = useState(counted);
+
+  const handleClickOutside = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const target = event.target as HTMLElement; // приводим тип event.target к HTMLElement
+    if (
+      target &&
+      !target.closest('.cardCounter') &&
+      !target.closest('.btn-price')
+    ) {
+      setStateBuy(false);
+    }
+  };
+
   return (
-    <div className="about-card">
+    <div className="about-card" onClick={(event) => handleClickOutside(event)}>
       <div className="name-athor">
         <span>{name}</span>
         <span>{author}</span>

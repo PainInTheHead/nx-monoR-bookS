@@ -11,6 +11,7 @@ export interface LayoutProps {
   hangleExit: () => void;
   hangleSetCearch?: (SearchQuery: string) => void;
   totalQuantity: number;
+  likedCount: number
 }
 
 export function Layout({
@@ -19,6 +20,7 @@ export function Layout({
   hangleExit,
   hangleSetCearch,
   totalQuantity,
+  likedCount
 }: LayoutProps) {
   return (
     <>
@@ -26,6 +28,7 @@ export function Layout({
         user={user}
         hangleSetCearch={hangleSetCearch}
         totalQuantity={totalQuantity}
+        likedCount={likedCount}
       />
       <main className="main">{children}</main>
       <Footer hangleExit={hangleExit} />

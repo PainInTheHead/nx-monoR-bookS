@@ -56,17 +56,18 @@ export function FormInput({
       {itsProfile ? (
         <input
           className="inputForm"
-          placeholder={name}
+          placeholder={name === 'oldPassword' ? 'Old password' : name}
           // id="email"
           type={showPassword ? 'password' : 'text'}
           value={inputValue ? inputValue : ''}
           readOnly
           {...register(name)}
         />
-      ) : set ? (
+      ) : // Add your old password
+      set ? (
         <input
           className="inputForm"
-          placeholder={name}
+          placeholder={name === 'oldPassword' ? 'Old password' : name}
           value={inputValue ? inputValue : ''}
           // id="email"
           type={showPassword ? 'password' : 'text'}
@@ -79,7 +80,7 @@ export function FormInput({
       ) : (
         <input
           className="inputForm"
-          placeholder={name}
+          placeholder={name === 'oldPassword' ? 'Old password' : name}
           // id="email"
           type={showPassword ? 'password' : 'text'}
           {...register(name)}
@@ -101,9 +102,13 @@ export function FormInput({
         <span className={`valid ${!errors?.Password && `hidden`}`}>
           {errors?.Password && errors.Password.message}
         </span>
-      ) : (
+      ) : name === 'ConfirmPassword' ? (
         <span className={`valid ${errors?.ConfirmPassword ? '' : `hidden`}`}>
           {errors?.ConfirmPassword?.message}
+        </span>
+      ) : (
+        <span className={`valid ${errors?.oldPassword ? '' : `hidden`}`}>
+          {errors?.oldPassword?.message}
         </span>
       )}
     </StyledinputProfile>

@@ -15,6 +15,7 @@ const CartPage = () => {
   const cart = useAppSelector((state) => state.books.cart);
   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
   const total = cart.reduce((sum, book) => sum + book.price * book.count, 0);
+  const books = useAppSelector((state) => state.books.book);
   const handleExitBtn = () => {
     dispatch(exitUser());
     localStorage.clear();
@@ -27,12 +28,14 @@ const CartPage = () => {
       dispatch(actionRequestCartBook());
     }
   }, [user, dispatch]);
+  const likedBooks = books.filter((book) => book.liked === true);
 
   return (
     <Layout
       user={userEmail}
       hangleExit={handleExitBtn}
       totalQuantity={totalQuantity}
+      likedCount={likedBooks.length}
     >
       <StyledCart>
         {cart.length === 0 ? (

@@ -12,8 +12,18 @@ export function LogInPage() {
     localStorage.clear();
   };
   const user = useAppSelector(userEmailState);
+  const cart = useAppSelector((state) => state.books.cart);
+  const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
+  const books = useAppSelector((state) => state.books.book);
+  const likedBooks = books.filter((book) => book.liked === true);
+
   return (
-    <Layout user={user} hangleExit={handleExitBtn}>
+    <Layout
+      user={user}
+      hangleExit={handleExitBtn}
+      totalQuantity={totalQuantity}
+      likedCount={likedBooks.length}
+    >
       <StyledLogIn>
         <LoginForm />
         <img

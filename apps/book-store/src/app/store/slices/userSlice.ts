@@ -1,12 +1,7 @@
 import {
   createSlice,
-  PayloadAction,
-  isAnyOf,
   createAction,
 } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { title } from 'process';
-import { string } from 'zod';
 
 
 
@@ -69,9 +64,10 @@ export const actionChangeInfo = createAction(
 
 export const actionChangePass = createAction(
   'user/changePass',
-  (Password) => ({
+  (Password, oldPassword) => ({
     payload: {
-      Password
+      Password,
+      oldPassword
     },
   })
 );
@@ -95,7 +91,7 @@ const todoSlice = createSlice({
 
   reducers: {
     addUser(state, actions) {
-      const { email, id, password, avatar, userName } = actions.payload;
+      const { email, id, avatar, userName } = actions.payload;
       state.user.email = email;
       state.user.id = id;
       state.user.username = userName;

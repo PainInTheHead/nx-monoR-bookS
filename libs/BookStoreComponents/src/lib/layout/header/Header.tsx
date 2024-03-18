@@ -9,9 +9,10 @@ interface propsHeader {
   user: string | null;
   hangleSetCearch?: (SearchQuery: string) => void;
   totalQuantity: number;
+  likedCount: number
 }
 
-const Header = ({ user, hangleSetCearch, totalQuantity }: propsHeader) => {
+const Header = ({ user, hangleSetCearch, totalQuantity, likedCount }: propsHeader) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -75,8 +76,7 @@ const Header = ({ user, hangleSetCearch, totalQuantity }: propsHeader) => {
                 <div className="cart-img-count">{totalQuantity}</div>
               )}
             </button>
-
-            <button>
+            <button onClick={() => navigate('/favorites')}>
               <img
                 className="favorites_img"
                 src="/header_icons/favorites.svg"
@@ -84,6 +84,9 @@ const Header = ({ user, hangleSetCearch, totalQuantity }: propsHeader) => {
                 height={26}
                 alt="liked of User"
               />
+              {likedCount > 0 && (
+                <div className="cart-img-count">{likedCount}</div>
+              )}
             </button>
             <button onClick={() => navigate('/profile')}>
               <img

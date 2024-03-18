@@ -126,32 +126,6 @@ function* handleGetBooksWhithUser(action: {
   }
 }
 
-function* handleChangeRating(action: {
-  payload: { bookId: number; rate: number };
-}) {
-  try {
-    const data: {
-      value: number;
-      book: number;
-    } = yield call(changeRatingBookAsync, {
-      bookId: action.payload.bookId,
-      rate: action.payload.rate,
-    });
-    const { value, book } = data;
-
-    yield put(setUserRating({ bookId: book, rate: value }));
-    console.log(data);
-    toast.success('Thanks for your feedback!', {
-      icon: '❤',
-    });
-  } catch (error) {
-    toast.error('It is impossible to perform an action without authorization', {
-      icon: '❌',
-    });
-    console.log(error);
-  }
-}
-
 function* handleGetRaiting(action: { payload: { bookId: number } }) {
   try {
     const data: {
@@ -324,6 +298,38 @@ function* handleAddGenresFilters() {
   }
 }
 
+function* handleChangeRating(action: {
+  payload: { bookId: number; rate: number };
+}) {
+  try {
+    const data: {
+      value: number;
+      book: number;
+    } = yield call(changeRatingBookAsync, {
+      bookId: action.payload.bookId,
+      rate: action.payload.rate,
+    });
+    const { value, book } = data;
+
+    yield put(setUserRating({ bookId: book, rate: value }));
+    console.log(data);
+    yield call(handleGetCurrentBook, {
+      payload: { bookId: action.payload.bookId },
+    });
+    // yield call(handleGetBooksWhithUser, {
+    //   payload: { bookId: action.payload.bookId },
+    // });
+    toast.success('Thanks for your feedback!', {
+      icon: '❤',
+    });
+  } catch (error) {
+    toast.error('It is impossible to perform an action without authorization', {
+      icon: '❌',
+    });
+    console.log(error);
+  }
+}
+
 export function* bookSaga() {
   yield takeLatest(actionGetBooks, handleGetBooksDefault);
   yield takeLeading(actionGetBooksUser, handleGetBooksWhithUser);
@@ -336,6 +342,6 @@ export function* bookSaga() {
   yield takeEvery(actionPutNewComment, handlePutComment);
   yield takeLeading(actionGetRecomend, handleGetRecomend);
   yield takeLeading(actionGetCommentsOfBookAuth, handleGetRecomendAuth);
-  yield takeLeading(actionGetCurrentBook, handleGetCurrentBook);
+  yield takeEvery(actionGetCurrentBook, handleGetCurrentBook);
   yield takeLeading(actionGetGenresFilters, handleAddGenresFilters);
 }

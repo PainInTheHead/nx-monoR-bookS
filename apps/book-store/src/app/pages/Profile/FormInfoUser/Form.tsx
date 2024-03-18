@@ -24,26 +24,45 @@ const schema = z
       .string()
       .min(8, { message: 'Minimum password length 8 characters' }),
     UserName: z.string(),
+    oldPassword: z
+      .string()
+      .min(8, { message: 'Minimum password length 8 characters' }),
   })
   .refine((data) => data.Password === data.ConfirmPassword, {
     message: "Passwords don't match",
     path: ['ConfirmPassword'],
+  })
+  .refine((data) => data.Password !== data.oldPassword, {
+    message: 'The old password must not be the same as the new one!',
+    path: ['oldPassword'],
   });
 
 const FormChangeProfile = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
   const [showPassword, setShowPassword] = useState(true);
-  const [oldPassword, setOldPassword] = useState('12345678');
+  const [oldPassword1, setOldPassword] = useState('12345678');
   const [oldEmail, setOldEmail] = useState(user.email);
   const [oldNameUser, setOldNameUser] = useState(user.username);
   const [showChangeInputs, setShowChangeInputs] = useState<
     'info' | 'pass' | ''
   >('');
-
+  const [showPasswordConf, setShowPasswordConf] = useState(true);
+  const [showPasswordOld, setShowPasswordOld] = useState(true);
+  const handleTogglePasswordConf: MouseEventHandler<HTMLButtonElement> = (
+    e
+  ) => {
+    e.preventDefault();
+    setShowPasswordConf(!showPasswordConf);
+  };
   const handleTogglePassword: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     setShowPassword(!showPassword);
+  };
+
+  const handleToggleOldPassword: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    setShowPasswordOld(!showPasswordOld);
   };
 
   const {
@@ -61,6 +80,7 @@ const FormChangeProfile = () => {
   const passValue = watch('Password');
   const confirmValue = watch('ConfirmPassword');
   const userValue = watch('UserName');
+  const oldPassValue = watch('oldPassword');
 
   useEffect(() => {
     setOldEmail(user.email);
@@ -75,26 +95,46 @@ const FormChangeProfile = () => {
   ) => {
     event.preventDefault();
     if (name === 'Email') {
-      //  event.preventDefault();
       return reset({
         Email: '',
         UserName: userValue,
+        Password: passValue,
+        ConfirmPassword: confirmValue,
+        oldPassword: oldPassValue,
       });
     } else if (name === 'ConfirmPassword') {
       return reset({
         ConfirmPassword: '',
+        Password: passValue,
+        UserName: userValue,
+        Email: emailValue,
+        oldPassword: oldPassValue,
       });
     } else if (name === 'UserName') {
       return reset({
         UserName: '',
         Email: emailValue,
+        Password: passValue,
+        ConfirmPassword: confirmValue,
+        oldPassword: oldPassValue,
+      });
+    } else if (name === 'Password') {
+      return reset({
+        Password: '',
+        ConfirmPassword: confirmValue,
+        UserName: userValue,
+        Email: emailValue,
+        oldPassword: oldPassValue,
+      });
+    } else if (name === 'oldPassword') {
+      return reset({
+        oldPassword: '',
+        Password: passValue,
+        ConfirmPassword: confirmValue,
+        UserName: userValue,
+        Email: emailValue,
       });
     }
-    // return reset({
-    //   Password: '',
-    //   Email: emailValue,
-    //   ConfirmPassword: confirmValue,
-    // });
   };
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -103,25 +143,27 @@ const FormChangeProfile = () => {
       data.UserName && setOldNameUser(data.UserName);
       setValue('Password', '');
       setValue('ConfirmPassword', '');
+      setValue('oldPassword', '');
       if (!data.UserName || !data.Email) {
         return;
       }
-      dispatch(actionChangeInfo(data.Email, data.UserName));
+      // dispatch(actionChangeInfo(data.Email, data.UserName));
       console.log({ Email: data.Email, UserName: data.UserName });
     } else if (showChangeInputs === 'pass') {
-      setValue('Password', data.Password);
-      dispatch(actionChangePass(data.Password));
-      console.log(data.Password);
+      dispatch(actionChangePass(data.Password, data.oldPassword));
+      setValue('oldPassword', '');
+      setValue('Password', '');
+      setValue('ConfirmPassword', '');
+      console.log(data);
     }
     setShowChangeInputs('');
   };
 
   const clickMouseSubmit = () => {
     if (showChangeInputs === 'info') {
-      setValue('Password', oldPassword);
-      setValue('ConfirmPassword', oldPassword);
-      // data.Password = oldPassword;
-      // data.ConfirmPassword = oldPassword;
+      setValue('Password', 'Password');
+      setValue('ConfirmPassword', 'Password');
+      setValue('oldPassword', 'Password');
     }
     handleSubmit(onSubmit);
   };
@@ -190,17 +232,23 @@ const FormChangeProfile = () => {
               Change password
             </button>
           </div>
-
-          <FormInput
-            register={register}
-            handleClearHolderLog={handleClearHolderLog}
-            Value={passValue}
-            name={'oldPassword'}
-            // handleTogglePassword={handleTogglePassword}
-            showPassword={showPassword}
-            itsProfile={true}
-            inputValue={oldPassword}
-          />
+          <div className={errors.oldPassword && 'password'}>
+            <FormInput
+              register={register}
+              handleClearHolderLog={handleClearHolderLog}
+              Value={oldPassValue}
+              name={'oldPassword'}
+              error={errors.oldPassword}
+              errors={errors}
+              handleTogglePassword={handleToggleOldPassword}
+              showPassword={showPasswordOld}
+              inputValue={oldPassword1}
+              // itsProfile={true}
+            />
+            {showChangeInputs === 'pass' && (
+              <span className="label-pass">Enter your old password</span>
+            )}
+          </div>
 
           {showChangeInputs === 'pass' && (
             <>
@@ -225,8 +273,8 @@ const FormChangeProfile = () => {
                   name={'ConfirmPassword'}
                   error={errors.ConfirmPassword}
                   errors={errors}
-                  handleTogglePassword={handleTogglePassword}
-                  showPassword={showPassword}
+                  handleTogglePassword={handleTogglePasswordConf}
+                  showPassword={showPasswordConf}
                 />
                 <span className="label-pass">
                   Repeat your password without errors

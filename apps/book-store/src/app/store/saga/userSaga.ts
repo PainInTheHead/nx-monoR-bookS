@@ -1,5 +1,4 @@
 import {
-  takeLatest,
   put,
   call,
   takeLeading,
@@ -14,7 +13,7 @@ import {
   updateUserInfo,
   actionChangePass,
   actionRegistrationUser,
-} from './../slices/userSlice'; // Ваши действия
+} from './../slices/userSlice';
 import {
   authorization,
   getUser,
@@ -24,7 +23,6 @@ import {
   registration,
 } from '../../api/userApi';
 import { addUser } from './../slices/userSlice';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 function* handleUserActionLogin(action: {
@@ -114,10 +112,11 @@ function* handleChangeUserInfo(action: {
   }
 }
 
-function* handleChangePass(action: { payload: { Password: string } }) {
+function* handleChangePass(action: { payload: { Password: string, oldPassword: string } }) {
   try {
     const response: string = yield call(newUserPassAsync, {
       Password: action.payload.Password,
+      oldPassword: action.payload.oldPassword
     });
     console.log(response);
     toast.success('Update password success!');

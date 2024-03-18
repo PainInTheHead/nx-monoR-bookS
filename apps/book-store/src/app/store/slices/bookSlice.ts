@@ -1,15 +1,9 @@
-import {
-  createSlice,
-  PayloadAction,
-  isAnyOf,
-  createAction,
-  current,
-} from '@reduxjs/toolkit';
+import { createSlice, createAction } from '@reduxjs/toolkit';
 import { SortBy } from '../../pages/Types/types';
-import { create } from 'domain';
+
 import toast from 'react-hot-toast';
 
-export interface Comment {
+export interface Comments {
   id: number;
   value: string;
   avatar: string;
@@ -26,7 +20,7 @@ export interface Book {
   liked: boolean;
   average: number;
   rateOfUser: number;
-  comments: Comment[];
+  comments: Comments[];
   cover: string;
   //   cover: string
 }
@@ -301,12 +295,15 @@ const todoSlice = createSlice({
       state.searchQuery = action.payload;
     },
     getCurrentBookState(state, action) {
-      const haveBook = state.book.find(
-        (book) => book.bookId === action.payload.bookId
+      state.book = state.book.map((book) =>
+        book.bookId === action.payload.bookId
+          ? {
+              ...action.payload.currentBook,
+              comments: book.comments,
+              liked: book.liked,
+            }
+          : book
       );
-      if (!haveBook) {
-        state.book.push(action.payload.currentBook);
-      }
     },
     addGenresFilters(state, action) {
       state.genresFilter = action.payload;
