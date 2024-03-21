@@ -3,12 +3,14 @@ import styled from "styled-components";
 const StyledDropdownCategories = styled.div`
   position: relative;
   color: #344966;
+  width: 100%;
   .dropdown-options.active {
     opacity: 1;
     visibility: visible;
   }
   .dropdown-options {
-    width: 275px;
+    box-sizing:border-box;
+    width:100%;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
@@ -21,8 +23,8 @@ const StyledDropdownCategories = styled.div`
     border: none;
     border-radius: 16px;
     .three {
-      width:auto;
-      height:auto;
+      width: auto;
+      height: auto;
       position: absolute;
       top: -7%;
       left: 5%;
@@ -46,13 +48,13 @@ const StyledDropdownCategories = styled.div`
       }
 
       .checked {
-        background: url("/Default.png") no-repeat;
+        background: url('/Default.png') no-repeat;
         background-size: 24px 24px;
         width: 24px;
         height: 24px;
       }
       .uncheked {
-        background: url("/uncheked.png") no-repeat;
+        background: url('/uncheked.png') no-repeat;
         background-size: 24px 24px;
         width: 24px;
         height: 24px;

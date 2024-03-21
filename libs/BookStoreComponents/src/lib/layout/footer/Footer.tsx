@@ -45,7 +45,7 @@ const Footer = ({ hangleExit }: propsFooter) => {
         </div>
         <div className="map-footer">
           <span>6391 Elgin St. Celina, Delaware 10299</span>
-          <img src="/map.png" alt="our Map" width={413} height={160} />
+          <img src="/map.png" alt="our Map"  />
         </div>
       </div>
     </FooterMain>

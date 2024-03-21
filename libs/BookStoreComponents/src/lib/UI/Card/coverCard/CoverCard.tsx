@@ -16,13 +16,11 @@ const CoverCard: React.FC<PropsCover> = ({
 }) => {
   const navigate = useNavigate();
 
-  // http://localhost:3005/uploads/
   return (
     <div className="cover-card" onClick={() => navigate(`book/${bookId}`)}>
       <img
+        className="card_cover_img"
         src={cover}
-        width={305}
-        height={448}
         alt="cover"
       />
       {/* <img src={`${cover}.png`} width={305} height={448} alt="cover" /> */}
@@ -34,9 +32,10 @@ const CoverCard: React.FC<PropsCover> = ({
         }}
       >
         <img
+          className="card_like_img"
           src={`/card/${liked ? `liked` : `unliked`}.svg`}
-          width={48}
-          height={48}
+          // width={48}
+          // height={48}
           alt="like"
         />
       </button>

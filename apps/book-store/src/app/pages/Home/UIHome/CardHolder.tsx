@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/hookStore";
 import { actionAddToFavorite, actionRequestCartBook } from "../../../store/slices/bookSlice";
 import { actionAddToCart } from "../../../store/slices/bookSlice";
 import { userState } from "../../../utils/selectors";
+import { useNavigate } from "react-router-dom";
 
 
 const CardHolder = () => {
@@ -10,13 +11,17 @@ const CardHolder = () => {
   const cart = useAppSelector((cart) => cart.books.cart)
   const dispatch = useAppDispatch()
   const user = useAppSelector(userState);
+  const navigate = useNavigate()
+  const navigateFunction = (path: string) => {
+    navigate(path);
+  };
   const hangleSetLikedBook = (bookId: number) => {
-    dispatch(actionAddToFavorite(bookId));
+    dispatch(actionAddToFavorite(bookId, navigateFunction));
   };
 
 
   const handleAddtoCart = (bookId : number , count : number) => {
-    dispatch(actionAddToCart(bookId, count));
+    dispatch(actionAddToCart(bookId, count, navigateFunction));
   }
   const handleGetNewCart = () => {
     dispatch(actionRequestCartBook());

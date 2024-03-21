@@ -10,15 +10,15 @@ margin-bottom:5px;
     align-items: start;
     justify-content: center;
     gap: 20px;
-    width: 740px;
+    max-width: 740px;
     padding: 30px 0;
     border-radius: 16px;
     background-color: #f0f4ef;
     .circle_avatar {
       img {
         border-radius: 50%;
-        width: 60px;
-        height: 60px;
+        max-width: 60px;
+        height: auto;
         border: 1px solid #344966;
       }
     }

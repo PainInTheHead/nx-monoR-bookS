@@ -7,6 +7,8 @@ import { StyledCart } from './CartPage.styled';
 import CartBook from './CartBook/CartBook';
 import { actionRequestCartBook } from '../../store/slices/bookSlice';
 import { useEffect } from 'react';
+import EmptyBanner from './EmptyBanner/EmptyBanners';
+import CartHolder from './CartHolder/CartHolder';
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +16,10 @@ const CartPage = () => {
   const userEmail = useAppSelector(userEmailState);
   const cart = useAppSelector((state) => state.books.cart);
   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
-  const total = cart.reduce((sum, book) => sum + book.price * book.count, 0);
+  const total = cart.reduce(
+    (sum, book) => sum + (book.price / 100) * book.count,
+    0
+  );
   const books = useAppSelector((state) => state.books.book);
   const handleExitBtn = () => {
     dispatch(exitUser());
@@ -39,38 +44,9 @@ const CartPage = () => {
     >
       <StyledCart>
         {cart.length === 0 ? (
-          <div className="empty_con">
-            <img src="/cart/Books.png" alt="Books" />
-            <div className="about_empty">
-              <h1 className="cart_header">Your cart is empty</h1>
-              <p className="description_cart">
-                Add items to cart to make a purchase.Go to the catalogue no.
-              </p>
-              <button
-                className="btn btn_checkout"
-                onClick={() => navigate('/')}
-              >
-                Go to catalog
-              </button>
-            </div>
-          </div>
+          <EmptyBanner />
         ) : (
-          <>
-            <div className="border_con">
-              {cart.map((book) => {
-                return <CartBook key={book.bookId} {...book} />;
-              })}
-            </div>
-            <div className="total_price">
-              <h1 className="total_header">
-                Total: <span>{total}$</span>{' '}
-              </h1>
-              <div className="btns_total">
-                <button className="btn btn_continue">Continue shopping</button>
-                <button className="btn btn_checkout">Checkout</button>
-              </div>
-            </div>
-          </>
+          <CartHolder cart={cart} total={total} />
         )}
       </StyledCart>
     </Layout>

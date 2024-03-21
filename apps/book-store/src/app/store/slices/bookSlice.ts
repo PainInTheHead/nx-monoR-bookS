@@ -121,9 +121,10 @@ export const actionGetBooksUser = createAction(
 );
 export const actionAddToFavorite = createAction(
   'books/addBookToFavorites',
-  (bookId) => ({
+  (bookId, navigate: (path: string) => void) => ({
     payload: {
       bookId,
+      navigate,
     },
   })
 );
@@ -138,10 +139,11 @@ export const actionGetBooksWithGenres = createAction(
 
 export const changeRatingOfBookAction = createAction(
   `books/changeRatingOfBook`,
-  (bookId, rate) => ({
+  (bookId, rate, navigate: (path: string) => void) => ({
     payload: {
       bookId,
       rate,
+      navigate,
     },
   })
 );
@@ -157,10 +159,11 @@ export const actionGetRaitingCurrentBook = createAction(
 
 export const actionAddToCart = createAction(
   `books/addBookToCart`,
-  (bookId, count) => ({
+  (bookId, count, navigate: (path: string) => void) => ({
     payload: {
       bookId,
       count,
+      navigate,
     },
   })
 );

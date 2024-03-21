@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const StyledRegInForm = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 280px;
+  max-width: 320px;
+  width: 100%;
   .hidden {
     opacity: 0;
   }
@@ -20,7 +23,7 @@ export const StyledRegInForm = styled.div`
       color: #344966;
     }
   }
-  h1 {
+  .h1-login-form {
     margin-bottom: 60px;
     font-size: 40px;
   }
@@ -80,5 +83,13 @@ export const StyledRegInForm = styled.div`
     background-color: #344966;
     color: #f0f4ef;
     text-align: center;
+  }
+
+  @media (max-width: 620px) {
+    max-width: 100%;
+    .h1-login-form {
+      margin-bottom: 20px;
+      font-size: 40px;
+    }
   }
 `;

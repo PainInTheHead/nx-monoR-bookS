@@ -74,16 +74,18 @@ const BooksDetails = () => {
     localStorage.clear();
     navigate('/login');
   };
-
+const navigateFunction = (path: string) => {
+  navigate(path);
+};
   const hangleSetLikedBook = (bookId: number) => {
     if (user.email) {
-      dispatch(actionAddToFavorite(bookId));
+      dispatch(actionAddToFavorite(bookId, navigateFunction));
       dispatch(changeLikedRec({ bookId: bookId }));
     }
   };
 
   const handleAddtoCart = (bookId: number, count: number) => {
-    dispatch(actionAddToCart(bookId, count));
+    dispatch(actionAddToCart(bookId, count, navigateFunction));
   };
   const likedBooks = books.filter((book) => book.liked === true);
 

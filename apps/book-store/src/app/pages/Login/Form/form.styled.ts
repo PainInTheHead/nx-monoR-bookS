@@ -3,13 +3,14 @@ import styled from "styled-components";
 export const StyledLogInForm = styled.div`
   display: flex;
   flex-direction: column;
-
+  min-width: 280px;
+  max-width: 320px;
+  width: 100%;
   .hidden {
     opacity: 0;
   }
 
   .login-form {
-
     .label {
       color: #344966;
     }
@@ -47,5 +48,11 @@ export const StyledLogInForm = styled.div`
     padding: 2px;
     background: none;
   }
-  
+  @media (max-width: 620px) {
+    max-width: 100%;
+    .h1-login-form {
+      margin-bottom: 20px;
+      font-size: 40px;
+    }
+  }
 `;

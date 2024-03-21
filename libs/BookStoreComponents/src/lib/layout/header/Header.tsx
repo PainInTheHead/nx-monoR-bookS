@@ -9,10 +9,15 @@ interface propsHeader {
   user: string | null;
   hangleSetCearch?: (SearchQuery: string) => void;
   totalQuantity: number;
-  likedCount: number
+  likedCount: number;
 }
 
-const Header = ({ user, hangleSetCearch, totalQuantity, likedCount }: propsHeader) => {
+const Header = ({
+  user,
+  hangleSetCearch,
+  totalQuantity,
+  likedCount,
+}: propsHeader) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -33,11 +38,11 @@ const Header = ({ user, hangleSetCearch, totalQuantity, likedCount }: propsHeade
   return (
     <HeaderMain>
       <div className="search-section">
-        <Link to="/">
-          <img src="/logo.svg" alt="logo1" width={88} height={46} />
+        <Link to="/" className="logo">
+          <img src="/logo.svg" alt="logo1" />
         </Link>
+        <p>Catalog</p>
         <div className="search-container">
-          <p>Catalog</p>
           <div className="input-con-search-container">
             <button className="btn btn-input">
               <img src="/Search.svg" alt="logo1" width={24} height={24} />
@@ -66,10 +71,8 @@ const Header = ({ user, hangleSetCearch, totalQuantity, likedCount }: propsHeade
           <div className="user-buttons">
             <button className="cart_btn" onClick={() => navigate('/cart')}>
               <img
-                className="cart-img"
+                className="cart-img icons"
                 src="/header_icons/Cart.svg"
-                width={26}
-                height={26}
                 alt="cart"
               />
               {totalQuantity > 0 && (
@@ -78,10 +81,8 @@ const Header = ({ user, hangleSetCearch, totalQuantity, likedCount }: propsHeade
             </button>
             <button onClick={() => navigate('/favorites')}>
               <img
-                className="favorites_img"
+                className="favorites_img icons"
                 src="/header_icons/favorites.svg"
-                width={26}
-                height={26}
                 alt="liked of User"
               />
               {likedCount > 0 && (
@@ -90,10 +91,8 @@ const Header = ({ user, hangleSetCearch, totalQuantity, likedCount }: propsHeade
             </button>
             <button onClick={() => navigate('/profile')}>
               <img
-                className="user_img"
+                className="user_img icons"
                 src="/header_icons/user.svg"
-                width={26}
-                height={26}
                 alt="profile"
               />
             </button>

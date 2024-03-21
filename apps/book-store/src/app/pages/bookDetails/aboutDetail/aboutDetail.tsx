@@ -6,6 +6,7 @@ import {
 } from '../../../store/slices/bookSlice';
 import { useAppDispatch } from '../../../hooks/hookStore';
 import { User } from '@book-store/BookStoreLibrary';
+import { useNavigate } from 'react-router-dom';
 
 interface PropsDetailAbout {
   book: Book;
@@ -33,6 +34,10 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
   user,
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const navigateFunction = (path: string) => {
+    navigate(path);
+  };
   return (
     <StyledAboutDetailCard>
       <div className="book_about_warapper">
@@ -43,20 +48,29 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
           <h1 className="headerDetail">{book.title}</h1>
           <span className="authorDetail">{book.author}</span>
           <div className="rate">
-            <img src="/bookDetail/Group2.png" alt="Star" />
-            <span className="rateAverage">{book.average}</span>
+            <div className="soloStarCon">
+              <img
+                className="soloStar"
+                src="/bookDetail/Group2.png"
+                alt="Star"
+              />
+              <span className="rateAverage">{book.average}</span>
+            </div>
             <div className="starDetails">
               <Rating
                 name="simple-controlled"
                 value={value}
                 onChange={(event, newValue) => {
                   setValue(newValue);
-                  dispatch(changeRatingOfBookAction(bookId, newValue));
+                  dispatch(
+                    changeRatingOfBookAction(bookId, newValue, navigateFunction)
+                  );
                   // dispatch(actionGetCurrentBook(bookId));
                   console.log(newValue);
                 }}
                 sx={{
-                  width: '220px',
+                  maxWidth:"200px",
+                  width: '100%',
                   justifyContent: 'space-between',
                   gap: '5px',
                 }}
@@ -68,7 +82,7 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
             </div>
             <div className="RateThisBook">
               <img src="/bookDetail/BackArrow.png" alt="" />
-              <p>Rate this book</p>
+              <p className="ratethisbookp">Rate this book</p>
             </div>
           </div>
           <h2 className="descDetail">Description</h2>

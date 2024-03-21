@@ -12,7 +12,9 @@ const RatingBook: React.FC<{ value: number }> = ({ value }) => {
         icon={<img src="/bookDetail/Group2.png" alt="" />}
         emptyIcon={<img src="/bookDetail/emptyStar.png" alt="" />}
       />
-      <span className="rateNumber">{value}.0</span>
+      <span className="rateNumber">
+        {Number.isInteger(value) ? `${value}.0` : value}
+      </span>
     </div>
   );
 };

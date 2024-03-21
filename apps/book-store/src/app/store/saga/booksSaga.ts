@@ -52,7 +52,9 @@ import {
 import { SortBy } from '../../pages/Types/types';
 import { toast } from 'react-hot-toast';
 
-function* handleAddFavorite(action: { payload: { bookId: number } }) {
+function* handleAddFavorite(action: {
+  payload: { bookId: number; navigate: (path: string) => void };
+}) {
   try {
     const bookId: number = yield action.payload.bookId;
     const data: { book: number } = yield call(addTofavoriteAsync, {
@@ -64,6 +66,7 @@ function* handleAddFavorite(action: { payload: { bookId: number } }) {
     toast.error('It is impossible to perform an action without authorization', {
       icon: '❌',
     });
+    action.payload.navigate('/login');
     console.log(error);
   }
 }
@@ -161,7 +164,7 @@ function* handleGetToCart() {
 }
 
 function* handleAddToCart(action: {
-  payload: { bookId: number; count: number };
+  payload: { bookId: number; count: number; navigate: (path: string) => void };
 }) {
   try {
     const data: {
@@ -186,6 +189,10 @@ function* handleAddToCart(action: {
     yield call(handleGetToCart);
     console.log(data);
   } catch (error) {
+    toast.error('It is impossible to perform an action without authorization', {
+      icon: '❌',
+    });
+    action.payload.navigate('/login');
     yield console.log(error);
   }
 }
@@ -299,7 +306,7 @@ function* handleAddGenresFilters() {
 }
 
 function* handleChangeRating(action: {
-  payload: { bookId: number; rate: number };
+  payload: { bookId: number; rate: number; navigate: (path: string) => void };
 }) {
   try {
     const data: {
@@ -323,6 +330,7 @@ function* handleChangeRating(action: {
       icon: '❤',
     });
   } catch (error) {
+    action.payload.navigate('/login');
     toast.error('It is impossible to perform an action without authorization', {
       icon: '❌',
     });

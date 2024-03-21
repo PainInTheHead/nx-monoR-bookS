@@ -106,7 +106,7 @@ const RegForm = () => {
 
   return (
     <StyledRegInForm>
-      <h1>Sign Up</h1>
+      <h1 className="h1-login-form">Sign Up</h1>
       <form onSubmit={handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
         <div className="email">
           <FormInput

@@ -3,27 +3,29 @@ import styled from "styled-components";
 export const StyledinputProfile = styled.div`
   display: flex;
   align-items: center;
-  height: 24px;
-  /* width: ; */
+  height: 60px;
+  max-width: 100%;
+  width: 100%;
   padding: 22px;
   background-color: #f0f4ef;
   border-radius: 16px;
   margin-bottom: 9px;
+  box-sizing: border-box;
 
   .btn-close {
     cursor: pointer;
   }
   .inputForm {
     color: #344966;
-
     width: 100%;
     background: none;
     &:focus {
-      outline: none; // Убираем стандартную обводку при фокусе
+      outline: none;
       background: none;
     }
   }
   .inputForm::-webkit-input-placeholder {
+    width: 100%;
     color: #b9bac3;
   }
 
@@ -37,10 +39,13 @@ export const StyledinputProfile = styled.div`
   }
 
   .hidden {
+    width: 100%;
+
     opacity: 0;
   }
 
   .valid {
+    width: 100%;
     opacity: 1;
     position: absolute;
     transition: opacity 0.3s ease-in-out;

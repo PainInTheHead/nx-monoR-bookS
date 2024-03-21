@@ -4,7 +4,7 @@ export const StyledFormNewCom = styled.form`
   display: flex;
   flex-direction: column;
   margin-top: 55px;
-  width: 740px;
+  max-width: 740px;
   .input_comment {
     display: flex;
     height: 130px;

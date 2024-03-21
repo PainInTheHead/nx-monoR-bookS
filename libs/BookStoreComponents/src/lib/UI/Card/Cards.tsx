@@ -10,6 +10,7 @@ export interface Cart {
   price: number;
   count: number;
   author:string;
+  cover: string;
 }
 
 export interface User {

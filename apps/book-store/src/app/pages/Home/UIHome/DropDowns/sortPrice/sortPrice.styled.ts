@@ -3,12 +3,14 @@ import styled from "styled-components";
 const StyledSortPrice = styled.div`
   position: relative;
   color: #344966;
+  width:100%;
   .dropdown-options.active {
     opacity: 1;
     visibility: visible;
   }
   .dropdown-options {
-    width: 170px;
+    box-sizing:border-box;
+    width: 100%;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;

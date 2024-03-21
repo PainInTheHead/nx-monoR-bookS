@@ -5,6 +5,7 @@ import {
   actionAddToCart,
 } from '../../../store/slices/bookSlice';
 import { useAppDispatch } from '../../../hooks/hookStore';
+import { useNavigate } from 'react-router-dom';
 
 interface PropsCart {
   bookId: number;
@@ -24,7 +25,15 @@ const CartBook: React.FC<PropsCart> = ({
   cover,
 }) => {
   const dispatch = useAppDispatch();
-  //   const [count, setCount] = useState(0);
+  const navigate = useNavigate()
+  const navigateFunction = (path: string) => {
+    navigate(path);
+  };
+
+  const formattedPrice = (price / 100).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
   return (
     <StyledCartBook>
       <div className="book_cover">
@@ -37,7 +46,7 @@ const CartBook: React.FC<PropsCart> = ({
           <button
             className="btn_count"
             onClick={() => {
-              dispatch(actionAddToCart(bookId, count - 1));
+              dispatch(actionAddToCart(bookId, count - 1, navigateFunction));
             }}
           >
             -
@@ -46,7 +55,7 @@ const CartBook: React.FC<PropsCart> = ({
           <button
             className="btn_count"
             onClick={() => {
-              dispatch(actionAddToCart(bookId, count + 1));
+              dispatch(actionAddToCart(bookId, count + 1, navigateFunction));
             }}
           >
             +
@@ -55,13 +64,15 @@ const CartBook: React.FC<PropsCart> = ({
           <button
             className="delete"
             onClick={() => {
-              dispatch(actionAddToCart(bookId, 0));
+              dispatch(actionAddToCart(bookId, 0, navigateFunction));
             }}
           >
             <img src="/cart/Delete.png" alt="delete" />
           </button>
         </div>
-        <h3 className="total_price__book">${price * count} USD </h3>
+        <h3 className="total_price__book">
+          ${Number(formattedPrice.replace(/[^0-9.-]+/g, '')) * count} USD{' '}
+        </h3>
       </div>
     </StyledCartBook>
   );

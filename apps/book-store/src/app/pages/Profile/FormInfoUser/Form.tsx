@@ -147,7 +147,7 @@ const FormChangeProfile = () => {
       if (!data.UserName || !data.Email) {
         return;
       }
-      // dispatch(actionChangeInfo(data.Email, data.UserName));
+      dispatch(actionChangeInfo(data.Email, data.UserName));
       console.log({ Email: data.Email, UserName: data.UserName });
     } else if (showChangeInputs === 'pass') {
       dispatch(actionChangePass(data.Password, data.oldPassword));
@@ -161,8 +161,8 @@ const FormChangeProfile = () => {
 
   const clickMouseSubmit = () => {
     if (showChangeInputs === 'info') {
-      setValue('Password', 'Password');
-      setValue('ConfirmPassword', 'Password');
+      setValue('Password', 'Password1');
+      setValue('ConfirmPassword', 'Password1');
       setValue('oldPassword', 'Password');
     }
     handleSubmit(onSubmit);

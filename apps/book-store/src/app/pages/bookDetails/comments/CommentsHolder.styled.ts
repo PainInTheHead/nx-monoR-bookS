@@ -14,4 +14,13 @@ export const StyledCommentsHolder = styled.div`
     margin-top: 110px;
     margin-bottom: 50px;
   }
+
+  @media (max-width: 422px) {
+    .headerDetail {
+      color: #0d1821;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 60px;
+    }
+  }
 `;

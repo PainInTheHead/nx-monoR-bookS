@@ -4,6 +4,8 @@ import { AuthBanStyled } from "./BanAutn.styled";
 const BannetAuth = () => {
   return (
     <AuthBanStyled>
+      <div className="containerhidden">
+
       <div className="aboutAuthBanner">
         <h1>Authorize now</h1>
         <p>Authorize now and discover the fabulous world of books</p>
@@ -23,15 +25,16 @@ const BannetAuth = () => {
           height={462}
           alt="banner-low"
           className="CastleImg"
-        />
+          />
         <img
           src="/adaptivBanners/bannerAuth/feya.png"
           width={478}
           height={759}
           alt="banner-low"
           className="FeayImg"
-        />
+          />
       </div>
+          </div>
     </AuthBanStyled>
   );
 };

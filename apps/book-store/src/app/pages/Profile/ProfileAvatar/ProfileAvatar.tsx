@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/hookStore';
 import { actionNewAvatar } from '../../../store/slices/userSlice';
 
 const ProfileAvatar = () => {
-  const avatarFile = useAppSelector(state => state.user.user.avatar)
+  const avatarFile = useAppSelector((state) => state.user.user.avatar);
   const dispatch = useAppDispatch();
   const filePicker = useRef<any>(null);
 
@@ -25,21 +25,27 @@ const ProfileAvatar = () => {
   return (
     <>
       <div className="profile-images">
-        <img
-          className="Ava"
-          src={avatarFile ? `http://localhost:3005/uploads/${avatarFile}` :'/profilePage/noneChel.png'}
-          width={305}
-          height={305}
-          alt="Yours Chel?"
-        />
-        <button className="btn-changeImage" onClick={handlePick}>
+        <div className='avadiv'>
           <img
-            src="/profilePage/button_photo.svg"
-            width={48}
-            height={48}
+            className="Ava"
+            src={
+              avatarFile
+                ? `http://localhost:3005/uploads/${avatarFile}`
+                : '/profilePage/noneChel.png'
+            }
+            width={305}
+            height={305}
             alt="Yours Chel?"
           />
-        </button>
+          <button className="btn-changeImage" onClick={handlePick}>
+            <img
+              src="/profilePage/button_photo.svg"
+              width={48}
+              height={48}
+              alt="Yours Chel?"
+            />
+          </button>
+        </div>
       </div>
       <input
         className="hidden"

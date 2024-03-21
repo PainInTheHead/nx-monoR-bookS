@@ -29,8 +29,6 @@ export function RegistragionPage() {
         <img
           className="chel"
           src="/login/chel1.png"
-          width={612}
-          height={522}
           alt="chel"
         />
       </StyledLogIn>

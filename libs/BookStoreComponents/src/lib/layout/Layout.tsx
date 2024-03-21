@@ -3,6 +3,7 @@ import Header from './header/Header';
 import Footer from './footer/Footer';
 import { ReactNode } from 'react';
 import { Cart } from '../UI/Card/Cards';
+import { CenteredContainer } from './Layout.styled';
 
 /* eslint-disable-next-line */
 export interface LayoutProps {
@@ -23,7 +24,7 @@ export function Layout({
   likedCount
 }: LayoutProps) {
   return (
-    <>
+    <CenteredContainer>
       <Header
         user={user}
         hangleSetCearch={hangleSetCearch}
@@ -32,7 +33,7 @@ export function Layout({
       />
       <main className="main">{children}</main>
       <Footer hangleExit={hangleExit} />
-    </>
+    </CenteredContainer>
   );
 }
 

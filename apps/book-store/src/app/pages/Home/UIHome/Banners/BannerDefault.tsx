@@ -1,6 +1,4 @@
-
-import { AuthBanStyled, HomeStyledBan } from "./BanAutn.styled";
-
+import { AuthBanStyled, HomeStyledBan } from './BanAutn.styled';
 
 const BannerDefault = () => {
   return (
@@ -13,15 +11,11 @@ const BannerDefault = () => {
       <div className="imageCon">
         <img
           alt="banner"
-          width="542"
-          height="327"
           src="/adaptivBanners/MainBanner/unsplash_DgQf1dUKUTM.png"
           className="booksImg"
         />
         <img
           alt="banner"
-          width="406"
-          height="400"
           src="/adaptivBanners/MainBanner/girlwhbook.png"
           className="girlImg"
         />

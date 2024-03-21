@@ -1,16 +1,18 @@
 import styled from "styled-components";
 
 export const StyledFormChange = styled.div`
-  width: 522px;
-color:#344966;
+  max-width: 522px;
+  width: 100%;
+  color: #344966;
   input:focus {
     outline: none;
-color:#344966;
-    
+    color: #344966;
   }
   .pers-info-header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    gap:10px;
     /* align-items:end; */
     margin-bottom: 30px;
     .ChangeInformation {
@@ -58,7 +60,8 @@ color:#344966;
 
   .btn-confirm {
     border-radius: 16px;
-    width: 170px;
+    max-width: 170px;
+    width: 100%;
     height: 44px;
     color: #f0f4ef;
     margin-top: 30px;
@@ -70,8 +73,16 @@ color:#344966;
   .password {
     position: relative;
     margin-bottom: 30px;
+    width: 100%;
   }
   .conteiner {
-    width: 522px;
+    max-width: 522px;
+  }
+
+  @media (max-width: 662px) {
+    max-width: 100%;
+    .conteiner {
+      max-width: 100%;
+    }
   }
 `;

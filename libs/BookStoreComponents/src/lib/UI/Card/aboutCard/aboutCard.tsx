@@ -3,6 +3,7 @@ import Rating from '@mui/material/Rating';
 import RatingBook from '../ratingStars/RatingBook';
 import { useEffect, useState } from 'react';
 import { Cart, User } from '../Cards';
+import { useNavigate } from 'react-router-dom';
 
 interface PropsAbout {
   name: string;
@@ -29,7 +30,10 @@ const AboutCard: React.FC<PropsAbout> = ({
   const counted = curentCount?.count;
   const [stateBuy, setStateBuy] = useState(false);
   const [count, setCount] = useState(counted);
-
+  const navigate = useNavigate();
+  const navigateFunction = (path: string) => {
+    navigate(path);
+  };
   const handleClickOutside = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -42,6 +46,11 @@ const AboutCard: React.FC<PropsAbout> = ({
       setStateBuy(false);
     }
   };
+
+  const formattedPrice = (price / 100).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
 
   return (
     <div className="about-card" onClick={(event) => handleClickOutside(event)}>
@@ -85,7 +94,7 @@ const AboutCard: React.FC<PropsAbout> = ({
               }
             }}
           >
-            <span className="price">${price} USD</span>
+            <span className="price">{formattedPrice} USD</span>
           </button>
         )}
       </div>
