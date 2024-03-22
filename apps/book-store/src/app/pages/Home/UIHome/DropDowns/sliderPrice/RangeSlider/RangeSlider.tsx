@@ -17,7 +17,7 @@ const minDistance = 10;
 const RangeSliderPrice = () => {
   const dispatch = useAppDispatch();
   const prices = useAppSelector((state) => state.books.prices);
-  const [value1, setValue1] = useState<number[]>([100, 999900]);
+  const [value1, setValue1] = useState<number[]>([0, 999900]);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
