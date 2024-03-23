@@ -1,9 +1,4 @@
-import {
-  put,
-  call,
-  takeLeading,
-  takeEvery,
-} from 'redux-saga/effects';
+import { put, call, takeLeading, takeEvery } from 'redux-saga/effects';
 import {
   actionLoginUser,
   getuserAction,
@@ -54,7 +49,6 @@ function* handleUserActionLogin(action: {
     toast.error('Authorization failure!', {
       icon: '❌',
     });
-    console.log(error);
   }
 }
 
@@ -72,7 +66,9 @@ function* handleGetUserEffect() {
     const { id, avatar, userName, email } = yield data;
     yield put(addUser({ id, email, avatar, userName }));
   } catch (error) {
-    yield console.log(error);
+    toast.error('For a full set of functions, log in to our website', {
+      icon: '✨',
+    });
   }
 }
 
@@ -84,7 +80,6 @@ function* handleNewAvatar(action: { payload: { formData: FormData } }) {
     yield put(newAvatar(filename));
     toast.success('Update user avatar success!');
   } catch (error) {
-    yield console.log(error);
     toast.error('Update user avatar failed!');
   }
 }
@@ -101,32 +96,28 @@ function* handleChangeUserInfo(action: {
         UserName: UserName,
       }
     );
-    console.log(response);
     yield put(
       updateUserInfo({ Email: response.email, UserName: response.userName })
     );
     toast.success('Update user information success!');
   } catch (error) {
-    yield console.log(error);
     toast.error('Update user information failed!');
   }
 }
 
-function* handleChangePass(action: { payload: { Password: string, oldPassword: string } }) {
+function* handleChangePass(action: {
+  payload: { Password: string; oldPassword: string };
+}) {
   try {
     const response: string = yield call(newUserPassAsync, {
       Password: action.payload.Password,
-      oldPassword: action.payload.oldPassword
+      oldPassword: action.payload.oldPassword,
     });
-    console.log(response);
     toast.success('Update password success!');
   } catch (error) {
     toast.error('Update password failed!');
   }
 }
-
-// actionRegistrationUser
-// registration
 
 function* handleRegistration(action: {
   payload: {
@@ -148,7 +139,6 @@ function* handleRegistration(action: {
     toast.error('An error occurred during registration', {
       icon: '❌',
     });
-    console.log(error);
   }
 }
 

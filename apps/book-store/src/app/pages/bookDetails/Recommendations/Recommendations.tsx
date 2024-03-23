@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/hookStore';
 import { actionAddToFavorite, changeLikedRec } from '../../../store/slices/bookSlice';
 import { Cart, User } from '@book-store/BookStoreLibrary';
 import { Card } from '@book-store/BookStoreLibrary';
+import { useNavigate } from 'react-router-dom';
 interface PropsRecommendations {
   handleAddtoCart: (bookId: number, count: number) => void;
   user: User;
@@ -13,10 +14,14 @@ interface PropsRecommendations {
 
 const Recommendations: React.FC<PropsRecommendations> = ({handleAddtoCart, user, cart}) => {
   const recommended = useAppSelector((state) => state.books.recommendations);
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const navigateFunction = (path: string) => {
+    navigate(path);
+  };
   const hangleSetLikedBook = (bookId: number) => {
     if (user.email) {
-      dispatch(actionAddToFavorite(bookId));
+      dispatch(actionAddToFavorite(bookId, navigateFunction));
       dispatch(changeLikedRec({ bookId: bookId }));
     }
   };

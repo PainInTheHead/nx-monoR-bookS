@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { StyledCartBook } from './CartBook.styled';
 import {
-  incrementCart,
   actionAddToCart,
 } from '../../../store/slices/bookSlice';
 import { useAppDispatch } from '../../../hooks/hookStore';

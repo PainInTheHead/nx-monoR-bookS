@@ -1,7 +1,5 @@
 import { StyledPriceSlider } from './priceSlider.styled';
 import ButtonDrop from '../btn-drop/ButtonDrop';
-import { useState } from 'react';
-import { OptionsDrop, OptionsSort } from '../../../../Types/types';
 import { handleProprsForDrop } from '../../../../Types/interfaces';
 import RangeSliderPrice from './RangeSlider/RangeSlider';
 

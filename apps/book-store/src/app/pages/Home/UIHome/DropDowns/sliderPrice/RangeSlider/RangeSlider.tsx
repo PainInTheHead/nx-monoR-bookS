@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { CoolSlider } from './MUI.styled';
 import {
   useAppDispatch,
-  useAppSelector,
 } from '../../../../../../hooks/hookStore';
 import { setPrices } from '../../../../../../store/slices/bookSlice';
 
@@ -12,11 +11,9 @@ function valuetext(value: number) {
   return `${value}°C`;
 }
 
-const minDistance = 10;
 
 const RangeSliderPrice = () => {
   const dispatch = useAppDispatch();
-  const prices = useAppSelector((state) => state.books.prices);
   const [value1, setValue1] = useState<number[]>([0, 999900]);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
@@ -26,7 +23,6 @@ const RangeSliderPrice = () => {
     }
 
     const newTimerId = setTimeout(() => {
-      console.log('value:', value1);
       dispatch(setPrices(value1));
     }, 1000);
 

@@ -18,7 +18,6 @@ const FormNewCom: React.FC<{ bookId: number }> = ({ bookId }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(actionPutNewComment(bookId, comment));
-    // console.log('Comment submitted:', comment);
     setComment('');
   };
 

@@ -1,14 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks/hookStore';
-import { Layout } from '@book-store/BookStoreLibrary';
+import { BannetAuth, Layout } from '@book-store/BookStoreLibrary';
 import { userEmailState, userState } from '../../utils/selectors';
 import { exitUser } from '../../store/slices/userSlice';
 import { StyledDetailCard } from './StyledBookDetails.styled';
-import Rating from '@mui/material/Rating';
 import { useEffect, useState } from 'react';
 import {
-  changeRatingOfBookAction,
-  setUserRating,
   actionGetRaitingCurrentBook,
   actionGetCommentsOfBook,
   actionGetRecomend,
@@ -18,10 +15,7 @@ import {
   changeLikedRec,
   actionGetCurrentBook,
 } from '../../store/slices/bookSlice';
-import Comment from './comments/commentWrapper/Comment';
 import FormNewCom from './formComment/FormNewCom';
-import BannetAuth from '../Home/UIHome/Banners/BannetAuth';
-import { Card } from '@book-store/BookStoreLibrary';
 import AboutDetailCard from './aboutDetail/aboutDetail';
 import Recommendations from './Recommendations/Recommendations';
 import CommentsHolder from './comments/CommentsHolder';

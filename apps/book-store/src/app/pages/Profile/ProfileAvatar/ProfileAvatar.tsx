@@ -1,6 +1,4 @@
 import { useRef } from 'react';
-import { useState } from 'react';
-import axioS from '../../../api/axios.config';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hookStore';
 import { actionNewAvatar } from '../../../store/slices/userSlice';
 

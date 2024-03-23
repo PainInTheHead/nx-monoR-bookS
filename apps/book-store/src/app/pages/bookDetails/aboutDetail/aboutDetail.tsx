@@ -65,8 +65,6 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
                   dispatch(
                     changeRatingOfBookAction(bookId, newValue, navigateFunction)
                   );
-                  // dispatch(actionGetCurrentBook(bookId));
-                  console.log(newValue);
                 }}
                 sx={{
                   maxWidth:"200px",
@@ -77,7 +75,6 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
                 size="large"
                 icon={<img src="/bookDetail/Group2.png" alt="" />}
                 emptyIcon={<img src="/bookDetail/emptyStar.png" alt="" />}
-                // onChangeActive={() => console.log(value)}
               />
             </div>
             <div className="RateThisBook">

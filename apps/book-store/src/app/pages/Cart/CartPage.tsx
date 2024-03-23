@@ -1,13 +1,11 @@
-import { Layout } from '@book-store/BookStoreLibrary';
+import { EmptyBanner, Layout } from '@book-store/BookStoreLibrary';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hookStore';
 import { exitUser } from '../../store/slices/userSlice';
 import { userEmailState, userState } from '../../utils/selectors';
 import { StyledCart } from './CartPage.styled';
-import CartBook from './CartBook/CartBook';
 import { actionRequestCartBook } from '../../store/slices/bookSlice';
 import { useEffect } from 'react';
-import EmptyBanner from './EmptyBanner/EmptyBanners';
 import CartHolder from './CartHolder/CartHolder';
 
 const CartPage = () => {
@@ -44,7 +42,7 @@ const CartPage = () => {
     >
       <StyledCart>
         {cart.length === 0 ? (
-          <EmptyBanner />
+          <EmptyBanner place="cart" />
         ) : (
           <CartHolder cart={cart} total={total} />
         )}

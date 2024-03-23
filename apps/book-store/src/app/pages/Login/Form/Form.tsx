@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { ButtonPass } from '@book-store/BookStoreLibrary';
 import type { MouseEventHandler } from 'react';
-import axios from 'axios';
 import { FormInput } from '@book-store/BookStoreLibrary';
 import { FormTypes, IFormInput } from './../../Types/types';
 import { useAppDispatch } from '../../../hooks/hookStore';
@@ -39,7 +37,6 @@ const LoginForm = () => {
     name: FormTypes
   ) => {
     if (name === 'Email') {
-      //  event.preventDefault();
       return reset({ Email: '', Password: passValue });
     }
     return reset({ Password: '', Email: emailValue });
@@ -51,7 +48,6 @@ const navigateFunction = (path: string) => {
 
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     const { Email, Password } = data;
     dispatch(actionLoginUser(Email, Password, navigateFunction));
   };
@@ -65,8 +61,8 @@ const navigateFunction = (path: string) => {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Чтобы предотвратить дополнительное поведение браузера
-      handleSubmit(onSubmit)(); // Вызов функции отправки формы
+      e.preventDefault(); 
+      handleSubmit(onSubmit)(); 
     }
   };
 

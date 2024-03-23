@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import type { MouseEventHandler } from 'react';
 import { FormInput } from '@book-store/BookStoreLibrary';
 import type { MouseEvent } from 'react';
-import axios from 'axios';
 import { FormTypes, IFormInput } from './../../Types/types';
 import { useAppSelector, useAppDispatch } from '../../../hooks/hookStore';
 import {
@@ -41,7 +40,7 @@ const FormChangeProfile = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
   const [showPassword, setShowPassword] = useState(true);
-  const [oldPassword1, setOldPassword] = useState('12345678');
+  // const [oldPassword1, setOldPassword] = useState('12345678');
   const [oldEmail, setOldEmail] = useState(user.email);
   const [oldNameUser, setOldNameUser] = useState(user.username);
   const [showChangeInputs, setShowChangeInputs] = useState<
@@ -240,10 +239,10 @@ const FormChangeProfile = () => {
               name={'oldPassword'}
               error={errors.oldPassword}
               errors={errors}
+              itsProfile={showChangeInputs === 'pass' ? false : true}
               handleTogglePassword={handleToggleOldPassword}
               showPassword={showPasswordOld}
-              inputValue={oldPassword1}
-              // itsProfile={true}
+              // inputValue={oldPassword1}
             />
             {showChangeInputs === 'pass' && (
               <span className="label-pass">Enter your old password</span>

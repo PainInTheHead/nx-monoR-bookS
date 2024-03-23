@@ -13,8 +13,6 @@ import {
   actionAddToFavorite,
   changeLiked,
   addBooks,
-  actionGetBooksWithGenres,
-  addGenres,
   changeRatingOfBookAction,
   setUserRating,
   actionGetRaitingCurrentBook,
@@ -61,18 +59,13 @@ function* handleAddFavorite(action: {
       bookId: bookId,
     });
     yield put(changeLiked({ bookId: data.book }));
-    console.log(data.book);
   } catch (error) {
     toast.error('It is impossible to perform an action without authorization', {
       icon: '❌',
     });
     action.payload.navigate('/login');
-    console.log(error);
   }
 }
-
-// toast.success('Authorization success!');
-// toast.error('Authorization failure!');
 
 function* handleGetBooksDefault(action: {
   payload: {
@@ -94,9 +87,10 @@ function* handleGetBooksDefault(action: {
       });
     const { allBooks, totalPages } = data;
     yield put(addBooks({ allBooks, totalPages }));
-    console.log(data);
   } catch (error) {
-    console.log(error);
+     toast.error('Unexpected error, please reload the page', {
+       icon: '❌',
+     });
   }
 }
 
@@ -123,9 +117,10 @@ function* handleGetBooksWhithUser(action: {
     });
     const { allBooks, totalPages } = data;
     yield put(addBooks({ allBooks, totalPages }));
-    console.log(data);
   } catch (error) {
-    console.log(error);
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 
@@ -139,9 +134,10 @@ function* handleGetRaiting(action: { payload: { bookId: number } }) {
     const { rate } = data;
 
     yield put(setUserRating({ bookId: action.payload.bookId, rate: rate }));
-    console.log(data);
   } catch (error) {
-    yield console.log(error);
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 
@@ -157,9 +153,10 @@ function* handleGetToCart() {
     } = yield call(getCartBooksAsync);
 
     yield put(addToCart(data));
-    console.log(data);
   } catch (error) {
-    yield console.log(error);
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 
@@ -187,13 +184,11 @@ function* handleAddToCart(action: {
     );
 
     yield call(handleGetToCart);
-    console.log(data);
   } catch (error) {
     toast.error('It is impossible to perform an action without authorization', {
       icon: '❌',
     });
     action.payload.navigate('/login');
-    yield console.log(error);
   }
 }
 
@@ -215,9 +210,10 @@ function* handleGetComments(action: { payload: { bookId: number } }) {
         data: data,
       })
     );
-    console.log(data);
   } catch (error) {
-    yield console.log(error);
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 
@@ -242,7 +238,6 @@ function* handlePutComment(action: {
         data: data,
       })
     );
-    console.log(data);
     toast.success('Thanks for your feedback!', {
       icon: '❤',
     });
@@ -250,7 +245,6 @@ function* handlePutComment(action: {
     toast.error('Unable to complete', {
       icon: '❌',
     });
-    console.log(error);
   }
 }
 
@@ -261,9 +255,10 @@ function* handleGetRecomend(action: { payload: { bookId: number } }) {
     });
 
     yield put(getRecomend(data));
-    console.log(data);
   } catch (error) {
-    yield console.log(error);
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 
@@ -274,9 +269,10 @@ function* handleGetRecomendAuth(action: { payload: { bookId: number } }) {
     });
 
     yield put(getRecomend(data));
-    console.log(data);
   } catch (error) {
-    yield console.log(error);
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 
@@ -289,9 +285,10 @@ function* handleGetCurrentBook(action: { payload: { bookId: number } }) {
     yield put(
       getCurrentBookState({ bookId: action.payload.bookId, currentBook: data })
     );
-    console.log(data);
   } catch (error) {
-    yield console.log(error);
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 
@@ -299,9 +296,10 @@ function* handleAddGenresFilters() {
   try {
     const data: Book = yield call(getGenresNamesFilters);
     yield put(addGenresFilters(data));
-    console.log(data);
   } catch (error) {
-    console.log(error);
+   toast.error('Unexpected error, please reload the page', {
+     icon: '❌',
+   });
   }
 }
 
@@ -319,13 +317,9 @@ function* handleChangeRating(action: {
     const { value, book } = data;
 
     yield put(setUserRating({ bookId: book, rate: value }));
-    console.log(data);
     yield call(handleGetCurrentBook, {
       payload: { bookId: action.payload.bookId },
     });
-    // yield call(handleGetBooksWhithUser, {
-    //   payload: { bookId: action.payload.bookId },
-    // });
     toast.success('Thanks for your feedback!', {
       icon: '❤',
     });
@@ -334,7 +328,6 @@ function* handleChangeRating(action: {
     toast.error('It is impossible to perform an action without authorization', {
       icon: '❌',
     });
-    console.log(error);
   }
 }
 

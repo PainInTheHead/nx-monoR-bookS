@@ -1,6 +1,6 @@
-import { AuthBanStyled, HomeStyledBan } from './BanAutn.styled';
+import { AuthBanStyled, HomeStyledBan } from './Banners.styled';
 
-const BannerDefault = () => {
+export function BannerDefault() {
   return (
     <HomeStyledBan>
       <div className="aboutHomeBanner">
@@ -22,6 +22,6 @@ const BannerDefault = () => {
       </div>
     </HomeStyledBan>
   );
-};
+}
 
 export default BannerDefault;

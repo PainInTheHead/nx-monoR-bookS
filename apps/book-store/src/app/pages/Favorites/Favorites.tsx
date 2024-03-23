@@ -1,17 +1,14 @@
-import { Layout } from '@book-store/BookStoreLibrary';
+import { EmptyBanner, Layout } from '@book-store/BookStoreLibrary';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hookStore';
 import { exitUser } from '../../store/slices/userSlice';
 import { userEmailState, userState } from '../../utils/selectors';
 import { StyledFavorites } from './Favorites.styled';
 import {
-  actionAddToCart,
-  actionAddToFavorite,
   actionRequestCartBook,
 } from '../../store/slices/bookSlice';
 import { useEffect } from 'react';
 import FavHolder from './FavHolder/FavHolder';
-import FavBanner from './FavBanner/FavBanner';
 
 const FavoritesPage = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +19,6 @@ const FavoritesPage = () => {
   const navigate = useNavigate();
   const userEmail = useAppSelector(userEmailState);
   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
-  const total = cart.reduce((sum, book) => sum + book.price * book.count, 0);
   const handleExitBtn = () => {
     dispatch(exitUser());
     localStorage.clear();
@@ -35,13 +31,8 @@ const FavoritesPage = () => {
     }
   }, [user, dispatch]);
 
-  const hangleSetLikedBook = (bookId: number) => {
-    dispatch(actionAddToFavorite(bookId));
-  };
 
-  const handleAddtoCart = (bookId: number, count: number) => {
-    dispatch(actionAddToCart(bookId, count));
-  };
+
 
   return (
     <Layout
@@ -52,7 +43,7 @@ const FavoritesPage = () => {
     >
       <StyledFavorites>
         {likedBooks.length === 0 ? (
-          <FavBanner />
+          <EmptyBanner place='favorites'/>
         ) : (
           <FavHolder cart={cart} user={user} likedBooks={likedBooks} />
         )}

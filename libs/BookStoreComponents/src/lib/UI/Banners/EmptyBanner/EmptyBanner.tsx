@@ -1,16 +1,23 @@
 import { useNavigate } from 'react-router-dom';
-import { StyledFavBanner } from './FavBanner.styled';
+import { StyledFavBanner } from './EmptyBanner.styled';
 
-const FavBanner = () => {
+interface Propsbaner {
+  place: string;
+}
+
+export function EmptyBanner({ place }: Propsbaner) {
   const navigate = useNavigate();
   return (
     <StyledFavBanner>
       <div className="empty_con">
+        <div className='image'>
+
         <img src="/cart/Books.png" alt="Books" />
+        </div>
         <div className="about_empty">
-          <h1 className="cart_header">Your cart is empty</h1>
+          <h1 className="cart_header">Your {place} is empty</h1>
           <p className="description_cart">
-            Add items to favorites to make a purchase.Go to the catalogue no.
+            Add items to {place} to make a purchase.Go to the catalogue no.
           </p>
           <button className="btn btn_checkout" onClick={() => navigate('/')}>
             Go to catalog
@@ -19,6 +26,6 @@ const FavBanner = () => {
       </div>
     </StyledFavBanner>
   );
-};
+}
 
-export default FavBanner;
+export default EmptyBanner;

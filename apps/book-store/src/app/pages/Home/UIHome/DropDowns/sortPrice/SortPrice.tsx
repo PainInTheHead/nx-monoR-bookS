@@ -30,7 +30,6 @@ const SortPrice: React.FC<handleProprsForDrop> = ({
     if (!trueOption) return;
     const activeOption = trueOption.split('_').join(' ');
     setTrueOption(activeOption);
-    console.log(trueOption);
     dispatch(setSortBy(trueOption));
   }, [options, dispatch]);
 
@@ -39,7 +38,6 @@ const SortPrice: React.FC<handleProprsForDrop> = ({
   };
 
   const handleOptionChange = (optionToggle: keyof OptionsSort) => {
-    // setOptions({ ...options, [option]: !options[option] });
     setOptions({
       ...Object.keys(options).reduce((acc, key) => {
         acc[key as keyof OptionsSort] = false;

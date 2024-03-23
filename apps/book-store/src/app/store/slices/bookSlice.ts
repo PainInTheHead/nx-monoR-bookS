@@ -22,7 +22,6 @@ export interface Book {
   rateOfUser: number;
   comments: Comments[];
   cover: string;
-  //   cover: string
 }
 
 export interface Cart {
