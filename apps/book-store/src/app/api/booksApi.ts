@@ -2,14 +2,14 @@ import { string } from 'zod';
 import { SortBy } from '../pages/Types/types';
 import axios from './axios.config';
 
-export const getItemsWithGenre = async (payload: {
+export const postItemsWithGenre = async (payload: {
   ids: number[];
   page: number;
   prices: number;
   sortBy: SortBy;
   searchQuery: string;
 }) => {
-  const response = await axios.post(`books/getitemsGenre`, {
+  const response = await axios.post(`books/filtered`, {
     ids: payload.ids,
     page: payload.page,
     prices: payload.prices,
@@ -26,7 +26,7 @@ export const getItemsForAuthorized = async (payload: {
   sortBy: SortBy;
   searchQuery: string;
 }) => {
-  const response = await axios.post(`books/getItemsForAuthorized`, {
+  const response = await axios.post(`books/filtered`, {
     ids: payload.ids,
     page: payload.page,
     prices: payload.prices,
@@ -37,14 +37,14 @@ export const getItemsForAuthorized = async (payload: {
 };
 
 export const addTofavoriteAsync = async (payload: { bookId: number }) => {
-  const response = await axios.post(`books/addBookToFavorites`, {
+  const response = await axios.post(`books/favorites`, {
     bookId: payload.bookId,
   });
   return response.data;
 };
 
 export const changeRatingBookAsync = async (payload: { bookId: number, rate: number }) => {
-  const response = await axios.post(`books/changeRatingOfBook`, {
+  const response = await axios.post(`books/change/rating`, {
     bookId: payload.bookId,
     rate: payload.rate,
   });
@@ -52,7 +52,7 @@ export const changeRatingBookAsync = async (payload: { bookId: number, rate: num
 };
 
 export const getUserRatingBookAsync = async (payload: { bookId: number }) => {
-  const response = await axios.get(`books/getUserRatingCurrentBook`, {
+  const response = await axios.get(`books/rate`, {
     params: {
       bookId: payload.bookId,
     },
@@ -63,13 +63,13 @@ export const getUserRatingBookAsync = async (payload: { bookId: number }) => {
 
 
 export const getCartBooksAsync = async () => {
-  const response = await axios.get(`books/getBooksOfCarts`);
+  const response = await axios.get(`books/cart`);
   return response.data;
 };
 
 
 export const addBookToCartAsync = async (payload: { bookId: number, count: number }) => {
-  const response = await axios.post(`books/addBookToCart`, {
+  const response = await axios.post(`books/cart`, {
     bookId: payload.bookId,
     count: payload.count,
   });
@@ -78,7 +78,7 @@ export const addBookToCartAsync = async (payload: { bookId: number, count: numbe
 
 
 export const getCommentForCurrentBookAsync = async (payload: { bookId: number }) => {
-  const response = await axios.get(`books/getCommentForCurrentBook`, {
+  const response = await axios.get(`books/comment`, {
     params: {
       bookId: payload.bookId,
     },
@@ -87,7 +87,7 @@ export const getCommentForCurrentBookAsync = async (payload: { bookId: number })
 };
 
 export const postCommentForCurrentBookAsync = async (payload: { bookId: number, text: string }) => {
-  const response = await axios.post(`books/newComment`, {
+  const response = await axios.post(`books/comment`, {
     text: payload.text,
     bookId: payload.bookId,
   });
@@ -104,22 +104,21 @@ export const getRecommendations = async (payload: { bookId: number}) => {
 
 
 export const getRecommendationsForAuth = async (payload: { bookId: number}) => {
-  const response = await axios.post(`books/getRecommendationsForAuth`, {
-      bookId: payload.bookId,
+  const response = await axios.post(`books/recommendation/foruser`, {
+    bookId: payload.bookId,
   });
   return response.data;
 };
 
 
 export const getCurrentBook = async (payload: { bookId: number }) => {
-  const response = await axios.get(`books/getCurrentBook/${payload.bookId}`);
+  const response = await axios.get(`books/book/${payload.bookId}`);
   return response.data;
 };
 
 export const getGenresNamesFilters = async () => {
-  const response = await axios.get(`books/getGenres`);
+  const response = await axios.get(`books/genres`);
   return response.data;
 };
 
 
-// localhost: 3005 / user / registration;

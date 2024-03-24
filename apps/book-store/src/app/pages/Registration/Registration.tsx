@@ -2,12 +2,11 @@ import { StyledLogIn } from './registration.styled';
 import LoginForm from './Form/Form';
 import { Layout } from '@book-store/BookStoreLibrary';
 import { useAppSelector } from '../../hooks/hookStore';
-import { userEmailState } from '../../utils/selectors';
 import { useAppDispatch } from '../../hooks/hookStore';
 import { exitUser } from '../../store/slices/userSlice';
 
 export function RegistragionPage() {
-  const user = useAppSelector(userEmailState);
+  const user = useAppSelector(state => state.user.user.email);
   const dispatch = useAppDispatch();
   const handleExitBtn = () => {
     dispatch(exitUser());

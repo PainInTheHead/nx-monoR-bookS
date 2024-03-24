@@ -2,6 +2,7 @@ import { Cart } from '@book-store/BookStoreLibrary';
 import { StyledCartHolder } from './CartHolder.styled';
 import CartBook from '../CartBook/CartBook';
 import { useNavigate } from 'react-router-dom';
+import { appRoutes } from '@book-store/BookStoreLibrary';
 
 interface PropsCartHolder {
   cart: Cart[];
@@ -22,7 +23,10 @@ const CartHolder: React.FC<PropsCartHolder> = ({ cart, total }) => {
           Total: <span>{total}$</span>{' '}
         </h1>
         <div className="btns_total">
-          <button onClick={() => navigate('/')} className="btn btn_continue">
+          <button
+            onClick={() => navigate(appRoutes.bookPath)}
+            className="btn btn_continue"
+          >
             Continue shopping
           </button>
           <button className="btn btn_checkout">Checkout</button>

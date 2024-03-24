@@ -57,13 +57,12 @@ export function FormInput({
         <input
           className="inputForm"
           placeholder={name === 'oldPassword' ? 'Old password' : name}
-          // id="email"
           type={showPassword ? 'password' : 'text'}
           value={inputValue ? inputValue : ''}
           readOnly
           {...register(name)}
         />
-      ) : // Add your old password
+      ) : 
       set ? (
         <input
           className="inputForm"
@@ -81,7 +80,6 @@ export function FormInput({
         <input
           className="inputForm"
           placeholder={name === 'oldPassword' ? 'Old password' : name}
-          // id="email"
           type={showPassword ? 'password' : 'text'}
           {...register(name)}
         />

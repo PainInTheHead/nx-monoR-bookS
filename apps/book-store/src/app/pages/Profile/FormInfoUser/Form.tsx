@@ -242,7 +242,6 @@ const FormChangeProfile = () => {
               itsProfile={showChangeInputs === 'pass' ? false : true}
               handleTogglePassword={handleToggleOldPassword}
               showPassword={showPasswordOld}
-              // inputValue={oldPassword1}
             />
             {showChangeInputs === 'pass' && (
               <span className="label-pass">Enter your old password</span>

@@ -1,7 +1,6 @@
 import { StyledLogIn } from './login.styled';
 import LoginForm from './Form/Form';
 import { Layout } from '@book-store/BookStoreLibrary';
-import { userEmailState } from '../../utils/selectors';
 import { useAppDispatch, useAppSelector } from '../../hooks/hookStore';
 import { exitUser } from '../../store/slices/userSlice';
 
@@ -11,7 +10,7 @@ export function LogInPage() {
     dispatch(exitUser());
     localStorage.clear();
   };
-  const user = useAppSelector(userEmailState);
+  const user = useAppSelector((state) => state.user.user.email);
   const cart = useAppSelector((state) => state.books.cart);
   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
   const books = useAppSelector((state) => state.books.book);

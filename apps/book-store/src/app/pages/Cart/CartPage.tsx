@@ -2,16 +2,15 @@ import { EmptyBanner, Layout } from '@book-store/BookStoreLibrary';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hookStore';
 import { exitUser } from '../../store/slices/userSlice';
-import { userEmailState, userState } from '../../utils/selectors';
 import { StyledCart } from './CartPage.styled';
 import { actionRequestCartBook } from '../../store/slices/bookSlice';
 import { useEffect } from 'react';
 import CartHolder from './CartHolder/CartHolder';
-
+import { appRoutes } from '@book-store/BookStoreLibrary';
 const CartPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const userEmail = useAppSelector(userEmailState);
+  const userEmail = useAppSelector(state => state.user.user.email);
   const cart = useAppSelector((state) => state.books.cart);
   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
   const total = cart.reduce(
@@ -22,9 +21,9 @@ const CartPage = () => {
   const handleExitBtn = () => {
     dispatch(exitUser());
     localStorage.clear();
-    navigate('/login');
+    navigate(appRoutes.loginPath);
   };
-  const user = useAppSelector(userState);
+  const user = useAppSelector((state) => state.user.user);
 
   useEffect(() => {
     if (user.email) {

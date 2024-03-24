@@ -5,6 +5,7 @@ import { HeaderMain } from './header.styled';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Cart } from '../../UI/Card/Cards';
+import { appRoutes } from '../../appRoutes/appRoutes';
 interface propsHeader {
   user: string | null;
   hangleSetCearch?: (SearchQuery: string) => void;
@@ -99,21 +100,14 @@ const Header = ({
           </div>
         ) : (
           <div className="btn-login-con">
-            <Link to="/login" className="btn-login">
+            <Link to={appRoutes.loginPath} className="btn-login">
               Log In/
             </Link>
-            <Link to="/registration" className="btn-login">
+            <Link to={appRoutes.registrationPath} className="btn-login">
               Sing Up
             </Link>
           </div>
         )}
-
-        {/* <button className="btn-login" onClick={() => {}}>
-            Log In/
-          </button>
-          <button className="btn-login" onClick={() => {}}>
-            Sing Up
-          </button> */}
       </div>
     </HeaderMain>
   );

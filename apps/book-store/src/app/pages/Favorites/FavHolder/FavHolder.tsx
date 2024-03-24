@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../hooks/hookStore";
 import { Book, actionAddToCart, actionAddToFavorite } from "../../../store/slices/bookSlice";
 import { StyledFavHolder } from "./FavHolder.styled";
@@ -11,13 +12,17 @@ interface PropsFavHolder {
 }
 
 const FavHolder: React.FC<PropsFavHolder> = ({likedBooks, cart, user}) => {
+  const navigate = useNavigate()
+  const navigateFunction = (path: string) => {
+    navigate(path);
+  };
   const dispatch = useAppDispatch()
   const hangleSetLikedBook = (bookId: number) => {
-    dispatch(actionAddToFavorite(bookId));
+    dispatch(actionAddToFavorite(bookId, navigateFunction));
   };
 
   const handleAddtoCart = (bookId: number, count: number) => {
-    dispatch(actionAddToCart(bookId, count));
+    dispatch(actionAddToCart(bookId, count, navigateFunction));
   };
 
 

@@ -1,5 +1,5 @@
+import { appRoutes } from '../../appRoutes/appRoutes';
 import { FooterMain } from './footer.styled';
-import { useEffect } from 'react';
 
 interface propsFooter {
   hangleExit: () => void;
@@ -26,26 +26,28 @@ const Footer = ({ hangleExit }: propsFooter) => {
           <nav>
             <ul>
               <li>
-                <a href="/">Home Page</a>
+                <a href={appRoutes.homePath}>Home Page</a>
               </li>
               <li>
-                <a href="/">Catalog</a>
+                <a href={appRoutes.homePath}>Catalog</a>
               </li>
               <li>
-                <a href="/">My Account</a>
+                <a href={appRoutes.profilePath}>My Account</a>
               </li>
               <li>
-                <a href="/">Cart</a>
+                <a href={appRoutes.cartPath}>Cart</a>
               </li>
               <li>
-                <button className='btn-exit' onClick={hangleExit}>Exit</button>
+                <button className="btn-exit" onClick={hangleExit}>
+                  Exit
+                </button>
               </li>
             </ul>
           </nav>
         </div>
         <div className="map-footer">
           <span>6391 Elgin St. Celina, Delaware 10299</span>
-          <img src="/map.png" alt="our Map"  />
+          <img src="/map.png" alt="our Map" />
         </div>
       </div>
     </FooterMain>

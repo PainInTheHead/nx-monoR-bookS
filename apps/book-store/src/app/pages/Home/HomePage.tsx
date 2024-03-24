@@ -5,14 +5,13 @@ import CardHolder from './UIHome/CardHolder';
 import { BannerDefault, BannetAuth, Layout } from '@book-store/BookStoreLibrary';
 import { exitUser } from '../../store/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/hookStore';
-import { userEmailState } from '../../utils/selectors';
 import { useNavigate } from 'react-router-dom';
 
 import { changeSearchQuery } from '../../store/slices/bookSlice';
 
 export function HomePage() {
   const navigate = useNavigate();
-  const userEmail = useAppSelector(userEmailState);
+  const userEmail = useAppSelector(state => state.user.user.email);
   const bookState = useAppSelector((books) => books.books.book);
   const cart = useAppSelector((state) => state.books.cart);
   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);

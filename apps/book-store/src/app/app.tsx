@@ -8,72 +8,55 @@ import RequireAuth from './utils/requreAuth';
 import { useEffect, useState } from 'react';
 import { getuserAction } from './store/slices/userSlice';
 import { useAppDispatch, useAppSelector } from './hooks/hookStore';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 import BooksDetails from './pages/bookDetails/BooksDetails';
 import CartPage from './pages/Cart/CartPage';
 import FavoritesPage from './pages/Favorites/Favorites';
 import {
-  actionGetBooksUser,
   actionRequestCartBook,
-  setPrices,
 } from './store/slices/bookSlice';
-import { userState } from './utils/selectors';
+import { appRoutes } from '@book-store/BookStoreLibrary';
+import { LoaderPage } from '@book-store/BookStoreLibrary';
+import useGetBooksUserEffect from './hooks/useGetBooks';
 
 export function App() {
+  const {
+    homePath,
+    cartPath,
+    favoritesPath,
+    profilePath,
+    registrationPath,
+    loginPath,
+    bookPath,
+  } = appRoutes;
   const dispatch = useAppDispatch();
-  const genresState = useAppSelector((books) => books.books.genres);
-  const currentPage = useAppSelector((books) => books.books.currentPage) + 1;
-  const priceBetween = useAppSelector((state) => state.books.prices);
-  const sortBy = useAppSelector((state) => state.books.sortBy);
-  const prices = priceBetween.map((price) => Math.floor(price / 100));
-  const searchQuery = useAppSelector((state) => state.books.searchQuery);
-  const user = useAppSelector(userState);
-
+  const user = useAppSelector(state => state.user.user);
+  
+  useGetBooksUserEffect();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    dispatch(getuserAction());
-    setLoading(false);
+    const fetchData = async () => {
+      await dispatch(getuserAction());
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
-
-  useEffect(() => {
-    dispatch(
-      actionGetBooksUser(genresState, currentPage, prices, sortBy, searchQuery)
-    );
-  }, [
-    user,
-    setPrices,
-    genresState,
-    currentPage,
-    priceBetween,
-    sortBy,
-    dispatch,
-    searchQuery,
-  ]);
-
+  
   useEffect(() => {
     if (user.email) {
       dispatch(actionRequestCartBook());
     }
   }, [user, dispatch]);
+
   return isLoading ? (
-    <Box
-      sx={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <CircularProgress size={100} color="success" />
-    </Box>
+    <LoaderPage />
   ) : (
     <>
       <GlobalStyled />
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
+        <Route path={homePath} element={<HomePage />}></Route>
         <Route
-          path="/profile"
+          path={profilePath}
           element={
             <RequireAuth>
               <ProfilePage />
@@ -81,7 +64,7 @@ export function App() {
           }
         ></Route>
         <Route
-          path="/cart"
+          path={cartPath}
           element={
             <RequireAuth>
               <CartPage />
@@ -89,16 +72,16 @@ export function App() {
           }
         ></Route>
         <Route
-          path="/favorites"
+          path={favoritesPath}
           element={
             <RequireAuth>
               <FavoritesPage />
             </RequireAuth>
           }
         ></Route>
-        <Route path="/registration" element={<RegistragionPage />}></Route>
-        <Route path="/login" element={<LogInPage />}></Route>
-        <Route path="/book/:id" element={<BooksDetails />}></Route>
+        <Route path={registrationPath} element={<RegistragionPage />}></Route>
+        <Route path={loginPath} element={<LogInPage />}></Route>
+        <Route path={bookPath} element={<BooksDetails />}></Route>
       </Routes>
     </>
   );

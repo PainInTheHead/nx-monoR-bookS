@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { StyledCartBook } from './CartBook.styled';
-import {
-  actionAddToCart,
-} from '../../../store/slices/bookSlice';
+import { actionAddToCart } from '../../../store/slices/bookSlice';
 import { useAppDispatch } from '../../../hooks/hookStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +22,7 @@ const CartBook: React.FC<PropsCart> = ({
   cover,
 }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const navigateFunction = (path: string) => {
     navigate(path);
   };
@@ -33,6 +31,12 @@ const CartBook: React.FC<PropsCart> = ({
     style: 'currency',
     currency: 'USD',
   });
+
+  const handleClick = (count : number) => {
+    dispatch(actionAddToCart(bookId, count - 1, navigateFunction));
+  };
+
+
   return (
     <StyledCartBook>
       <div className="book_cover">
@@ -42,30 +46,15 @@ const CartBook: React.FC<PropsCart> = ({
         <h1 className="h1cart">{title}</h1>
         <h2 className="h2cart">{author}</h2>
         <div className="cardCounter">
-          <button
-            className="btn_count"
-            onClick={() => {
-              dispatch(actionAddToCart(bookId, count - 1, navigateFunction));
-            }}
-          >
+          <button className="btn_count" onClick={() => handleClick(count - 1)}>
             -
           </button>
           <span className="countCard">{count}</span>
-          <button
-            className="btn_count"
-            onClick={() => {
-              dispatch(actionAddToCart(bookId, count + 1, navigateFunction));
-            }}
-          >
+          <button className="btn_count" onClick={() => handleClick(count + 1)}>
             +
           </button>
 
-          <button
-            className="delete"
-            onClick={() => {
-              dispatch(actionAddToCart(bookId, 0, navigateFunction));
-            }}
-          >
+          <button className="delete" onClick={() => handleClick(0)}>
             <img src="/cart/Delete.png" alt="delete" />
           </button>
         </div>

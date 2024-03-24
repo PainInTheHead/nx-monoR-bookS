@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks/hookStore';
 import { BannetAuth, Layout } from '@book-store/BookStoreLibrary';
-import { userEmailState, userState } from '../../utils/selectors';
 import { exitUser } from '../../store/slices/userSlice';
 import { StyledDetailCard } from './StyledBookDetails.styled';
 import { useEffect, useState } from 'react';
@@ -19,20 +18,24 @@ import FormNewCom from './formComment/FormNewCom';
 import AboutDetailCard from './aboutDetail/aboutDetail';
 import Recommendations from './Recommendations/Recommendations';
 import CommentsHolder from './comments/CommentsHolder';
+import { appRoutes } from '@book-store/BookStoreLibrary';
 
 const BooksDetails = () => {
   const [value, setValue] = useState<number | null>(0);
+  const {
+    loginPath,
+  } = appRoutes;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const book = useAppSelector((state) => state.books.book).find(
     (book) => book.bookId === Number(id)
   );
-  const userEmail = useAppSelector(userEmailState);
+  const userEmail =  useAppSelector(state => state.user.user.email);
   const bookId = Number(id);
   const coments = book?.comments;
   const cart = useAppSelector((cart) => cart.books.cart);
-  const user = useAppSelector(userState);
+  const user = useAppSelector((state) => state.user.user);
   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
   const books = useAppSelector((state) => state.books.book);
   const curentCount = cart.find((book) => book.bookId === bookId);
@@ -66,7 +69,7 @@ const BooksDetails = () => {
   const handleExitBtn = () => {
     dispatch(exitUser());
     localStorage.clear();
-    navigate('/login');
+    navigate(loginPath);
   };
 const navigateFunction = (path: string) => {
   navigate(path);

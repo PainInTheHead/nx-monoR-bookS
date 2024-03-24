@@ -33,7 +33,7 @@ import {
   actionGetGenresFilters,
 } from '../slices/bookSlice';
 import {
-  getItemsWithGenre,
+  postItemsWithGenre,
   getItemsForAuthorized,
   addTofavoriteAsync,
   changeRatingBookAsync,
@@ -78,7 +78,7 @@ function* handleGetBooksDefault(action: {
 }) {
   try {
     const data: { allBooks: Book; totalCount: number; totalPages: number } =
-      yield call(getItemsWithGenre, {
+      yield call(postItemsWithGenre, {
         ids: action.payload.genres,
         page: action.payload.page,
         prices: action.payload.prices,
@@ -88,9 +88,9 @@ function* handleGetBooksDefault(action: {
     const { allBooks, totalPages } = data;
     yield put(addBooks({ allBooks, totalPages }));
   } catch (error) {
-     toast.error('Unexpected error, please reload the page', {
-       icon: '❌',
-     });
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 
@@ -297,9 +297,9 @@ function* handleAddGenresFilters() {
     const data: Book = yield call(getGenresNamesFilters);
     yield put(addGenresFilters(data));
   } catch (error) {
-   toast.error('Unexpected error, please reload the page', {
-     icon: '❌',
-   });
+    toast.error('Unexpected error, please reload the page', {
+      icon: '❌',
+    });
   }
 }
 

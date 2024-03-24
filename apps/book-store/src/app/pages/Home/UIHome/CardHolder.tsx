@@ -2,7 +2,6 @@ import { Card } from "@book-store/BookStoreLibrary";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hookStore";
 import { actionAddToFavorite, actionRequestCartBook } from "../../../store/slices/bookSlice";
 import { actionAddToCart } from "../../../store/slices/bookSlice";
-import { userState } from "../../../utils/selectors";
 import { useNavigate } from "react-router-dom";
 
 
@@ -10,7 +9,7 @@ const CardHolder = () => {
   const books = useAppSelector((book) => book.books.book)
   const cart = useAppSelector((cart) => cart.books.cart)
   const dispatch = useAppDispatch()
-  const user = useAppSelector(userState);
+ const user = useAppSelector((state) => state.user.user);
   const navigate = useNavigate()
   const navigateFunction = (path: string) => {
     navigate(path);

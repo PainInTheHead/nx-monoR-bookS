@@ -1,10 +1,10 @@
 import { Navigate, useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks/hookStore';
 
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
-  const isAuth = localStorage.getItem('token') !== null;
   const location = useLocation();
-
-  if (!isAuth) {
+  const user = useAppSelector((state) => state.user.user.email);
+  if (!user) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 

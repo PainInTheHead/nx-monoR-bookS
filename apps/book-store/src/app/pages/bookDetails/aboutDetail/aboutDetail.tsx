@@ -38,6 +38,31 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
   const navigateFunction = (path: string) => {
     navigate(path);
   };
+  const handleOnClickDecrement = () => {
+    if (count) {
+      handleAddtoCart(bookId, count - 1);
+      setCount(count - 1);
+    }
+  };
+
+  const handleOnClickIncrement = () => {
+    if (count) {
+      handleAddtoCart(bookId, count + 1);
+      setCount(count + 1);
+    }
+  };
+
+  const handleOnClickDefaultValue = () => {
+    setStateBuy(true);
+    if (!count) {
+      handleAddtoCart(bookId, 1);
+      setCount(1);
+    } else {
+      handleAddtoCart(bookId, count);
+      setCount(count);
+    }
+  };
+
   return (
     <StyledAboutDetailCard>
       <div className="book_about_warapper">
@@ -67,7 +92,7 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
                   );
                 }}
                 sx={{
-                  maxWidth:"200px",
+                  maxWidth: '200px',
                   width: '100%',
                   justifyContent: 'space-between',
                   gap: '5px',
@@ -95,37 +120,14 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
               <div>
                 {count !== undefined && count > 0 && stateBuy && user.email ? (
                   <div className="cardCounter">
-                    <button
-                      onClick={() => {
-                        handleAddtoCart(bookId, count - 1);
-                        setCount(count - 1);
-                      }}
-                    >
-                      -
-                    </button>
+                    <button onClick={handleOnClickDecrement}>-</button>
                     <span className="countCard">{count}</span>
-                    <button
-                      onClick={() => {
-                        handleAddtoCart(bookId, count + 1);
-                        setCount(count + 1);
-                      }}
-                    >
-                      +
-                    </button>
+                    <button onClick={handleOnClickIncrement}>+</button>
                   </div>
                 ) : (
                   <button
                     className="btn-price btn"
-                    onClick={() => {
-                      setStateBuy(true);
-                      if (!count) {
-                        handleAddtoCart(bookId, 1);
-                        setCount(1);
-                      } else {
-                        handleAddtoCart(bookId, count);
-                        setCount(count);
-                      }
-                    }}
+                    onClick={handleOnClickDefaultValue}
                   >
                     <span className="price">${book.price} USD</span>
                   </button>

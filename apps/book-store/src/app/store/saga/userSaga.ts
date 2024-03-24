@@ -19,6 +19,10 @@ import {
 } from '../../api/userApi';
 import { addUser } from './../slices/userSlice';
 import { toast } from 'react-hot-toast';
+import { appRoutes } from '../../utils/constans/constanstPath';
+
+const { homePath, loginPath } = appRoutes;
+
 
 function* handleUserActionLogin(action: {
   payload: {
@@ -27,7 +31,7 @@ function* handleUserActionLogin(action: {
     navigate: (path: string) => void;
   };
 }) {
-  yield localStorage.clear();
+  localStorage.clear();
   try {
     const { Email, Password } = action.payload;
     const data: {
@@ -44,7 +48,7 @@ function* handleUserActionLogin(action: {
     toast.success('Authorization success!', {
       icon: '✅',
     });
-    action.payload.navigate('/');
+    action.payload.navigate(homePath);
   } catch (error) {
     toast.error('Authorization failure!', {
       icon: '❌',
@@ -63,7 +67,7 @@ function* handleGetUserEffect() {
     if (!data) {
       return;
     }
-    const { id, avatar, userName, email } = yield data;
+    const { id, avatar, userName, email } = data;
     yield put(addUser({ id, email, avatar, userName }));
   } catch (error) {
     toast.error('For a full set of functions, log in to our website', {
@@ -74,9 +78,9 @@ function* handleGetUserEffect() {
 
 function* handleNewAvatar(action: { payload: { formData: FormData } }) {
   try {
-    const formData: FormData = yield action.payload.formData;
+    const formData: FormData = action.payload.formData;
     const response: string = yield call(newAvatarAsync, { formData: formData });
-    const filename: string = yield response;
+    const filename: string = response;
     yield put(newAvatar(filename));
     toast.success('Update user avatar success!');
   } catch (error) {
@@ -88,7 +92,7 @@ function* handleChangeUserInfo(action: {
   payload: { Email: string; UserName: string };
 }) {
   try {
-    const { Email, UserName } = yield action.payload;
+    const { Email, UserName } = action.payload;
     const response: { email: string; userName: string } = yield call(
       newUserDataAsync,
       {
@@ -131,10 +135,10 @@ function* handleRegistration(action: {
       Email: action.payload.Email,
       Password: action.payload.Password,
     });
-    yield toast.success('Registration completed successfully', {
+    toast.success('Registration completed successfully', {
       icon: '✅',
     });
-    action.payload.navigate('/login');
+    action.payload.navigate(loginPath);
   } catch (error) {
     toast.error('An error occurred during registration', {
       icon: '❌',
