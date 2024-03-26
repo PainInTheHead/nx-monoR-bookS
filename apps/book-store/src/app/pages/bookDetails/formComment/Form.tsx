@@ -4,7 +4,7 @@ import React, {
   FormEventHandler,
   useState,
 } from 'react';
-import { StyledFormNewCom } from './FormNewCom.styled';
+import { StyledFormNewCom } from './Form.styled';
 import { useAppDispatch } from '../../../hooks/hookStore';
 import { actionPutNewComment } from '../../../store/slices/bookSlice';
 

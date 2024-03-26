@@ -7,7 +7,7 @@ import {
   actionRequestCartBook,
 } from '../../store/slices/bookSlice';
 import { useEffect } from 'react';
-import FavHolder from './FavHolder/FavHolder';
+import FavHolder from './FavoritesHolder/FavHolder';
 import { appRoutes } from '@book-store/BookStoreLibrary';
 
 const FavoritesPage = () => {

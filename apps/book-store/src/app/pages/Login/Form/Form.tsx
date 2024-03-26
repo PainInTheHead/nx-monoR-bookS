@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { MouseEventHandler } from 'react';
-import { FormInput } from '@book-store/BookStoreLibrary';
+import { CustomButton, FormInput } from '@book-store/BookStoreLibrary';
 import { FormTypes, IFormInput } from './../../Types/types';
 import { useAppDispatch } from '../../../hooks/hookStore';
 import { actionLoginUser } from '../../../store/slices/userSlice';
@@ -88,7 +88,6 @@ const navigateFunction = (path: string) => {
             Enter your email
           </label>
         </div>
-
         <div className="password">
           <FormInput
             register={register}
@@ -104,10 +103,12 @@ const navigateFunction = (path: string) => {
             Enter your password
           </label>
         </div>
-
-        <button className={`btn-form`} type="submit">
-          Log In
-        </button>
+        <CustomButton
+          color=" #344966"
+          text="Log In"
+          type="submit"
+          width="151px"
+        />
       </form>
     </StyledLogInForm>
   );

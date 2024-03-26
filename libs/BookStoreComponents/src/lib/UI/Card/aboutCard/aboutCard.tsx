@@ -4,6 +4,7 @@ import RatingBook from '../ratingStars/RatingBook';
 import { useEffect, useState } from 'react';
 import { Cart, User } from '../Cards';
 import { useNavigate } from 'react-router-dom';
+import CustomButton from '../../CustomButton/CustomButton';
 
 interface PropsAbout {
   name: string;
@@ -52,6 +53,22 @@ const AboutCard: React.FC<PropsAbout> = ({
     currency: 'USD',
   });
 
+  const handleClickCart = () => {
+    setStateBuy(true);
+    if (!count) {
+      handleAddtoCart(bookId, 1);
+      setCount(1);
+    } else {
+      handleAddtoCart(bookId, count);
+      setCount(count);
+    }
+  };
+
+  const handleClickBtnAddToCart = (count: number) => {
+    handleAddtoCart(bookId, count);
+    setCount(count);
+  };
+
   return (
     <div className="about-card" onClick={(event) => handleClickOutside(event)}>
       <div className="name-athor">
@@ -62,40 +79,26 @@ const AboutCard: React.FC<PropsAbout> = ({
       <div>
         {count !== undefined && count > 0 && stateBuy && user.email ? (
           <div className="cardCounter">
-            <button
-              onClick={() => {
-                handleAddtoCart(bookId, count - 1);
-                setCount(count - 1);
-              }}
-            >
+            <button onClick={() => handleClickBtnAddToCart(count - 1)}>
               -
             </button>
             <span className="countCard">{count}</span>
-            <button
-              onClick={() => {
-                handleAddtoCart(bookId, count + 1);
-                setCount(count + 1);
-              }}
-            >
+            <button onClick={() => handleClickBtnAddToCart(count + 1)}>
               +
             </button>
           </div>
         ) : (
-          <button
-            className="btn-price btn"
-            onClick={() => {
-              setStateBuy(true);
-              if (!count) {
-                handleAddtoCart(bookId, 1);
-                setCount(1);
-              } else {
-                handleAddtoCart(bookId, count);
-                setCount(count);
-              }
-            }}
-          >
-            <span className="price">{formattedPrice} USD</span>
-          </button>
+          <>
+            {/* <CustomButton
+              color=" #344966"
+              text={`${formattedPrice} USD`}
+              onClick={handleClickCart}
+              width="100%"
+            /> */}
+            <button className="btn-price btn" onClick={handleClickCart}>
+              <span className="price">{formattedPrice} USD</span>
+            </button>
+          </>
         )}
       </div>
     </div>

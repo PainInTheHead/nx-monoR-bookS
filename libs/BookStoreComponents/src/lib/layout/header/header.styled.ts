@@ -246,6 +246,9 @@ export const HeaderMain = styled.header`
   }
 
   @media (max-width: 350px) {
+     .search-section {
+    gap: 10px;
+     }
     .user-buttons {
       display: flex;
       align-items: center;

@@ -8,7 +8,7 @@ import RequireAuth from './utils/requreAuth';
 import { useEffect, useState } from 'react';
 import { getuserAction } from './store/slices/userSlice';
 import { useAppDispatch, useAppSelector } from './hooks/hookStore';
-import BooksDetails from './pages/bookDetails/BooksDetails';
+import BooksDetails from './pages/BookDetails/BooksDetails';
 import CartPage from './pages/Cart/CartPage';
 import FavoritesPage from './pages/Favorites/Favorites';
 import {

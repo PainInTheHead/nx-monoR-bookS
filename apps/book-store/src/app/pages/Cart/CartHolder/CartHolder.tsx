@@ -1,4 +1,4 @@
-import { Cart } from '@book-store/BookStoreLibrary';
+import { Cart, CustomButton } from '@book-store/BookStoreLibrary';
 import { StyledCartHolder } from './CartHolder.styled';
 import CartBook from '../CartBook/CartBook';
 import { useNavigate } from 'react-router-dom';
@@ -23,13 +23,19 @@ const CartHolder: React.FC<PropsCartHolder> = ({ cart, total }) => {
           Total: <span>{total}$</span>{' '}
         </h1>
         <div className="btns_total">
-          <button
-            onClick={() => navigate(appRoutes.bookPath)}
-            className="btn btn_continue"
-          >
-            Continue shopping
-          </button>
-          <button className="btn btn_checkout">Checkout</button>
+          <CustomButton
+            color=""
+            text="Continue shopping"
+            type="submit"
+            width="244px"
+            onClick={() => navigate(appRoutes.homePath)}
+          />
+          <CustomButton
+            color=" #344966"
+            text="Checkout"
+            type="submit"
+            width="160px"
+          />
         </div>
       </div>
     </StyledCartHolder>

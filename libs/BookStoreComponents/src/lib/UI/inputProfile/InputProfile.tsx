@@ -1,14 +1,8 @@
 import { StyledinputProfile } from './input.styled';
 import type { UseFormRegister, FieldErrors, FieldError } from 'react-hook-form';
-import ButtonPass from '../btnPass/ButtonPass';
+import ButtonPass from '../ButtonPass/ButtonPass';
 import { FormTypes, IFormInput } from '../../Types/types';
 
-// enum FormNamesEnum {
-//   Email = "Email",
-//   Password = "Password",
-//   ConfirmPassword = "ConfirmPassword",
-//   UserName = "UserName"
-// }
 
 interface ProrpsFormInput {
   register: UseFormRegister<IFormInput>;
@@ -62,8 +56,7 @@ export function FormInput({
           readOnly
           {...register(name)}
         />
-      ) : 
-      set ? (
+      ) : set ? (
         <input
           className="inputForm"
           placeholder={name === 'oldPassword' ? 'Old password' : name}

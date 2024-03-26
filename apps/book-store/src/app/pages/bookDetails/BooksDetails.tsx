@@ -14,8 +14,8 @@ import {
   changeLikedRec,
   actionGetCurrentBook,
 } from '../../store/slices/bookSlice';
-import FormNewCom from './formComment/FormNewCom';
-import AboutDetailCard from './aboutDetail/aboutDetail';
+import FormNewCom from './formComment/Form';
+import AboutDetailCard from './AboutDetail/aboutDetail';
 import Recommendations from './Recommendations/Recommendations';
 import CommentsHolder from './comments/CommentsHolder';
 import { appRoutes } from '@book-store/BookStoreLibrary';

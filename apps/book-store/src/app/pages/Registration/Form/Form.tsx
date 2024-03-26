@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { MouseEventHandler } from 'react';
-import { FormInput } from '@book-store/BookStoreLibrary';
+import { CustomButton, FormInput } from '@book-store/BookStoreLibrary';
 import type { MouseEvent } from 'react';
 import { FormTypes, IFormInput } from './../../Types/types';
 import { useAppDispatch } from '../../../hooks/hookStore';
@@ -152,9 +152,12 @@ const RegForm = () => {
             Repeat your password without errors
           </label>
         </div>
-        <button className={`btn-form`} type="submit">
-          Sign Up
-        </button>
+        <CustomButton
+          color=" #344966"
+          text="Sign Up"
+          type="submit"
+          width="151px"
+        />
       </form>
     </StyledRegInForm>
   );

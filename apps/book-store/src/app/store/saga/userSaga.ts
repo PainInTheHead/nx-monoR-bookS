@@ -19,7 +19,7 @@ import {
 } from '../../api/userApi';
 import { addUser } from './../slices/userSlice';
 import { toast } from 'react-hot-toast';
-import { appRoutes } from '../../utils/constans/constanstPath';
+import { appRoutes } from '@book-store/BookStoreLibrary';
 
 const { homePath, loginPath } = appRoutes;
 

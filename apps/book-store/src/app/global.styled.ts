@@ -17,7 +17,7 @@ body {
   margin: 0 10px;
   margin-top:10px;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.5;
   color: #333;
 

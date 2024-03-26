@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledPageProfile = styled.div`
   display: flex;
   max-width: 1280px;
   margin: 0 auto;
-  justify-content: space-between;
-  gap: 20px;
+  justify-content:start;
+  gap: 10rem;
   .hidden {
     display: none;
   }
@@ -24,6 +24,7 @@ export const StyledPageProfile = styled.div`
   }
   .profile-images {
     max-height: 305px;
+    max-width: 305px;
     width: 100%;
 
     .btn-changeImage {

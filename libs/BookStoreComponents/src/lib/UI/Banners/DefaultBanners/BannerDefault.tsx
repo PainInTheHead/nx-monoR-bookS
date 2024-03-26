@@ -1,3 +1,4 @@
+import CustomButton from '../../CustomButton/CustomButton';
 import { AuthBanStyled, HomeStyledBan } from './Banners.styled';
 
 export function BannerDefault() {
@@ -6,7 +7,12 @@ export function BannerDefault() {
       <div className="aboutHomeBanner">
         <h1>Build your library with us</h1>
         <p>Buy two books and get one for free</p>
-        <button>Choose a book</button>
+        <CustomButton
+          color=" #344966"
+          text="Choose a book"
+          type="submit"
+          width="230px"
+        />
       </div>
       <div className="imageCon">
         <img
