@@ -8,10 +8,8 @@ import {
   actionGetRaitingCurrentBook,
   actionGetCommentsOfBook,
   actionGetRecomend,
-  actionAddToFavorite,
   actionAddToCart,
   actionGetCommentsOfBookAuth,
-  changeLikedRec,
   actionGetCurrentBook,
 } from '../../store/slices/bookSlice';
 import FormNewCom from './formComment/Form';
@@ -74,12 +72,6 @@ const BooksDetails = () => {
 const navigateFunction = (path: string) => {
   navigate(path);
 };
-  const hangleSetLikedBook = (bookId: number) => {
-    if (user.email) {
-      dispatch(actionAddToFavorite(bookId, navigateFunction));
-      dispatch(changeLikedRec({ bookId: bookId }));
-    }
-  };
 
   const handleAddtoCart = (bookId: number, count: number) => {
     dispatch(actionAddToCart(bookId, count, navigateFunction));

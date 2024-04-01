@@ -30,32 +30,32 @@ export const newAvatarAsync = async (payload: { formData: FormData }) => {
 
 
 export const newUserDataAsync = async (payload: {
-  Email: string;
-  UserName: string;
+  email: string;
+  userName: string;
 }) => {
   const response = await axios.put(`user/change/information`, {
-    Email: payload.Email,
-    UserName: payload.UserName,
+    email: payload.email,
+    userName: payload.userName,
   });
   return response.data
 }
 
 
 export const newUserPassAsync = async (payload: {
-  Password: string, oldPassword: string
+  password: string, oldPassword: string
 }) => {
   const response = await axios.put(`user/change/password`, {
-    Password: payload.Password,
+    password: payload.password,
     oldPassword: payload.oldPassword,
   });
   return response.data
 }
 
 
-export const registration = async (payload: { Email: string; Password: string }) => {
+export const registration = async (payload: { email: string; password: string }) => {
   const response = await axios.post(`user/registration`, {
-    email: payload.Email,
-    password: payload.Password,
+    email: payload.email,
+    password: payload.password,
   });
   return response.data;
 }

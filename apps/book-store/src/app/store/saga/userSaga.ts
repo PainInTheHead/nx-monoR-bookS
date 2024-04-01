@@ -26,21 +26,20 @@ const { homePath, loginPath } = appRoutes;
 
 function* handleUserActionLogin(action: {
   payload: {
-    Email: string;
-    Password: string;
+    email: string;
+    password: string;
     navigate: (path: string) => void;
   };
 }) {
   localStorage.clear();
   try {
-    const { Email, Password } = action.payload;
     const data: {
       id: number;
       token: string;
       avatar: null | string;
       userName: string;
       email: string;
-    } = yield call(authorization, { email: Email, password: Password });
+    } = yield call(authorization, { email: action.payload.email, password: action.payload.password });
 
     const { token, id, avatar, userName, email } = data;
     yield put(addUser({ id, email, avatar, userName }));
@@ -89,19 +88,18 @@ function* handleNewAvatar(action: { payload: { formData: FormData } }) {
 }
 
 function* handleChangeUserInfo(action: {
-  payload: { Email: string; UserName: string };
+  payload: { email: string; userName: string };
 }) {
   try {
-    const { Email, UserName } = action.payload;
     const response: { email: string; userName: string } = yield call(
       newUserDataAsync,
       {
-        Email: Email,
-        UserName: UserName,
+        email: action.payload.email,
+        userName: action.payload.userName,
       }
     );
     yield put(
-      updateUserInfo({ Email: response.email, UserName: response.userName })
+      updateUserInfo({ email: response.email, userName: response.userName })
     );
     toast.success('Update user information success!');
   } catch (error) {
@@ -110,11 +108,11 @@ function* handleChangeUserInfo(action: {
 }
 
 function* handleChangePass(action: {
-  payload: { Password: string; oldPassword: string };
+  payload: { password: string; oldPassword: string };
 }) {
   try {
     const response: string = yield call(newUserPassAsync, {
-      Password: action.payload.Password,
+      password: action.payload.password,
       oldPassword: action.payload.oldPassword,
     });
     toast.success('Update password success!');
@@ -125,15 +123,15 @@ function* handleChangePass(action: {
 
 function* handleRegistration(action: {
   payload: {
-    Email: string;
-    Password: string;
+    email: string;
+    password: string;
     navigate: (path: string) => void;
   };
 }) {
   try {
     const response: string = yield call(registration, {
-      Email: action.payload.Email,
-      Password: action.payload.Password,
+      email: action.payload.email,
+      password: action.payload.password,
     });
     toast.success('Registration completed successfully', {
       icon: '✅',

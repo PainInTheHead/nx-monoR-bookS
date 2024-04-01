@@ -7,6 +7,7 @@ import {
 import { useAppDispatch } from '../../../hooks/hookStore';
 import { User } from '@book-store/BookStoreLibrary';
 import { useNavigate } from 'react-router-dom';
+import { current } from '@reduxjs/toolkit';
 
 interface PropsDetailAbout {
   book: Book;
@@ -62,6 +63,8 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
       setCount(count);
     }
   };
+
+  const currentPrice = (book.price / 100).toFixed(2)
 
   return (
     <StyledAboutDetailCard>
@@ -129,7 +132,7 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
                     className="btn-price btn"
                     onClick={handleOnClickDefaultValue}
                   >
-                    <span className="price">${(book.price / 100).toFixed(2)} USD</span>
+                    <span className="price">${currentPrice} USD</span>
                   </button>
                 )}
               </div>

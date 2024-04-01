@@ -26,11 +26,13 @@ const CartBook: React.FC<PropsCart> = ({
   const navigateFunction = (path: string) => {
     navigate(path);
   };
-
   const formattedPrice = (price / 100).toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
   });
+
+  const currentPrice = (Number(formattedPrice.replace(/[^0-9.-]+/g, '')) * count).toFixed(2)
+
 
   const handleClick = (count : number) => {
     dispatch(actionAddToCart(bookId, count, navigateFunction));
@@ -59,7 +61,7 @@ const CartBook: React.FC<PropsCart> = ({
           </button>
         </div>
         <h3 className="total_price__book">
-          ${(Number(formattedPrice.replace(/[^0-9.-]+/g, '')) * count).toFixed(2)} USD{' '}
+          ${currentPrice} USD
         </h3>
       </div>
     </StyledCartBook>
