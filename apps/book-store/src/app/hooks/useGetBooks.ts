@@ -12,6 +12,7 @@ const useGetBooksUserEffect = () => {
   const prices = priceBetween.map((price) => Math.floor(price / 100));
   const searchQuery = useAppSelector((state) => state.books.searchQuery);
   const user = useAppSelector((state) => state.user.user);
+  const status = useAppSelector((state) => state.books.status)
 
   useEffect(() => {
     dispatch(

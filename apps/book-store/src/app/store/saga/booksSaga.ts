@@ -31,6 +31,7 @@ import {
   actionGetCurrentBook,
   addGenresFilters,
   actionGetGenresFilters,
+  setStatus,
 } from '../slices/bookSlice';
 import {
   postItemsWithGenre,
@@ -104,6 +105,7 @@ function* handleGetBooksWhithUser(action: {
   };
 }) {
   try {
+    yield put(setStatus('loading'))
     const data: {
       allBooks: Book;
       totalCount: number;
@@ -121,6 +123,10 @@ function* handleGetBooksWhithUser(action: {
     toast.error('Unexpected error, please reload the page', {
       icon: '❌',
     });
+    // yield put(setStatus('failed'))
+  } finally {
+      // yield put(setStatus('succeeded'))
+
   }
 }
 
@@ -333,7 +339,7 @@ function* handleChangeRating(action: {
 
 export function* bookSaga() {
   yield takeLatest(actionGetBooks, handleGetBooksDefault);
-  yield takeLeading(actionGetBooksUser, handleGetBooksWhithUser);
+  yield takeLatest(actionGetBooksUser, handleGetBooksWhithUser);
   yield takeEvery(actionAddToFavorite, handleAddFavorite);
   yield takeEvery(changeRatingOfBookAction, handleChangeRating);
   yield takeLeading(actionGetRaitingCurrentBook, handleGetRaiting);

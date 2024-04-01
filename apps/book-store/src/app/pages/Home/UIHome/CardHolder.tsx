@@ -1,4 +1,4 @@
-import { Card } from "@book-store/BookStoreLibrary";
+import { Card, LoaderPage } from "@book-store/BookStoreLibrary";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hookStore";
 import { actionAddToFavorite, actionRequestCartBook } from "../../../store/slices/bookSlice";
 import { actionAddToCart } from "../../../store/slices/bookSlice";
@@ -8,8 +8,9 @@ import { useNavigate } from "react-router-dom";
 const CardHolder = () => {
   const books = useAppSelector((book) => book.books.book)
   const cart = useAppSelector((cart) => cart.books.cart)
+  const user = useAppSelector((state) => state.user.user);
+  const status = useAppSelector((state) => state.books.status)
   const dispatch = useAppDispatch()
- const user = useAppSelector((state) => state.user.user);
   const navigate = useNavigate()
   const navigateFunction = (path: string) => {
     navigate(path);

@@ -20,7 +20,7 @@ const CartHolder: React.FC<PropsCartHolder> = ({ cart, total }) => {
       </div>
       <div className="total_price">
         <h1 className="total_header">
-          Total: <span>{total}$</span>{' '}
+          Total: <span>{total.toFixed(2)}$</span>{' '}
         </h1>
         <div className="btns_total">
           <CustomButton

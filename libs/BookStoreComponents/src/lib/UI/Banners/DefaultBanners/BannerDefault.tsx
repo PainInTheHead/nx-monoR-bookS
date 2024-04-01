@@ -1,7 +1,12 @@
+import React from 'react';
 import CustomButton from '../../CustomButton/CustomButton';
 import { AuthBanStyled, HomeStyledBan } from './Banners.styled';
 
-export function BannerDefault() {
+
+interface PropsHomeBanner {
+  executeScroll: () => void
+}
+export function BannerDefault ({executeScroll}: PropsHomeBanner) {
   return (
     <HomeStyledBan>
       <div className="aboutHomeBanner">
@@ -12,6 +17,7 @@ export function BannerDefault() {
           text="Choose a book"
           type="submit"
           width="230px"
+          onClick={executeScroll}
         />
       </div>
       <div className="imageCon">

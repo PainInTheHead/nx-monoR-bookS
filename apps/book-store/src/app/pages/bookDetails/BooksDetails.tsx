@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks/hookStore';
-import { BannetAuth, Layout } from '@book-store/BookStoreLibrary';
+import { BannetAuth, Layout, LoaderPage } from '@book-store/BookStoreLibrary';
 import { exitUser } from '../../store/slices/userSlice';
 import { StyledDetailCard } from './StyledBookDetails.styled';
 import { useEffect, useState } from 'react';
@@ -15,7 +15,7 @@ import {
   actionGetCurrentBook,
 } from '../../store/slices/bookSlice';
 import FormNewCom from './formComment/Form';
-import AboutDetailCard from './AboutDetail/aboutDetail';
+import AboutDetailCard from './aboutDetail/aboutDetail';
 import Recommendations from './Recommendations/Recommendations';
 import CommentsHolder from './comments/CommentsHolder';
 import { appRoutes } from '@book-store/BookStoreLibrary';
@@ -116,7 +116,7 @@ const navigateFunction = (path: string) => {
           />
         </StyledDetailCard>
       ) : (
-        <div>Book not Found ^_^</div>
+        <LoaderPage />
       )}
     </Layout>
   );

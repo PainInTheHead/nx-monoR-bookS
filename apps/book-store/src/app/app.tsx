@@ -8,7 +8,7 @@ import RequireAuth from './utils/requreAuth';
 import { useEffect, useState } from 'react';
 import { getuserAction } from './store/slices/userSlice';
 import { useAppDispatch, useAppSelector } from './hooks/hookStore';
-import BooksDetails from './pages/BookDetails/BooksDetails';
+import BooksDetails from './pages/bookDetails/BooksDetails';
 import CartPage from './pages/Cart/CartPage';
 import FavoritesPage from './pages/Favorites/Favorites';
 import {
@@ -30,18 +30,20 @@ export function App() {
   } = appRoutes;
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user.user);
-  
-  useGetBooksUserEffect();
   const [isLoading, setLoading] = useState(true);
+
+
+  useGetBooksUserEffect();
+
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getuserAction());
+      dispatch(getuserAction());
       setLoading(false);
     };
 
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     if (user.email) {
       dispatch(actionRequestCartBook());

@@ -114,7 +114,7 @@ export const actionGetBooksUser = createAction(
       page,
       prices,
       sortBy,
-      searchQuery,
+      searchQuery
     },
   })
 );
@@ -310,6 +310,9 @@ const todoSlice = createSlice({
     addGenresFilters(state, action) {
       state.genresFilter = action.payload;
     },
+    setStatus(state, action) {
+      state.status = action.payload
+    }
   },
 });
 
@@ -330,6 +333,7 @@ export const {
   changeSearchQuery,
   getCurrentBookState,
   addGenresFilters,
+  setStatus
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

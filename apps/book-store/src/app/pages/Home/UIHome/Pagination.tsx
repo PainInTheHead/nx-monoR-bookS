@@ -2,7 +2,13 @@ import { StyledBookSlider } from '../PaginationBook';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hookStore';
 import { updateCurrentPage } from '../../../store/slices/bookSlice';
 
-const Pagination = () => {
+interface PropsPagination {
+  executeScroll: () => void
+}
+
+
+
+const Pagination: React.FC<PropsPagination> = ({executeScroll}) => {
   const dispatch = useAppDispatch();
   const currentPage = useAppSelector((state) => state.books.currentPage);
   const pagesTotal = useAppSelector((state) => state.books.totalPages);
@@ -10,21 +16,26 @@ const Pagination = () => {
   const upHandlerPage = async () => {
     if (currentPage < pagesTotal - 1) {
       dispatch(updateCurrentPage({ page: currentPage + 1 }));
+      executeScroll()
     } else if (currentPage >= pagesTotal - 1) {
       dispatch(updateCurrentPage({ page: pagesTotal - 1 }));
+      executeScroll()
     }
   };
 
   const downHandlerPage = async () => {
     if (currentPage > 0) {
       dispatch(updateCurrentPage({ page: currentPage - 1 }));
+      executeScroll()
     } else if (currentPage <= 0) {
       dispatch(updateCurrentPage({ page: 0 }));
+      executeScroll()
     }
   };
 
-  const clickOnPageHandler = (index: number) => {
+  const clickOnPageHandler = async (index: number) => {
     dispatch(updateCurrentPage({ page: index }));
+    executeScroll()
   };
 
   return (

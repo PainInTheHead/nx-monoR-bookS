@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hookStore';
 import { useNavigate } from 'react-router-dom';
 
 import { changeSearchQuery } from '../../store/slices/bookSlice';
+import { useRef } from 'react';
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -15,6 +16,10 @@ export function HomePage() {
   const bookState = useAppSelector((books) => books.books.book);
   const cart = useAppSelector((state) => state.books.cart);
   const totalQuantity = cart.reduce((total, book) => total + book.count, 0);
+  const scrollElem: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement | null>(null);
+const executeScroll: () => void = () => {
+    scrollElem.current?.scrollIntoView();
+};
 
   const dispatch = useAppDispatch();
   const handleExitBtn = () => {
@@ -22,6 +27,8 @@ export function HomePage() {
     localStorage.clear();
     navigate('/login');
   };
+
+
 
   const hangleSetCearch = (SearchQuery: string) => {
     dispatch(changeSearchQuery(SearchQuery));
@@ -36,13 +43,13 @@ export function HomePage() {
       likedCount={likedBooks.length}
     >
       <StyledHome>
-        <BannerDefault />
+        <BannerDefault executeScroll={executeScroll}/>
         <div className="catalog-filter">
-          <h1 className={`h1-home-page`}>Catalog</h1>
+          <h1 ref={scrollElem} className={`h1-home-page`}>Catalog</h1>
           <DropDowns />
         </div>
         <CardHolder />
-        <Pagination />
+        <Pagination executeScroll={executeScroll}/>
         {!userEmail && <BannetAuth />}
       </StyledHome>
     </Layout>

@@ -96,7 +96,7 @@ export const postCommentForCurrentBookAsync = async (payload: { bookId: number, 
 
 
 export const getRecommendations = async (payload: { bookId: number}) => {
-  const response = await axios.post(`books/getRecommendations`, {
+  const response = await axios.post(`books/recommendation`, {
       bookId: payload.bookId,
   });
   return response.data;

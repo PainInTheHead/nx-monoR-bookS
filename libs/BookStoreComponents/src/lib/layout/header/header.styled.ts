@@ -54,6 +54,7 @@ export const HeaderMain = styled.header`
         }
 
         .input {
+          width:100%;
           background-color: #f0f4ef;
           flex: 1;
         }
