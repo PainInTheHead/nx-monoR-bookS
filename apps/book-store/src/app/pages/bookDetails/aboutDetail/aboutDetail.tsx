@@ -129,7 +129,7 @@ const AboutDetailCard: React.FC<PropsDetailAbout> = ({
                     className="btn-price btn"
                     onClick={handleOnClickDefaultValue}
                   >
-                    <span className="price">${book.price} USD</span>
+                    <span className="price">${(book.price / 100).toFixed(2)} USD</span>
                   </button>
                 )}
               </div>

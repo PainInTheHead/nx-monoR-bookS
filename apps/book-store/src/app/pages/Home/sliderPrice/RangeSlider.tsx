@@ -2,15 +2,12 @@ import { StyledSliderPrice } from './rangeSlider.styled';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { CoolSlider } from './MUI.styled';
-import {
-  useAppDispatch,
-} from '../../../../../../hooks/hookStore';
-import { setPrices } from '../../../../../../store/slices/bookSlice';
+import { useAppDispatch } from '../../../hooks/hookStore';
+import { setPrices } from '../../../store/slices/bookSlice';
 
 function valuetext(value: number) {
   return `${value}°C`;
 }
-
 
 const RangeSliderPrice = () => {
   const dispatch = useAppDispatch();
@@ -55,7 +52,7 @@ const RangeSliderPrice = () => {
 
   return (
     <StyledSliderPrice>
-      <Box sx={{ width: "97%", padding: '0 6px' }}>
+      <Box sx={{ width: '97%', padding: '0 6px' }}>
         <CoolSlider
           getAriaLabel={() => 'Minimum distance'}
           min={100}

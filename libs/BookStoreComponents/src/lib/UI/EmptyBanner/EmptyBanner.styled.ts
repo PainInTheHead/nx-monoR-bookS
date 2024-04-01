@@ -1,11 +1,27 @@
 import styled from 'styled-components';
+import { ThemeApp } from '../../themes/themeDefault';
 
-export const StyledFavBanner = styled.div`
+export const StyledFavBanner = styled.div<{ theme: ThemeApp }>`
   .empty_con {
     display: flex;
     gap: 110px;
     justify-content: start;
   }
+
+  /* export const theme: ThemeApp = {
+  colors: {
+    primary: '#f0f4ef',
+    primaryDark: '#344966',
+  },
+  fonts: {
+    main: 'Poppins',
+  },
+  fontSizes: {
+    title: '40px',
+    subtitle: '24px',
+    text: '16px',
+  },
+}; */
   .image {
     max-width: 425px;
     height: auto;
@@ -20,14 +36,14 @@ export const StyledFavBanner = styled.div`
     .cart_header {
       margin-top: 10px;
       font-weight: 700;
-      font-size: 40px;
+      font-size: ${(props) => props.theme.fontSizes.title};
       line-height: 60px;
     }
     .description_cart {
       margin-top: 20px;
       margin-bottom: 60px;
       font-weight: 400px;
-      font-size: 24px;
+      font-size: ${(props) => props.theme.fontSizes.subtitle};
       line-height: 36px;
     }
   }
@@ -36,15 +52,15 @@ export const StyledFavBanner = styled.div`
     text-align: center;
     border-radius: 16px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: ${(props) => props.theme.fontSizes.text};
     line-height: 24px;
     letter-spacing: 0.75px;
     cursor: pointer;
   }
   .btn_checkout {
-    background-color: #344966;
+    background-color: ${(props) => props.theme.colors.primaryDark};
     width: 170px;
-    color: #f0f4ef;
+    color: ${(props) => props.theme.colors.primary};
   }
 
   @media (max-width: 826px) {
@@ -80,9 +96,9 @@ export const StyledFavBanner = styled.div`
       cursor: pointer;
     }
     .btn_checkout {
-      background-color: #344966;
+      
       width: 170px;
-      color: #f0f4ef;
+      
     }
   }
 
@@ -129,9 +145,9 @@ export const StyledFavBanner = styled.div`
       cursor: pointer;
     }
     .btn_checkout {
-      background-color: #344966;
+      
       width: 170px;
-      color: #f0f4ef;
+      
     }
   }
 `;

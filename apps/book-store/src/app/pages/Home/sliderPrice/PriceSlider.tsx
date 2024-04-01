@@ -1,7 +1,7 @@
 import { StyledPriceSlider } from './priceSlider.styled';
 import ButtonDrop from '../btn-drop/ButtonDrop';
-import { handleProprsForDrop } from '../../../../Types/interfaces';
-import RangeSliderPrice from './RangeSlider/RangeSlider';
+import { handleProprsForDrop } from '../../Types/interfaces';
+import RangeSliderPrice from './RangeSlider';
 
 const PriceSlider: React.FC<handleProprsForDrop> = ({
   handleChangeDropDownActive,

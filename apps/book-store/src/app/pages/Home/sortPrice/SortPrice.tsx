@@ -1,17 +1,16 @@
 import { StyledSortPrice } from './sortPrice.styled';
 import ButtonDrop from '../btn-drop/ButtonDrop';
 import { useState, useEffect } from 'react';
-import { OptionsDrop, OptionsSort } from '../../../../Types/types';
-import { handleProprsForDrop } from '../../../../Types/interfaces';
-import { useAppDispatch } from '../../../../../hooks/hookStore';
-import { setSortBy } from '../../../../../store/slices/bookSlice';
-
+import { OptionsDrop, OptionsSort } from '../../Types/types';
+import { handleProprsForDrop } from '../../Types/interfaces';
+import { useAppDispatch } from '../../../hooks/hookStore';
+import { setSortBy } from '../../../store/slices/bookSlice';
 
 const SortPrice: React.FC<handleProprsForDrop> = ({
   handleChangeDropDownActive,
   activeDrop,
 }) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [options, setOptions] = useState<OptionsSort>({
     Price: true,
     Name: false,

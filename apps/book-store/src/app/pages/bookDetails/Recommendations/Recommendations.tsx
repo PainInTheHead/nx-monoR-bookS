@@ -39,7 +39,7 @@ const Recommendations: React.FC<PropsRecommendations> = ({handleAddtoCart, user,
                 handleAddtoCart={handleAddtoCart}
                 cart={cart}
                 user={user}
-                {...book}
+                book={book}
               />
             );
           })}

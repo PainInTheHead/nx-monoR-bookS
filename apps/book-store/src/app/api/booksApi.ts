@@ -22,7 +22,7 @@ export const postItemsWithGenre = async (payload: {
 export const getItemsForAuthorized = async (payload: {
   ids: number[];
   page: number;
-  prices: number;
+  prices: number[];
   sortBy: SortBy;
   searchQuery: string;
 }) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomButton from '../../CustomButton/CustomButton';
+import CustomButton from './../CustomButton/CustomButton';
 import { AuthBanStyled, HomeStyledBan } from './Banners.styled';
 
 

@@ -9,7 +9,6 @@ const CardHolder = () => {
   const books = useAppSelector((book) => book.books.book)
   const cart = useAppSelector((cart) => cart.books.cart)
   const user = useAppSelector((state) => state.user.user);
-  const status = useAppSelector((state) => state.books.status)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const navigateFunction = (path: string) => {
@@ -23,9 +22,7 @@ const CardHolder = () => {
   const handleAddtoCart = (bookId : number , count : number) => {
     dispatch(actionAddToCart(bookId, count, navigateFunction));
   }
-  const handleGetNewCart = () => {
-    dispatch(actionRequestCartBook());
-  }
+
   return (
     <div className="catalog-content">
       {books.map((book) => {
@@ -36,7 +33,7 @@ const CardHolder = () => {
             handleAddtoCart={handleAddtoCart}
             cart={cart}
             user={user}
-            {...book}
+            book={book}
           />
         );
       })}

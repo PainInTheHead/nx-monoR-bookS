@@ -1,18 +1,12 @@
+import { Comments } from 'apps/book-store/src/app/store/slices/bookSlice';
 import { StyledComment } from './Comments.styled';
 
 interface PropsComment {
-  value: string;
-  avatar: string;
-  username: string;
-  timeAgo: string;
+  comment: Comments;
 }
 
-const Comment: React.FC<PropsComment> = ({
-  value,
-  avatar,
-  username,
-  timeAgo,
-}) => {
+const Comment: React.FC<PropsComment> = ({ comment }) => {
+  const { value, avatar, username, timeAgo } = comment;
   return (
     <StyledComment>
       <div className="comment_user">

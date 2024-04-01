@@ -3,19 +3,13 @@ import CoverCard from './coverCard/CoverCard';
 import AboutCard from './aboutCard/aboutCard';
 
 export function Card({
-  bookId,
-  title,
-  author,
-  average,
-  price,
-  liked,
   cart,
-  cover,
   user,
+  book,
   hangleSetLikedBook,
   handleAddtoCart,
 }: PropsCard) {
-
+const {bookId, title, author, average, price, liked, cover} = book;
   return (
     <StyledCard>
       <CoverCard
@@ -59,17 +53,32 @@ export interface User {
   active?: boolean;
 }
 
-interface PropsCard {
+export interface Comments {
+  id: number;
+  value: string;
+  avatar: string;
+  username: string;
+  timeAgo: string;
+}
+export interface Book {
   bookId: number;
   title: string;
   description: string;
   author: string;
   price: number;
-  cover: string;
   liked: boolean;
   average: number;
+  rateOfUser: number;
+  comments: Comments[];
+  cover: string;
+}
+
+
+
+interface PropsCard {
   cart: Cart[];
   user: User;
   hangleSetLikedBook: (bookId: number) => void;
   handleAddtoCart: (bookId: number, count: number) => void;
+  book: Book
 }

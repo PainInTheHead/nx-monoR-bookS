@@ -4,9 +4,10 @@ export * from './lib/layout/Layout';
 export * from './lib/UI/inputProfile/InputProfile';
 export * from './lib/UI/ButtonPass/ButtonPass';
 export * from './lib/api/axios.config';
-export * from './lib/UI/Banners/DefaultBanners/BannerDefault';
-export * from './lib/UI/Banners/DefaultBanners/BannetAuth';
-export * from './lib/UI/Banners/EmptyBanner/EmptyBanner';
+export * from './lib/UI/DefaultBanners/BannerDefault';
+export * from './lib/UI/DefaultBanners/BannetAuth';
+export * from './lib/UI/EmptyBanner/EmptyBanner';
 export * from './lib/UI/loaders/HomeLoader';
 export * from './lib/appRoutes/appRoutes';
 export * from './lib/UI/CustomButton/CustomButton'
+export * from './lib/themes/themeDefault'

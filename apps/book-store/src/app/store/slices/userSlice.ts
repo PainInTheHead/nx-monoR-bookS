@@ -32,10 +32,10 @@ const initialState: UserState = {
 
 export const actionLoginUser = createAction(
   'user/login',
-  (Email: string, Password: string, navigate: (path: string) => void) => ({
+  (email: string, password: string, navigate: (path: string) => void) => ({
     payload: {
-      Email,
-      Password,
+      email,
+      password,
       navigate,
     },
   })
@@ -43,10 +43,10 @@ export const actionLoginUser = createAction(
 
 export const actionRegistrationUser = createAction(
   'user/registration',
-  (Email: string, Password: string, navigate: (path: string) => void) => ({
+  (email: string, password: string, navigate: (path: string) => void) => ({
     payload: {
-      Email,
-      Password,
+      email,
+      password,
       navigate,
     },
   })
@@ -54,19 +54,19 @@ export const actionRegistrationUser = createAction(
 
 export const actionChangeInfo = createAction(
   'user/changeInfo',
-  (Email: string, UserName: string) => ({
+  (email: string, userName: string) => ({
     payload: {
-      Email,
-      UserName,
+      email,
+      userName,
     },
   })
 );
 
 export const actionChangePass = createAction(
   'user/changePass',
-  (Password, oldPassword) => ({
+  (password, oldPassword) => ({
     payload: {
-      Password,
+      password,
       oldPassword
     },
   })
@@ -107,9 +107,9 @@ const todoSlice = createSlice({
     },
 
     updateUserInfo (state, action) {
-      const {Email, UserName} = action.payload
-      state.user.email = Email;
-      state.user.username = UserName;
+      const {email, userName} = action.payload
+      state.user.email = email;
+      state.user.username = userName;
     },
   },
 });

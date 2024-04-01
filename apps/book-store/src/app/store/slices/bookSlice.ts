@@ -2,6 +2,7 @@ import { createSlice, createAction } from '@reduxjs/toolkit';
 import { SortBy } from '../../pages/Types/types';
 
 import toast from 'react-hot-toast';
+import { PropsGetBooksUser } from '../../hooks/useGetBooks';
 
 export interface Comments {
   id: number;
@@ -108,13 +109,13 @@ export const actionGetBooks = createAction(
 );
 export const actionGetBooksUser = createAction(
   'books/getItemsForAuthorized',
-  (genres, page, prices, sortBy, searchQuery) => ({
+  (actionBooksProps : PropsGetBooksUser) => ({
     payload: {
-      genres,
-      page,
-      prices,
-      sortBy,
-      searchQuery
+      genres: actionBooksProps.genresState,
+      page: actionBooksProps.currentPage,
+      prices: actionBooksProps.prices,
+      sortBy: actionBooksProps.sortBy,
+      searchQuery: actionBooksProps.searchQuery
     },
   })
 );

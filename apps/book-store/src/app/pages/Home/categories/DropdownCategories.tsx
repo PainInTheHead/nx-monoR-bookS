@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { StyledDropdownCategories } from './dropCat.styled';
 import ButtonDrop from '../btn-drop/ButtonDrop';
-import { OptionsDrop, OptionsSort, Options } from '../../../../Types/types';
-import { handleProprsForDrop } from '../../../../Types/interfaces';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from './../../../../../hooks/hookStore';
+import { OptionsDrop, OptionsSort, Options } from '../../Types/types';
+import { handleProprsForDrop } from '../../Types/interfaces';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hookStore';
 import {
   actionGetGenresFilters,
   addGenres,
-} from './../../../../../store/slices/bookSlice';
+} from '../../../store/slices/bookSlice';
 
 const DropdownCategories: React.FC<handleProprsForDrop> = ({
   handleChangeDropDownActive,

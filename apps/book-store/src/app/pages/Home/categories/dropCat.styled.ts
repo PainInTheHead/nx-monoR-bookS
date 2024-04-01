@@ -1,8 +1,10 @@
+import { Theme } from "react-toastify";
 import styled from "styled-components";
+import type { ThemeApp } from "@book-store/BookStoreLibrary";
 
-const StyledDropdownCategories = styled.div`
+const StyledDropdownCategories = styled.div<{ theme: ThemeApp }>`
   position: relative;
-  color: #344966;
+  color: ${(props) => props.theme.colors.primaryDark};
   width: 100%;
   .dropdown-options.active {
     opacity: 1;
@@ -18,7 +20,8 @@ const StyledDropdownCategories = styled.div`
     top: 130%;
     left: 0;
     z-index: 1000;
-    background: #f0f4ef;
+    /* background: #f0f4ef; */
+    background: ${(props) => props.theme.colors.primary};
     padding: 15px;
     border: none;
     border-radius: 16px;

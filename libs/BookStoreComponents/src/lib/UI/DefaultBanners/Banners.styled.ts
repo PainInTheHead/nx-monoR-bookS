@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { ThemeApp } from '../../themes/themeDefault';
 
-export const AuthBanStyled = styled.div`
+export const AuthBanStyled = styled.div<{ theme: ThemeApp }>`
   max-width: 1280px;
   height: 500px;
   margin-top: 150px;
@@ -12,18 +13,18 @@ export const AuthBanStyled = styled.div`
     border-radius: 16px;
     width: 100%;
     height: 90%;
-    background-color: #f0f4ef;
+    background-color: ${(props) => props.theme.colors.primary};
   }
   .aboutAuthBanner {
     position: absolute;
-    z-index: 1000; /* Increasing the z-index to make it appear above imageCon */
-    top: 20%; /* Adjust as per your layout */
+    z-index: 1000; 
+    top: 20%; 
     right: 20%;
     h1 {
       cursor: default;
 
       font-weight: 700;
-      font-size: 40px;
+      font-size: ${(props) => props.theme.fontSizes.title};
       line-height: 60px;
     }
     p {
@@ -31,13 +32,13 @@ export const AuthBanStyled = styled.div`
 
       width: 220px;
       font-weight: 400;
-      font-size: 20px;
+      font-size: ${(props) => props.theme.fontSizes.text};
       line-height: 30px;
     }
   }
 
   .imageCon {
-    z-index: 10; /* Lower z-index to be below aboutHomeBanner */
+    z-index: 10;
   }
 
   .CastleImg {
@@ -60,10 +61,10 @@ export const AuthBanStyled = styled.div`
     align-items: center;
     max-width: 231px;
     height: 44px;
-    background-color: #344966;
+    background-color: ${(props) => props.theme.colors.primaryDark};
     border-radius: 16px;
     .btn-login {
-      color: #f0f4ef;
+      color: ${(props) => props.theme.colors.primary};
       background: none;
     }
   }
@@ -76,7 +77,7 @@ export const AuthBanStyled = styled.div`
         cursor: default;
 
         font-weight: 700;
-        font-size: 40px;
+        
         line-height: 60px;
       }
       p {
@@ -84,7 +85,7 @@ export const AuthBanStyled = styled.div`
 
         width: 220px;
         font-weight: 400;
-        font-size: 20px;
+        
         line-height: 30px;
       }
     }
@@ -119,7 +120,7 @@ export const AuthBanStyled = styled.div`
         cursor: default;
 
         font-weight: 700;
-        font-size: 40px;
+        
         line-height: 60px;
       }
       p {
@@ -127,7 +128,7 @@ export const AuthBanStyled = styled.div`
 
         width: 220px;
         font-weight: 400;
-        font-size: 20px;
+        
         line-height: 30px;
       }
     }
@@ -164,7 +165,7 @@ export const AuthBanStyled = styled.div`
         cursor: default;
 
         font-weight: 700;
-        font-size: 40px;
+        
         line-height: 60px;
       }
       p {
@@ -172,7 +173,7 @@ export const AuthBanStyled = styled.div`
 
         width: 220px;
         font-weight: 400;
-        font-size: 20px;
+        
         line-height: 30px;
       }
     }
@@ -229,11 +230,11 @@ export const AuthBanStyled = styled.div`
   }
 `;
 
-export const HomeStyledBan = styled.div`
+export const HomeStyledBan = styled.div<{ theme: ThemeApp }>`
   position: relative;
   max-width: 1280px;
   height: 400px;
-  background-color: #f0f4ef;
+  background-color: ${(props) => props.theme.colors.primary};
   border-radius: 16px;
   .aboutHomeBanner {
     position: absolute;
@@ -250,7 +251,7 @@ export const HomeStyledBan = styled.div`
     p {
       cursor: default;
       width: 220px;
-      color: #344966;
+      color: ${(props) => props.theme.colors.primaryDark};
       font-weight: 400;
       font-size: 20px;
       line-height: 30px;
@@ -260,8 +261,8 @@ export const HomeStyledBan = styled.div`
       width: 230px;
       height: 44px;
       text-align: center;
-      background-color: #344966;
-      color: #f0f4ef;
+      background-color: ${(props) => props.theme.colors.primaryDark};
+      color: ${(props) => props.theme.colors.primary};
       border-radius: 16px;
       margin-top: 40px;
     }
@@ -297,7 +298,7 @@ export const HomeStyledBan = styled.div`
       p {
         cursor: default;
         width: 220px;
-        color: #344966;
+        color: ${(props) => props.theme.colors.primaryDark};
         font-weight: 400;
         font-size: 16px;
         line-height: 30px;
@@ -328,7 +329,7 @@ export const HomeStyledBan = styled.div`
       p {
         cursor: default;
         width: 220px;
-        color: #344966;
+        color: ${(props) => props.theme.colors.primaryDark};
         font-weight: 400;
         font-size: 16px;
         line-height: 30px;
@@ -351,8 +352,8 @@ export const HomeStyledBan = styled.div`
       max-width: 230px;
       height: 44px;
       text-align: center;
-      background-color: #344966;
-      color: #f0f4ef;
+      background-color: ${(props) => props.theme.colors.primaryDark};
+      color: ${(props) => props.theme.colors.primary};
       border-radius: 16px;
       margin-top: 40px;
     }
@@ -375,7 +376,7 @@ export const HomeStyledBan = styled.div`
       p {
         cursor: default;
         width: 220px;
-        color: #344966;
+        color: ${(props) => props.theme.colors.primaryDark};
         font-weight: 400;
         font-size: 24px;
         line-height: 30px;
@@ -398,8 +399,8 @@ export const HomeStyledBan = styled.div`
       max-width: 230px;
       height: 44px;
       text-align: center;
-      background-color: #344966;
-      color: #f0f4ef;
+      background-color: ${(props) => props.theme.colors.primaryDark};
+      color: ${(props) => props.theme.colors.primary};
       border-radius: 16px;
       margin-top: 40px;
     }
@@ -422,7 +423,7 @@ export const HomeStyledBan = styled.div`
       p {
         cursor: default;
         width: 220px;
-        color: #344966;
+        color: ${(props) => props.theme.colors.primaryDark};
         font-weight: 400;
         font-size: 24px;
         line-height: 30px;
@@ -445,8 +446,8 @@ export const HomeStyledBan = styled.div`
       max-width: 230px;
       height: 44px;
       text-align: center;
-      background-color: #344966;
-      color: #f0f4ef;
+      background-color: ${(props) => props.theme.colors.primaryDark};
+      color: ${(props) => props.theme.colors.primary};
       border-radius: 16px;
       margin-top: 40px;
     }
@@ -469,7 +470,7 @@ export const HomeStyledBan = styled.div`
       p {
         cursor: default;
         width: 220px;
-        color: #344966;
+        color: ${(props) => props.theme.colors.primaryDark};
         font-weight: 400;
         font-size: 24px;
         line-height: 30px;
@@ -492,8 +493,8 @@ export const HomeStyledBan = styled.div`
       max-width: 230px;
       height: 44px;
       text-align: center;
-      background-color: #344966;
-      color: #f0f4ef;
+      background-color: ${(props) => props.theme.colors.primaryDark};
+      color: ${(props) => props.theme.colors.primary};
       border-radius: 16px;
       margin-top: 40px;
     }
@@ -516,7 +517,7 @@ export const HomeStyledBan = styled.div`
       p {
         cursor: default;
         width: 220px;
-        color: #344966;
+        color: ${(props) => props.theme.colors.primary};
         font-weight: 400;
         font-size: 18px;
         line-height: 30px;
@@ -539,8 +540,8 @@ export const HomeStyledBan = styled.div`
       max-width: 230px;
       height: 44px;
       text-align: center;
-      background-color: #344966;
-      color: #f0f4ef;
+      background-color: ${(props) => props.theme.colors.primaryDark};
+      color: ${(props) => props.theme.colors.primary};
       border-radius: 16px;
       margin-top: 40px;
     }

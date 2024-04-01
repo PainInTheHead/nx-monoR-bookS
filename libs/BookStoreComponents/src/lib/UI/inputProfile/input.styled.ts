@@ -1,13 +1,14 @@
 import styled from "styled-components";
+import { ThemeApp } from "../../themes/themeDefault";
 
-export const StyledinputProfile = styled.div`
+export const StyledinputProfile = styled.div<{ theme: ThemeApp }>`
   display: flex;
   align-items: center;
   height: 60px;
   max-width: 100%;
   width: 100%;
   padding: 22px;
-  background-color: #f0f4ef;
+  background-color: ${(props) => props.theme.colors.primary};
   border-radius: 16px;
   margin-bottom: 9px;
   box-sizing: border-box;
@@ -16,7 +17,7 @@ export const StyledinputProfile = styled.div`
     cursor: pointer;
   }
   .inputForm {
-    color: #344966;
+    color: ${(props) => props.theme.colors.primaryDark};
     width: 100%;
     background: none;
     &:focus {

@@ -99,13 +99,13 @@ function* handleGetBooksWhithUser(action: {
   payload: {
     genres: number[];
     page: number;
-    prices: number;
+    prices: number[];
     sortBy: SortBy;
     searchQuery: string;
   };
 }) {
   try {
-    yield put(setStatus('loading'))
+    yield put(setStatus('loading'));
     const data: {
       allBooks: Book;
       totalCount: number;
@@ -123,10 +123,6 @@ function* handleGetBooksWhithUser(action: {
     toast.error('Unexpected error, please reload the page', {
       icon: '❌',
     });
-    // yield put(setStatus('failed'))
-  } finally {
-      // yield put(setStatus('succeeded'))
-
   }
 }
 

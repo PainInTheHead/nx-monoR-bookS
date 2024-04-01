@@ -1,6 +1,6 @@
 import { Comments } from '../../../store/slices/bookSlice';
 import { StyledCommentsHolder } from './CommentsHolder.styled';
-import Comment from './commentWrapper/Comment';
+import Comment from './Comment';
 
 interface PropsCommentsHolder {
   coments: Comments[] | undefined;
@@ -15,11 +15,14 @@ const CommentsHolder: React.FC<PropsCommentsHolder> = ({ coments }) => {
           <p className="first_comment">Be the first to comment!</p>
         ) : (
           coments?.map((comment) => {
-            return <Comment key={comment.id} {...comment} />;
+            return <Comment key={comment.id} comment={comment}/>;
           })
         )}
       </div>
     </StyledCommentsHolder>
+
+
+
   );
 };
 

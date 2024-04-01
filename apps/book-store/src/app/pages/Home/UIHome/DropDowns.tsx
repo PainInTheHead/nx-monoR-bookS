@@ -1,9 +1,9 @@
 import { StyledDropDowns } from './dropdown.styled';
-import DropdownCategories from './categories/DropdownCategories';
-import PriceSlider from './sliderPrice/PriceSlider';
-import SortPrice from './sortPrice/SortPrice';
+import DropdownCategories from '../categories/DropdownCategories';
+import PriceSlider from '../sliderPrice/PriceSlider';
+import SortPrice from '../sortPrice/SortPrice';
 import { useState } from 'react';
-import { OptionsDrop } from '../../../Types/types';
+import { OptionsDrop } from '../../Types/types';
 
 const DropDowns = () => {
   const [activeDrop, setActiveDrop] = useState<OptionsDrop>({

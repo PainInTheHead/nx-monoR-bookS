@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { ThemeApp } from '../../themes/themeDefault';
 
-export const StyledCard = styled.div`
+export const StyledCard = styled.div<{ theme: ThemeApp }>`
   max-width: 100%;
   max-height: 100%;
   border-radius: 16px;
@@ -59,7 +60,7 @@ export const StyledCard = styled.div`
     .rateNumber {
       height: 20px;
       letter-spacing: 0;
-      font-size: 16px;
+      font-size: ${(props) => props.theme.fontSizes.text};
       color: #b9bac3;
       margin-left: 15px;
     }
@@ -72,22 +73,22 @@ export const StyledCard = styled.div`
     gap: 30px;
     width: 100%;
     height: 48px;
-    border: solid 1px #344966;
+    border: solid 1px ${(props) => props.theme.colors.primaryDark};
     border-radius: 16px;
     font-size: 20px;
-    color: #000000;
+    color: ${(props) => props.theme.colors.primaryDark};
     button {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #f0f4ef;
+      background: ${(props) => props.theme.colors.primary};
       cursor: pointer;
     }
     .countCard {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #f0f4ef;
+      background: ${(props) => props.theme.colors.primary};
       text-align: center;
     }
   }
@@ -99,14 +100,14 @@ export const StyledCard = styled.div`
     border-radius: 16px;
   }
   .btn-buy {
-    border: solid 1px #344966;
+    border: solid 1px ${(props) => props.theme.colors.primaryDark};
   }
 
   .btn-price {
-    background-color: #344966;
+    background-color: ${(props) => props.theme.colors.primaryDark};
     border: none;
     .price {
-      color: #f0f4ef;
+      color: ${(props) => props.theme.colors.primary};
       font-size: 20px;
       margin: 0 auto;
     }
@@ -122,11 +123,11 @@ export const StyledCard = styled.div`
 
   @media (max-width: 550px) {
     .btn-price {
-      background-color: #344966;
+      background-color: ${(props) => props.theme.colors.primaryDark};
       border: none;
       .price {
-        color: #f0f4ef;
-        font-size: 16px;
+        color: ${(props) => props.theme.colors.primary};
+        font-size: ${(props) => props.theme.fontSizes.text};
         margin: 0 auto;
       }
       &:hover {
@@ -150,5 +151,4 @@ export const StyledCard = styled.div`
       left: 7%;
     }
   }
-
 `;

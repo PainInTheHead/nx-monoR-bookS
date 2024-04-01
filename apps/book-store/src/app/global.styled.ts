@@ -1,6 +1,7 @@
+import { Theme } from 'react-toastify';
 import { createGlobalStyle } from 'styled-components';
 
-export const GlobalStyled = createGlobalStyle`
+export const GlobalStyled = createGlobalStyle<{ theme: Theme }>`
 * {
   margin: 0;
   padding: 0;

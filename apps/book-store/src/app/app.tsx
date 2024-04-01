@@ -11,12 +11,12 @@ import { useAppDispatch, useAppSelector } from './hooks/hookStore';
 import BooksDetails from './pages/bookDetails/BooksDetails';
 import CartPage from './pages/Cart/CartPage';
 import FavoritesPage from './pages/Favorites/Favorites';
-import {
-  actionRequestCartBook,
-} from './store/slices/bookSlice';
+import { actionRequestCartBook } from './store/slices/bookSlice';
 import { appRoutes } from '@book-store/BookStoreLibrary';
 import { LoaderPage } from '@book-store/BookStoreLibrary';
 import useGetBooksUserEffect from './hooks/useGetBooks';
+import { ThemeProvider } from 'styled-components';
+import { theme } from '@book-store/BookStoreLibrary';
 
 export function App() {
   const {
@@ -29,9 +29,8 @@ export function App() {
     bookPath,
   } = appRoutes;
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user.user);
+  const user = useAppSelector((state) => state.user.user);
   const [isLoading, setLoading] = useState(true);
-
 
   useGetBooksUserEffect();
 
@@ -53,39 +52,39 @@ export function App() {
   return isLoading ? (
     <LoaderPage />
   ) : (
-    <>
-      <GlobalStyled />
-      <Routes>
-        <Route path={homePath} element={<HomePage />}></Route>
-        <Route
-          path={profilePath}
-          element={
-            <RequireAuth>
-              <ProfilePage />
-            </RequireAuth>
-          }
-        ></Route>
-        <Route
-          path={cartPath}
-          element={
-            <RequireAuth>
-              <CartPage />
-            </RequireAuth>
-          }
-        ></Route>
-        <Route
-          path={favoritesPath}
-          element={
-            <RequireAuth>
-              <FavoritesPage />
-            </RequireAuth>
-          }
-        ></Route>
-        <Route path={registrationPath} element={<RegistragionPage />}></Route>
-        <Route path={loginPath} element={<LogInPage />}></Route>
-        <Route path={bookPath} element={<BooksDetails />}></Route>
-      </Routes>
-    </>
+    <ThemeProvider theme={theme}>
+        <GlobalStyled />
+        <Routes>
+          <Route path={homePath} element={<HomePage />}></Route>
+          <Route
+            path={profilePath}
+            element={
+              <RequireAuth>
+                <ProfilePage />
+              </RequireAuth>
+            }
+          ></Route>
+          <Route
+            path={cartPath}
+            element={
+              <RequireAuth>
+                <CartPage />
+              </RequireAuth>
+            }
+          ></Route>
+          <Route
+            path={favoritesPath}
+            element={
+              <RequireAuth>
+                <FavoritesPage />
+              </RequireAuth>
+            }
+          ></Route>
+          <Route path={registrationPath} element={<RegistragionPage />}></Route>
+          <Route path={loginPath} element={<LogInPage />}></Route>
+          <Route path={bookPath} element={<BooksDetails />}></Route>
+        </Routes>
+    </ThemeProvider>
   );
 }
 
