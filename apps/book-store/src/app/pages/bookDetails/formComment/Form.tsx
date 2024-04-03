@@ -7,7 +7,7 @@ import React, {
 import { StyledFormNewCom } from './Form.styled';
 import { useAppDispatch } from '../../../hooks/hookStore';
 import { actionPutNewComment } from '../../../store/slices/bookSlice';
-
+import { io } from 'socket.io-client';
 const FormNewCom: React.FC<{ bookId: number }> = ({ bookId }) => {
   const [comment, setComment] = useState('');
   const dispatch = useAppDispatch();
@@ -16,8 +16,10 @@ const FormNewCom: React.FC<{ bookId: number }> = ({ bookId }) => {
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const socket = io('http://localhost:3005/')
     event.preventDefault();
     dispatch(actionPutNewComment(bookId, comment));
+    socket.emit("send_comment", bookId)
     setComment('');
   };
 

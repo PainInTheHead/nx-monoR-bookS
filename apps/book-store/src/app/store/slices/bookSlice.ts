@@ -109,13 +109,13 @@ export const actionGetBooks = createAction(
 );
 export const actionGetBooksUser = createAction(
   'books/getItemsForAuthorized',
-  (actionBooksProps : PropsGetBooksUser) => ({
+  (actionBooksProps: PropsGetBooksUser) => ({
     payload: {
       genres: actionBooksProps.genresState,
       page: actionBooksProps.currentPage,
       prices: actionBooksProps.prices,
       sortBy: actionBooksProps.sortBy,
-      searchQuery: actionBooksProps.searchQuery
+      searchQuery: actionBooksProps.searchQuery,
     },
   })
 );
@@ -297,23 +297,32 @@ const todoSlice = createSlice({
     changeSearchQuery(state, action) {
       state.searchQuery = action.payload;
     },
-    getCurrentBookState(state, action) {
-      state.book = state.book.map((book) =>
-        book.bookId === action.payload.bookId
-          ? {
-              ...action.payload.currentBook,
-              comments: book.comments,
+
+    getCurrentBookState (state, action) {
+      if (state.book.length === 0) {
+        return {
+          ...state,
+          book: [action.payload.currentBook] 
+        };
+      }
+      return {
+        ...state, 
+        book: state.book.map((book) => {
+          if (book.bookId === action.payload.bookId) {
+            return {
+              ...action.payload.currentBook, 
+              comments: book.comments, 
               liked: book.liked,
-            }
-          : book
-      );
+            };
+          }
+          return book; 
+        })
+      };
     },
     addGenresFilters(state, action) {
       state.genresFilter = action.payload;
     },
-    setStatus(state, action) {
-      state.status = action.payload
-    }
+    
   },
 });
 
@@ -334,7 +343,6 @@ export const {
   changeSearchQuery,
   getCurrentBookState,
   addGenresFilters,
-  setStatus
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

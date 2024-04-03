@@ -30,7 +30,7 @@ const RangeSliderPrice = () => {
         clearTimeout(newTimerId);
       }
     };
-  }, [value1]);
+  }, [value1, dispatch]);
 
   const handleChange1 = (
     event: Event,

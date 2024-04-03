@@ -22,7 +22,6 @@ const SortPrice: React.FC<handleProprsForDrop> = ({
   const [trueOption, setTrueOption] = useState('');
 
   useEffect(() => {
-    // Действия, которые будут выполнены при изменении `options`
     const trueOption = Object.keys(options).find(
       (option) => options[option as keyof OptionsSort]
     );

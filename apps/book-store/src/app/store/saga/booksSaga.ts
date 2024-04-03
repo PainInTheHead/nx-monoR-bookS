@@ -31,7 +31,6 @@ import {
   actionGetCurrentBook,
   addGenresFilters,
   actionGetGenresFilters,
-  setStatus,
 } from '../slices/bookSlice';
 import {
   postItemsWithGenre,
@@ -105,7 +104,7 @@ function* handleGetBooksWhithUser(action: {
   };
 }) {
   try {
-    yield put(setStatus('loading'));
+    // yield handleAddGenresFilters();
     const data: {
       allBooks: Book;
       totalCount: number;
@@ -119,6 +118,7 @@ function* handleGetBooksWhithUser(action: {
     });
     const { allBooks, totalPages } = data;
     yield put(addBooks({ allBooks, totalPages }));
+
   } catch (error) {
     toast.error('Unexpected error, please reload the page', {
       icon: '❌',
@@ -212,6 +212,7 @@ function* handleGetComments(action: { payload: { bookId: number } }) {
         data: data,
       })
     );
+    console.log(data)
   } catch (error) {
     toast.error('Unexpected error, please reload the page', {
       icon: '❌',
@@ -287,6 +288,8 @@ function* handleGetCurrentBook(action: { payload: { bookId: number } }) {
     yield put(
       getCurrentBookState({ bookId: action.payload.bookId, currentBook: data })
     );
+    console.log(data)
+    yield call(handleGetComments, { payload: { bookId: action.payload.bookId } });
   } catch (error) {
     toast.error('Unexpected error, please reload the page', {
       icon: '❌',

@@ -16,13 +16,20 @@ const DropdownCategories: React.FC<handleProprsForDrop> = ({
   const dispatch = useAppDispatch();
   const genresFilters = useAppSelector((state) => state.books.genresFilter);
   useEffect(() => {
-    dispatch(actionGetGenresFilters());
-    const initialOptionsState: { [key: string]: boolean } = {};
-    const keyOfGenres = genresFilters.map((genre) => {
-      return (initialOptionsState[genre.name] = false);
-    });
-    setOptions(initialOptionsState);
-  }, []);
+    if (genresFilters.length === 0) {
+      dispatch(actionGetGenresFilters());
+    }
+  }, [dispatch, genresFilters]);
+  
+  useEffect(() => {
+    if (genresFilters.length > 0) {
+      const initialOptionsState: { [key: string]: boolean } = {};
+      genresFilters.forEach((genre) => {
+        initialOptionsState[genre.name] = false;
+      });
+      setOptions(initialOptionsState);
+    }
+  }, [genresFilters]);
 
   const [options, setOptions] = useState<{ [key: string]: boolean }>({});
 

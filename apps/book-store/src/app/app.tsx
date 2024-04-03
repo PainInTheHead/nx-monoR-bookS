@@ -32,7 +32,7 @@ export function App() {
   const user = useAppSelector((state) => state.user.user);
   const [isLoading, setLoading] = useState(true);
 
-  useGetBooksUserEffect();
+  
 
   useEffect(() => {
     const fetchData = async () => {

@@ -17,19 +17,18 @@ import AboutDetailCard from './aboutDetail/aboutDetail';
 import Recommendations from './Recommendations/Recommendations';
 import CommentsHolder from './comments/CommentsHolder';
 import { appRoutes } from '@book-store/BookStoreLibrary';
+import io from 'socket.io-client';
 
 const BooksDetails = () => {
   const [value, setValue] = useState<number | null>(0);
-  const {
-    loginPath,
-  } = appRoutes;
+  const { loginPath } = appRoutes;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const book = useAppSelector((state) => state.books.book).find(
     (book) => book.bookId === Number(id)
   );
-  const userEmail =  useAppSelector(state => state.user.user.email);
+  const userEmail = useAppSelector((state) => state.user.user.email);
   const bookId = Number(id);
   const coments = book?.comments;
   const cart = useAppSelector((cart) => cart.books.cart);
@@ -40,12 +39,39 @@ const BooksDetails = () => {
   const counted = curentCount?.count;
   const [stateBuy, setStateBuy] = useState(false);
   const [count, setCount] = useState(counted);
+  
+  useEffect(() => {
+    const socket = io('http://localhost:3005/');
+
+    socket.on('connect', () => {
+      socket.emit('join_book', bookId);
+      console.log('Подключились к серверу Socket.IO');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Отключились от сервера Socket.IO');
+    });
+
+    socket.on('receive_comment', (data) => {
+      dispatch(actionGetCommentsOfBook(data));
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(actionGetCurrentBook(bookId));
+    // dispatch(actionGetCommentsOfBook(bookId));
+    dispatch(actionGetRecomend(bookId));
+  }, [bookId, dispatch]);
+
 
   useEffect(() => {
     if (userEmail) {
       dispatch(actionGetRaitingCurrentBook(bookId));
     }
-  }, [userEmail, bookId, dispatch]);
+  }, [userEmail, dispatch]);
 
   useEffect(() => {
     if (book?.rateOfUser) {
@@ -53,25 +79,16 @@ const BooksDetails = () => {
     }
   }, [book?.rateOfUser, setValue]);
 
-  useEffect(() => {
-    dispatch(actionGetCurrentBook(bookId));
-    dispatch(actionGetCommentsOfBook(bookId));
 
-    if (user.email) {
-      dispatch(actionGetCommentsOfBookAuth(bookId));
-    } else {
-      dispatch(actionGetRecomend(bookId));
-    }
-  }, [bookId, user.email, dispatch]);
 
   const handleExitBtn = () => {
     dispatch(exitUser());
     localStorage.clear();
     navigate(loginPath);
   };
-const navigateFunction = (path: string) => {
-  navigate(path);
-};
+  const navigateFunction = (path: string) => {
+    navigate(path);
+  };
 
   const handleAddtoCart = (bookId: number, count: number) => {
     dispatch(actionAddToCart(bookId, count, navigateFunction));
@@ -99,7 +116,7 @@ const navigateFunction = (path: string) => {
             handleAddtoCart={handleAddtoCart}
             setStateBuy={setStateBuy}
           />
-          <CommentsHolder coments={coments}/>
+          <CommentsHolder coments={coments} />
           {userEmail ? <FormNewCom bookId={bookId} /> : <BannetAuth />}
           <Recommendations
             user={user}

@@ -1,17 +1,15 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from './hookStore';
 import { actionGetBooksUser } from '../store/slices/bookSlice';
 import { SortBy } from '../pages/Types/types';
 
 export interface PropsGetBooksUser {
-  genresState: number[],
-  currentPage: number,
-  prices: number[], 
-  sortBy: SortBy, 
-  searchQuery: string,
+  genresState: number[];
+  currentPage: number;
+  prices: number[];
+  sortBy: SortBy;
+  searchQuery: string;
 }
-
-
 
 const useGetBooksUserEffect = () => {
   const dispatch = useAppDispatch();
@@ -21,15 +19,28 @@ const useGetBooksUserEffect = () => {
   const sortBy = useAppSelector((state) => state.books.sortBy);
   const prices = useMemo(() => {
     return priceBetween.map((price) => Math.floor(price / 100));
-}, [priceBetween]);
+  }, [priceBetween]);
   const searchQuery = useAppSelector((state) => state.books.searchQuery);
   const user = useAppSelector((state) => state.user.user);
-const actionBooksProps = {genresState, currentPage, prices, sortBy, searchQuery}
+  const actionBooksProps = {
+    genresState,
+    currentPage,
+    prices,
+    sortBy,
+    searchQuery,
+  };
+  const [initial, setInitial] = useState(true);
   useEffect(() => {
-    dispatch(
-      actionGetBooksUser(actionBooksProps)
-    );
-  }, [user, genresState, currentPage, prices, sortBy, searchQuery, dispatch]);
+    if (initial) {
+      const timeout = setTimeout(() => {
+        dispatch(actionGetBooksUser(actionBooksProps));
+      }, 2000);
+      setInitial(false);
+      return () => clearTimeout(timeout);
+    } else {
+      dispatch(actionGetBooksUser(actionBooksProps));
+    }
+  }, [dispatch, user, genresState, currentPage, prices, sortBy, searchQuery]);
 };
 
 export default useGetBooksUserEffect;
